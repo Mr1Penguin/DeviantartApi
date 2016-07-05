@@ -99,7 +99,7 @@ if(result.IsError)
 
 result = await Feed.GetNextPageAsync();
 
-//start from start
+//start from beginning
 Feed.Cursor = "";
 
 result = await Feed.GetNextPageAsync();
