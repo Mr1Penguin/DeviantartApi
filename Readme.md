@@ -1,4 +1,4 @@
-﻿#\[VS2010+\] DeviantartApi Library in C# for Win10, Win8, Win8.1, WinPhone8.1, Wpf
+﻿#\[VS2015+\] DeviantartApi Library in C# for Win10, Win8, Win8.1, WinPhone8.1, Wpf
 
 **Porting in progress**
 
