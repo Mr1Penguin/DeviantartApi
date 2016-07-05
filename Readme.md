@@ -17,6 +17,17 @@ git submodule add https://github.com/Mr1Penguin/DeviantartApi.git
 ```
 
 And add shared part and WinRT/.NET part to your project
+
+If you got an error about newtonsoft.json elements just type this in packet manager console for .NET project:
+```
+Update-Package -Reinstall -Project DeviantartApi.NET
+```
+
+
+And/Or for WinRT:
+```
+Update-Package -Reinstall -Project DeviantartApi.WinRT
+```
 ####nuget
 Later
 
