@@ -2,11 +2,13 @@
 
 **Porting in progress**
 
-**Every line of code below can become wrong at any moment**
-
 Library for using Deviantart API from .NET.
 
 After sometime a publish this to nuget
+
+###Todo
+
+- SignInAsync function for .NET
 
 ###Acquiring
 ####git
