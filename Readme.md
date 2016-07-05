@@ -1,6 +1,4 @@
-﻿#\[VS2015+\] DeviantartApi Library in C# for Win10, Win8.1, WinPhone8.1, WPF
-
-**Porting in progress**
+﻿#\[VS2015+\] DeviantartApi Library in C# for UWP, Win8.1, WinPhone8.1, .NET 4.5+, ASP.NET Core 1.0
 
 Library for using Deviantart API from .NET.
 
@@ -30,6 +28,8 @@ And/Or for WinRT:
 ```
 Update-Package -Reinstall -Project DeviantartApi.WinRT
 ```
+
+Looks like target application must have json.net reference if Api project and target project not on the same folder level.
 ####nuget
 Later
 
