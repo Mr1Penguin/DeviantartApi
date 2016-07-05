@@ -1,4 +1,4 @@
-﻿#\[VS2015+\] DeviantartApi Library in C# for Win10, Win8, Win8.1, WinPhone8.1, Wpf
+﻿#\[VS2015+\] DeviantartApi Library in C# for Win10, Win8, Win8.1, WinPhone8.1, WPF
 
 **Porting in progress**
 
@@ -62,7 +62,12 @@ return;
 ...
 // You have valid RefreshToken
 
-var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(ClientId, Secret, RefreshToken, RefreshTokenUpdated);
+var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(ClientId, Secret, CallbackUrl, RefreshToken, RefreshTokenUpdated, new[]
+												   {
+														DeviantartApi.Login.Scope.Browse,
+														DeviantartApi.Login.Scope.User,
+														DeviantartApi.Login.Scope.Feed
+												   });
 if(result.IsLoginError) 
 {
 	ShowError(result.LoginErrorText);

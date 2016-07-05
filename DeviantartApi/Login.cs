@@ -49,7 +49,7 @@ namespace DeviantartApi
         /// <param name="refreshToken">Token gained on previus login</param>
         /// <param name="updated">Function for getting new refresh_token during working process(other requests to site)</param>
         /// <returns>Tuple with returned refresh_token, flag for login error and login error message</returns>
-        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(string clientId, string secret, string refreshToken, RefreshTokenUpdated updated)
+        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(string clientId, string secret, string callbackUrl, string refreshToken, RefreshTokenUpdated updated, Scope[] scopes = null)
         {
             TokenHandler tokenHandler = null;
             try
@@ -71,12 +71,16 @@ namespace DeviantartApi
                 };
             }
             if (tokenHandler.Error != null)
+            {
+                if (tokenHandler.Error == "invalid_request")
+                    return await SignInAsync(clientId, secret, callbackUrl, updated, scopes);
                 return new LoginResult
                 {
                     RefreshToken = null,
                     IsLoginError = true,
                     LoginErrorText = tokenHandler.ErrorDescription
                 };
+            }
 
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
