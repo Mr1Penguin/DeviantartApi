@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9187b96c-686c-4b4c-b4f0-28adc91d41ae</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DeviantartApi</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Login.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\BaseObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Comment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Deviation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Feed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Pageable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\PlaceboStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Status.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\PageableRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\PlaceboRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Request.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Response.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\User\WhoAmIRequest.cs" />
+  </ItemGroup>
+</Project>
