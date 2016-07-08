@@ -81,7 +81,7 @@ namespace DeviantartApi
         {
             var placeboStatus = (await new Requests.PlaceboRequest().ExecuteAsync()).Object;
             if (placeboStatus.Status == "success" && AccessTokenExpire > DateTime.Now) return;
-            var loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, RefreshToken, Updated);
+            var loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, CallbackUrl, RefreshToken, Updated, Scopes);
             if (loginResult.IsLoginError)
             {
                 if (loginResult.LoginErrorShortText == "invalid_request")

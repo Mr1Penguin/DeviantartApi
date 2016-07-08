@@ -1,14 +1,8 @@
-﻿#\[VS2015+\] DeviantartApi Library in C# for Win10, Win8, Win8.1, WinPhone8.1, Wpf
-
-**Porting in progress**
+﻿#\[VS2015+\] DeviantartApi Library in C# for UWP, Win8.1, WinPhone8.1, .NET 4.5+, ASP.NET Core 1.0
 
 Library for using Deviantart API from .NET.
 
 After sometime a publish this to nuget
-
-###Todo
-
-- SignInAsync function for .NET
 
 ###Acquiring
 ####git
@@ -30,6 +24,8 @@ And/Or for WinRT:
 ```
 Update-Package -Reinstall -Project DeviantartApi.WinRT
 ```
+
+Looks like target application must have json.net reference if Api project and target project not on the same folder level.
 ####nuget
 Later
 
@@ -44,6 +40,7 @@ void RefreshTokenUpdated(string newRefreshToken)
 }
 ...
 // There is no valid RefreshToken
+// for .NET version you must set Login.CustomSignInAsync with your implementation. This delegate would be called if refresh token became broken. 
 var result = await DeviantartApi.Login.SignInAsync(ClientId, Secret, CallbackUrl, RefreshTokenUpdated, 
 												   new[]
 												   {
@@ -62,7 +59,12 @@ return;
 ...
 // You have valid RefreshToken
 
-var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(ClientId, Secret, RefreshToken, RefreshTokenUpdated);
+var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(ClientId, Secret, CallbackUrl, RefreshToken, RefreshTokenUpdated, new[]
+												   {
+														DeviantartApi.Login.Scope.Browse,
+														DeviantartApi.Login.Scope.User,
+														DeviantartApi.Login.Scope.Feed
+												   });
 if(result.IsLoginError) 
 {
 	ShowError(result.LoginErrorText);
