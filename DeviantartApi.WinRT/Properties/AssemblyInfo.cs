@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DeviantartApi.WinRT")]
 [assembly: AssemblyDescription("Library for using Deviantart API from .NET.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mr1Penguin")]
+[assembly: AssemblyCompany("Igor Sharapov (Mr1Penguin)")]
 [assembly: AssemblyProduct("DeviantartApi.WinRT")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
@@ -26,5 +26,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.1.0")]
-[assembly: AssemblyFileVersion("0.0.1.0")]
+[assembly: AssemblyVersion("0.0.1.1")]
+[assembly: AssemblyFileVersion("0.0.1.1")]
