@@ -4,10 +4,6 @@ Library for using Deviantart API from .NET.
 
 After sometime a publish this to nuget
 
-###Todo
-
-- SignInAsync function for .NET
-
 ###Acquiring
 ####git
 Add library as submodule to use it in your project
@@ -44,6 +40,7 @@ void RefreshTokenUpdated(string newRefreshToken)
 }
 ...
 // There is no valid RefreshToken
+// for .NET version you must set Login.CustomSignInAsync with your implementation. This delegate would be called if refresh token became broken. 
 var result = await DeviantartApi.Login.SignInAsync(ClientId, Secret, CallbackUrl, RefreshTokenUpdated, 
 												   new[]
 												   {
