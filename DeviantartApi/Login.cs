@@ -91,6 +91,8 @@ namespace DeviantartApi
             Requester.RefreshToken = tokenHandler.RefreshToken;
             Requester.AppClientId = clientId;
             Requester.AppSecret = secret;
+            Requester.Scopes = scopes;
+            Requester.CallbackUrl = callbackUrl;
             return new LoginResult
             {
                 RefreshToken = tokenHandler.RefreshToken,
