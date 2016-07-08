@@ -27,7 +27,7 @@ Update-Package -Reinstall -Project DeviantartApi.WinRT
 
 Looks like target application must have json.net reference if Api project and target project not on the same folder level.
 ####nuget
-Metadata files ready. Package will be posted on [nuget.org] once my main application hit v1.0.
+Metadata files ready. Package will be posted on [nuget.org](http://nuget.org) once my main application hit v1.0(best variant: 1-3 weeks).
 
 ###Usage
 
