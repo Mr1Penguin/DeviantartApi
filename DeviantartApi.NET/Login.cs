@@ -28,7 +28,7 @@ namespace DeviantartApi
                     LoginErrorText = signInResult.SignInErrorText
                 };
             var code = signInResult.Code;
-            var tokenHandler = await GetTokenAsync(code, clientId, secret, callbackUrl)
+            var tokenHandler = await GetTokenAsync(code, clientId, secret, callbackUrl);
 
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
