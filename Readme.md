@@ -6,10 +6,13 @@ After sometime a publish this to nuget
 
 ###Implemented requests
 If you need something just leave issue or pull request.
+
 ####Feed
 * /feed/home
+
 ####User 
 * /user/whoami
+
 ####Util
 * /placebo
 
