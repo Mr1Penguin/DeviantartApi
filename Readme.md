@@ -5,11 +5,13 @@ Library for using Deviantart API from .NET.
 After sometime a publish this to nuget
 
 ###Implemented requests
-* /placebo
-* /feed/home
-* /user/whoami
-
 If you need something just leave issue or pull request.
+####Feed
+* /feed/home
+####User 
+* /user/whoami
+####Util
+* /placebo
 
 ###Acquiring
 ####git
