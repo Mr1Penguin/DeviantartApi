@@ -1,6 +1,6 @@
 ﻿#\[VS2015+\] DeviantartApi Library in C# for UWP, Win8.1, WinPhone8.1, .NET 4.5+, ASP.NET Core 1.0
 
-Library for using Deviantart API from .NET.
+Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1/20160316) from .NET.
 
 After sometime a publish this to nuget
 
