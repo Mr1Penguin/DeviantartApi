@@ -45,6 +45,8 @@ namespace DeviantartApi.Objects
             public string Formerly { get; set; }
             [JsonProperty("added_count")]
             public int AddedCount { get; set; }
+            [JsonProperty("poll")]
+            public PollClass Poll { get; set; }
 
             public enum EventType
             {
