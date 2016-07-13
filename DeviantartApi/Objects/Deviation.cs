@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace DeviantartApi.Objects
@@ -26,7 +27,8 @@ namespace DeviantartApi.Objects
         [JsonProperty("stats")]
         public StatsClass Stats { get; set; }
         [JsonProperty("published_time")]
-        public int PublishedTime { get; set; }
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime PublishedTime { get; set; }
         [JsonProperty("allows_comments")]
         public bool AllowCommennts { get; set; }
         [JsonProperty("preivew")]
@@ -136,6 +138,28 @@ namespace DeviantartApi.Objects
         {
             [JsonProperty("embed_url")]
             public string EmbedUrl { get; set; }
+        }
+
+        private class UnixDateTimeConverter : JsonConverter
+        {
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                var dateTime = (DateTime) value;
+                writer.WriteValue(dateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+            }
+
+            public override bool CanConvert(Type objectType)
+            {
+                return objectType == typeof(int);
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                var unixTime = (int) reader.Value;
+                var dateTime =
+                    new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(unixTime).ToLocalTime();
+                return dateTime;
+            }
         }
     }
 }
