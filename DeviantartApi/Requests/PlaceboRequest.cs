@@ -12,7 +12,7 @@ namespace DeviantartApi.Requests
             return
                 new Response<PlaceboStatus>(
                     await
-                        Requester.MakeRequestAsync<PlaceboStatus>("https://www.deviantart.com/api/v1/oauth2/placebo?" +
+                        Requester.MakeRequestAsync<PlaceboStatus>("placebo?" +
                                                                   $"access_token={Requester.AccessToken}"));
         }
     }

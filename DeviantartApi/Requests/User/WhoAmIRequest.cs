@@ -25,10 +25,9 @@ namespace DeviantartApi.Requests.User
                 await Requester.CheckTokenAsync();
                 result =
                     await
-                        Requester.MakeRequestAsync<Objects.User>(
-                            "https://www.deviantart.com/api/v1/oauth2/user/whoami?" +
-                            "expand=" + string.Join(",", Expands.Select(x => x.ToString().ToLower()).ToList()) +
-                            $"&access_token={Requester.AccessToken}");
+                        Requester.MakeRequestAsync<Objects.User>("user/whoami?" + "expand=" +
+                                                                 string.Join(",", Expands.Select(x => x.ToString().ToLower()).ToList()) +
+                                                                 $"&access_token={Requester.AccessToken}");
             }
             catch (Exception e)
             {

@@ -13,7 +13,7 @@ namespace DeviantartApi.Requests.Feed
             try
             {
                 await Requester.CheckTokenAsync();
-                result = await Requester.MakeRequestAsync<Objects.Feed>("https://www.deviantart.com/api/v1/oauth2/feed/home?" +
+                result = await Requester.MakeRequestAsync<Objects.Feed>("feed/home?" +
                                                                         $"access_token={Requester.AccessToken}" +
                                                                         $"&mature_content={LoadMature}" +
                                                                         $"&cursor={Cursor}");

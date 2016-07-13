@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,10 +14,10 @@ using Newtonsoft.Json.Converters;
 
 namespace DeviantartApi
 {
-    internal class Requester
+    public class Requester
     {
 
-        internal static string AccessToken;
+        public static string AccessToken { get; internal set; }
         internal static DateTime AccessTokenExpire;
         internal static string RefreshToken;
         internal static string AppSecret;
@@ -26,22 +27,17 @@ namespace DeviantartApi
 
         internal static Login.RefreshTokenUpdated Updated;
 
-        public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content = null)
+        public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content = null,
+            string majorVersion = "1", string minorVersion = "20160316" /*actual version on 2016-07-13*/)
         {
-            return await MakeRequestAsync<T>(uri, content, HttpMethod.Get);
+            return await MakeRequestAsync<T>(uri, content, HttpMethod.Get, majorVersion, minorVersion);
         }
 
-        public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content, HttpMethod method)
+        public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content, HttpMethod method, string majorVersion, string minorVersion)
         {
             var timeOut = new TimeSpan(0, 0, 30);
 
-            var httpRequestMessage = new HttpRequestMessage(method, new Uri(uri))
-            {
-                Content = content
-            };
-            httpRequestMessage.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
-            httpRequestMessage.Headers.Add("Pragma", "no-cache");
-            httpRequestMessage.Headers.UserAgent.ParseAdd("DeviantartApi");
+            var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
 
             var timeoutSource = new CancellationTokenSource(timeOut);
             HttpResponseMessage result;
@@ -64,20 +60,29 @@ namespace DeviantartApi
                 if (i == 8) throw new Exception("Request timed out");
                 await Task.Delay(i);
                 timeoutSource = new CancellationTokenSource(timeOut);
-                httpRequestMessage = new HttpRequestMessage(method, new Uri(uri))
-                {
-                    Content = content
-                };
-                httpRequestMessage.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
-                httpRequestMessage.Headers.Add("Pragma", "no-cache");
-                httpRequestMessage.Headers.UserAgent.ParseAdd("DeviantartApi");
+                httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
             } while (true);
 
             var response = Deserialize<T>(await result.Content.ReadAsStringAsync());
             return response;
         }
 
-        internal static async Task CheckTokenAsync()
+        private static HttpRequestMessage GetRequestMessage(string uri, string majorVersion, string minorVersion,
+            HttpContent content, HttpMethod method)
+        {
+            var httpRequestMessage = new HttpRequestMessage(method,
+                new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri))
+            {
+                Content = content
+            };            
+            httpRequestMessage.Headers.Add("dA-minor-version", minorVersion);
+            httpRequestMessage.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            httpRequestMessage.Headers.Add("Pragma", "no-cache");
+            httpRequestMessage.Headers.UserAgent.ParseAdd("DeviantartApi");
+            return httpRequestMessage;
+        }
+
+        public static async Task CheckTokenAsync()
         {
             var placeboStatus = (await new Requests.PlaceboRequest().ExecuteAsync()).Object;
             if (placeboStatus.Status == "success" && AccessTokenExpire > DateTime.Now) return;
