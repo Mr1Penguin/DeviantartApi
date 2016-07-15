@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
@@ -14,7 +15,7 @@ using Newtonsoft.Json.Converters;
 
 namespace DeviantartApi
 {
-    public class Requester
+    public static class Requester
     {
 
         public static string AccessToken { get; internal set; }
@@ -74,7 +75,8 @@ namespace DeviantartApi
                 new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri))
             {
                 Content = content
-            };            
+            };
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Headers.Add("dA-minor-version", minorVersion);
             httpRequestMessage.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
             httpRequestMessage.Headers.Add("Pragma", "no-cache");
