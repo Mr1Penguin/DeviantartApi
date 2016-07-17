@@ -38,7 +38,7 @@ namespace DeviantartApi
         {
             var timeOut = new TimeSpan(0, 0, 30);
 
-            var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
+            var httpRequestMessage = await GetRequestMessageAsync(uri, majorVersion, minorVersion, content, method);
 
             var timeoutSource = new CancellationTokenSource(timeOut);
             HttpResponseMessage result;
@@ -49,37 +49,60 @@ namespace DeviantartApi
                 {
                     try
                     {
-                        result = await httpClient.SendAsync(httpRequestMessage,timeoutSource.Token);
+                        result = await httpClient.SendAsync(httpRequestMessage, timeoutSource.Token);
                     }
                     catch (TaskCanceledException)
                     {
                         throw new Exception("Request timed out");
                     }
                 }
-                if (result.StatusCode != (HttpStatusCode) 429) break;
+                if (result.StatusCode != (HttpStatusCode)429) break;
                 i = i == 0 ? 1 : i << 1;
                 if (i == 8) throw new Exception("Request timed out");
                 await Task.Delay(i);
                 timeoutSource = new CancellationTokenSource(timeOut);
-                httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
+                httpRequestMessage = await GetRequestMessageAsync(uri, majorVersion, minorVersion, content, method);
             } while (true);
 
             var response = Deserialize<T>(await result.Content.ReadAsStringAsync());
             return response;
         }
 
-        private static HttpRequestMessage GetRequestMessage(string uri, string majorVersion, string minorVersion,
+        private static async Task<HttpRequestMessage> GetRequestMessageAsync(string uri, string majorVersion, string minorVersion,
             HttpContent content, HttpMethod method)
         {
             var httpRequestMessage = new HttpRequestMessage(method,
-                new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri))
+                new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri));
+
+            if (content == null)
+                content = new ByteArrayContent(new byte[0]);
+
+            using (var ms = new MemoryStream())
             {
-                Content = content
-            };
+                using (var contentStream = new MemoryStream())
+                {
+                    await content.CopyToAsync(contentStream);
+                    using (var gzip = new GZipStream(ms, CompressionMode.Compress, true))
+                    {
+                        await contentStream.CopyToAsync(gzip);
+                    }
+                }
+                ms.Position = 0;
+                byte[] compressed = new byte[ms.Length];
+                ms.Read(compressed, 0, compressed.Length);
+
+                var outStream = new MemoryStream(compressed);
+
+                var streamContent = new StreamContent(outStream);
+                streamContent.Headers.Add("Content-Encoding", "gzip");
+                streamContent.Headers.ContentLength = outStream.Length;
+                httpRequestMessage.Content = streamContent;
+            }
+
+
+
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Headers.Add("dA-minor-version", minorVersion);
-            httpRequestMessage.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
-            httpRequestMessage.Headers.Add("Pragma", "no-cache");
             httpRequestMessage.Headers.UserAgent.ParseAdd("DeviantartApi");
             return httpRequestMessage;
         }
@@ -104,5 +127,26 @@ namespace DeviantartApi
         private static T Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json);
 
         private static string Serialize<T>(T t) => JsonConvert.SerializeObject(t);
+
+        private class GzipContent : HttpContent
+        {
+
+            public GzipContent(HttpContent content)
+            {
+                //if (content == null) throw 
+            }
+
+            protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+            {
+                throw new NotImplementedException();
+            }
+
+            protected override bool TryComputeLength(out long length)
+            {
+                length = -1;
+
+                return false;
+            }
+        }
     }
 }
