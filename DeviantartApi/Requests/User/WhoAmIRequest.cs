@@ -26,7 +26,7 @@ namespace DeviantartApi.Requests.User
                 result =
                     await
                         Requester.MakeRequestAsync<Objects.User>("user/whoami?" + "expand=" +
-                                                                 string.Join(",", Expands.Select(x => x.ToString().ToLower()).ToList()) +
+                                                                 string.Join(",", Expands.Select(x => "user." + x.ToString().ToLower()).ToList()) +
                                                                  $"&access_token={Requester.AccessToken}");
             }
             catch (Exception e)
