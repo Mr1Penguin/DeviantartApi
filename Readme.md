@@ -7,14 +7,16 @@ After sometime a publish this to nuget
 ###Implemented requests
 If you need something just leave issue or pull request.
 
+####Deviation
+* GET /deviation/\{deviationid\}
+
 ####Feed
-* /feed/home
+* GET /feed/home
 
 ####User 
-* /user/whoami
+* GET /user/whoami
 
-####Util
-* /placebo
+####Util\[Full\]
 
 ###Acquiring
 ####git
@@ -39,7 +41,7 @@ Update-Package -Reinstall -Project DeviantartApi.WinRT
 
 Looks like target application must have json.net reference if Api project and target project not on the same folder level.
 ####nuget
-Metadata files ready. Package will be posted on [nuget.org](http://nuget.org) once my main application hit v1.0(best variant: 1-3 weeks).
+Metadata files ready. Package will be posted on [nuget.org](http://nuget.org) once my main application hit v1.0(best date: end of July).
 
 ###Usage
 

@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Status.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\PageableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\PlaceboRequest.cs" />

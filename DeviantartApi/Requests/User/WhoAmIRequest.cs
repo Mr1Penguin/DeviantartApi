@@ -7,7 +7,7 @@ namespace DeviantartApi.Requests.User
 {
     public class WhoAmIRequest : Request<Objects.User>
     {
-        public enum Expand
+        public enum UserExpand
         {
             Details,
             Geo,
@@ -15,7 +15,7 @@ namespace DeviantartApi.Requests.User
             Stats
         }
 
-        public HashSet<Expand> Expands = new HashSet<Expand>();
+        public readonly HashSet<UserExpand> UserExpands = new HashSet<UserExpand>();
 
         public override async Task<Response<Objects.User>> ExecuteAsync()
         {
@@ -26,7 +26,7 @@ namespace DeviantartApi.Requests.User
                 result =
                     await
                         Requester.MakeRequestAsync<Objects.User>("user/whoami?" + "expand=" +
-                                                                 string.Join(",", Expands.Select(x => "user." + x.ToString().ToLower()).ToList()) +
+                                                                 string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()) +
                                                                  $"&access_token={Requester.AccessToken}");
             }
             catch (Exception e)
