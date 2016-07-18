@@ -58,7 +58,12 @@ namespace DeviantartApi
                 }
                 if (result.StatusCode != (HttpStatusCode)429) break;
                 i = i == 0 ? 1 : i << 1;
-                if (i == 8) throw new Exception("Request timed out");
+                if (i == 8)
+                {
+                    if (result.StatusCode == HttpStatusCode.Forbidden) throw new Exception("Forbidden");
+                    throw new Exception("Request timed out");
+                }
+                if (result.StatusCode == HttpStatusCode.Forbidden) continue;
                 await Task.Delay(i);
                 timeoutSource = new CancellationTokenSource(timeOut);
                 httpRequestMessage = await GetRequestMessageAsync(uri, majorVersion, minorVersion, content, method);
