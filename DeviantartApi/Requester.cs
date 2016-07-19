@@ -26,6 +26,8 @@ namespace DeviantartApi
         internal static Login.Scope[] Scopes;
         internal static string CallbackUrl;
 
+        private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
+
         internal static Login.RefreshTokenUpdated Updated;
 
         public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content = null,
@@ -45,16 +47,13 @@ namespace DeviantartApi
             var i = 0;
             do
             {
-                using (var httpClient = new HttpClient())
+                try
                 {
-                    try
-                    {
-                        result = await httpClient.SendAsync(httpRequestMessage, timeoutSource.Token);
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        throw new Exception("Request timed out");
-                    }
+                    result = await _httpClient.SendAsync(httpRequestMessage, timeoutSource.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    throw new Exception("Request timed out");
                 }
                 if (result.StatusCode != (HttpStatusCode)429) break;
                 i = i == 0 ? 1 : i << 1;
@@ -104,8 +103,7 @@ namespace DeviantartApi
                 httpRequestMessage.Content = streamContent;
             }
 
-
-
+    
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Headers.Add("dA-minor-version", minorVersion);
             httpRequestMessage.Headers.UserAgent.ParseAdd("DeviantartApi");
@@ -132,26 +130,5 @@ namespace DeviantartApi
         private static T Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json);
 
         private static string Serialize<T>(T t) => JsonConvert.SerializeObject(t);
-
-        private class GzipContent : HttpContent
-        {
-
-            public GzipContent(HttpContent content)
-            {
-                //if (content == null) throw 
-            }
-
-            protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override bool TryComputeLength(out long length)
-            {
-                length = -1;
-
-                return false;
-            }
-        }
     }
 }
