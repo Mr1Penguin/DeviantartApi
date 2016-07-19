@@ -9,20 +9,9 @@ namespace DeviantartApi.Requests.Feed
 
         public override async Task<Response<Objects.Feed>> ExecuteAsync()
         {
-            Objects.Feed result;
-            try
-            {
-                await Requester.CheckTokenAsync();
-                result = await Requester.MakeRequestAsync<Objects.Feed>("feed/home?" +
-                                                                        $"access_token={Requester.AccessToken}" +
-                                                                        $"&mature_content={LoadMature}" +
-                                                                        $"&cursor={Cursor}");
-            }
-            catch (Exception e)
-            {
-                return new Response<Objects.Feed>(true, e.Message);
-            }
-            return new Response<Objects.Feed>(result);
+            return await ExecuteDefaultAsync("feed/home?" +
+                                             "&mature_content=" + LoadMature.ToString().ToLower() +
+                                             $"&cursor={Cursor}");
         }
     }
 }

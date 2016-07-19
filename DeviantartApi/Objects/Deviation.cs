@@ -30,7 +30,7 @@ namespace DeviantartApi.Objects
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime PublishedTime { get; set; }
         [JsonProperty("allows_comments")]
-        public bool AllowCommennts { get; set; }
+        public bool AllowComments { get; set; }
         [JsonProperty("preivew")]
         public ImageClass Preview { get; set; }
         [JsonProperty("content")]

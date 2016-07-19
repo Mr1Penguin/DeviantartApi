@@ -9,6 +9,7 @@ If you need something just leave issue or pull request.
 
 ####Deviation
 * GET /deviation/\{deviationid\}
+* GET /deviation/metadata
 
 ####Feed
 * GET /feed/home

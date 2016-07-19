@@ -18,34 +18,21 @@ namespace DeviantartApi.Requests.Deviation
             Challenge
         }
 
-        public readonly HashSet<UserExpand> UserExpands = new HashSet<UserExpand>();
-        public readonly HashSet<DeviationExpand> DeviationExpands = new HashSet<DeviationExpand>();
+        public HashSet<UserExpand> UserExpands = new HashSet<UserExpand>();
+        public HashSet<DeviationExpand> DeviationExpands = new HashSet<DeviationExpand>();
 
-        private string _deviationID;
+        private string _deviationId;
 
-        public DeviationRequest(string deviationID)
+        public DeviationRequest(string deviationId)
         {
-            _deviationID = deviationID;
+            _deviationId = deviationId;
         }
 
         public override async Task<Response<Objects.Deviation>> ExecuteAsync()
         {
-            Objects.Deviation result;
-            try
-            {
-                await Requester.CheckTokenAsync();
-                result =
-                    await
-                        Requester.MakeRequestAsync<Objects.Deviation>($"deviation/{_deviationID}?" + "expand=" + 
-                                                                      string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()) + "," + //legal on 2016-07-18
-                                                                      string.Join(",", DeviationExpands.Select(x => "deviation." + x.ToString().ToLower()).ToList()) + 
-                                                                      $"&access_token={Requester.AccessToken}");
-            }
-            catch (Exception e)
-            {
-                return new Response<Objects.Deviation>(true, e.Message);
-            }
-            return new Response<Objects.Deviation>(result);
+            return await ExecuteDefaultAsync($"deviation/{_deviationId}?" + "expand=" +
+                                             string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()) + "," + //legal on 2016-07-18
+                                             string.Join(",", DeviationExpands.Select(x => "deviation." + x.ToString().ToLower()).ToList()));
         }
     }
 }
