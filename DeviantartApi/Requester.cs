@@ -36,7 +36,8 @@ namespace DeviantartApi
             return await MakeRequestAsync<T>(uri, content, HttpMethod.Get, majorVersion, minorVersion);
         }
 
-        public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content, HttpMethod method, string majorVersion, string minorVersion)
+        public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content, HttpMethod method,
+            string majorVersion = "1", string minorVersion = "20160316" /*actual version on 2016-07-13*/)
         {
             var timeOut = new TimeSpan(0, 0, 30);
 

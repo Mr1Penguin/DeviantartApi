@@ -7,7 +7,6 @@ namespace DeviantartApi.Requests.Deviation
 {
     public class DeviationRequest : Request<Objects.Deviation>
     {
-
         public enum UserExpand
         {
             Watch

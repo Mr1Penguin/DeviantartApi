@@ -2,10 +2,11 @@
 
 Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1/20160316) from .NET.
 
-After sometime a publish this to nuget
-
 ###Implemented requests
-If you need something just leave issue or pull request.
+If you need something just leave issue or pull request. Or you can easily implement new request in your code.
+
+####Browse
+* GET /browse/categorytree
 
 ####Deviation
 * GET /deviation/\{deviationid\}
@@ -40,9 +41,9 @@ And/Or for WinRT:
 Update-Package -Reinstall -Project DeviantartApi.WinRT
 ```
 
-Looks like target application must have json.net reference if Api project and target project not on the same folder level.
 ####nuget
-Metadata files ready. Package will be posted on [nuget.org](http://nuget.org) once my main application hit v1.0(best date: end of July).
+[![NuGet](https://img.shields.io/badge/nuget .WINRT-0.1.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
+[![NuGet](https://img.shields.io/badge/nuget .NET-0.1.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
 
 ###Usage
 
