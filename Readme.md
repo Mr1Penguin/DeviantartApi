@@ -7,6 +7,7 @@ If you need something just leave issue or pull request. Or you can easily implem
 
 ####Browse
 * GET /browse/categorytree
+* GET /browse/dailydeviations
 
 ####Deviation
 * GET /deviation/\{deviationid\}

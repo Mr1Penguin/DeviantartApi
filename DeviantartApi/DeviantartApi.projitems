@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\BaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\CategoryTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Comment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\DailyDeviations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Deviation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Feed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\DeviationMetadata.cs" />
@@ -22,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\CategorytreeRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\DailyDeviationsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />
