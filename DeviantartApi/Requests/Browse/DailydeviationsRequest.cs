@@ -23,7 +23,7 @@ namespace DeviantartApi.Requests.Browse
         {
             return await ExecuteDefaultAsync("browse/dailydeviations?" + 
                                              $"date={day?.ToString("yyyy-MM-dd")}" + 
-                                             "&expand=" + string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()) +
+                                             $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
                                              $"&mature_content={LoadMature.ToString().ToLower()}");
         }
     }

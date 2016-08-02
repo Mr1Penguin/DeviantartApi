@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Deviation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Feed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\DeviationMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Hot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Pageable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\PlaceboStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Status.cs" />
@@ -24,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\CategorytreeRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\DailyDeviationsRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\HotRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
-    /// <summary>
-    /// Class for getting categorytree. Default path: "/".
-    /// </summary>
     public class CategorytreeRequest : Request<Objects.CategoryTree>
     {
+        /// <summary>
+        /// Default path: "/"
+        /// </summary>
         public string Catpath { get; set; } = "/";
         public bool LoadMature { get; set; }
 

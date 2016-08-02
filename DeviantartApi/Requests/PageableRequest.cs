@@ -6,13 +6,15 @@ namespace DeviantartApi.Requests
         where T : Objects.Pageable
     {
         public string Cursor { get; set; }
+        public uint? Offset { get; set; }
 
-        public async Task<Response<T>> GetNextPageAsync()
+        public virtual async Task<Response<T>> GetNextPageAsync()
         {
             var result = await ExecuteAsync();
-            if (!result.IsError)
+            if (!result.IsError && result.Object.HasMore)
             {
                 Cursor = result.Object.Cursor;
+                Offset = (uint?)result.Object.NextOffset;
             }
             return result;
         }

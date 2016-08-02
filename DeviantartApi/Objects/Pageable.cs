@@ -8,5 +8,7 @@ namespace DeviantartApi.Objects
         public string Cursor { get; set; }
         [JsonProperty("has_more")]
         public bool HasMore { get; set; }
+        [JsonProperty("next_offset")]
+        public int? NextOffset { get; set; }
     }
 }
