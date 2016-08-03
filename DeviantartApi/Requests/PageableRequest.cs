@@ -7,6 +7,7 @@ namespace DeviantartApi.Requests
     {
         public string Cursor { get; set; }
         public uint? Offset { get; set; }
+        public uint? Limit { get; set; }
 
         public virtual async Task<Response<T>> GetNextPageAsync()
         {

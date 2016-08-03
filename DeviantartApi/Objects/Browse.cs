@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DeviantartApi.Objects
 {
-    public class Hot : Pageable
+    public class Browse : Pageable
     {
         [JsonProperty("results")]
         public List<Deviation> results { get; set; }

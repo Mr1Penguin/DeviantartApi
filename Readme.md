@@ -8,6 +8,8 @@ If you need something just leave issue or pull request. Or you can easily implem
 ####Browse
 * GET /browse/categorytree
 * GET /browse/dailydeviations
+* GET /browse/hot
+* GET /browse/morelikethis
 
 ####Deviation
 * GET /deviation/\{deviationid\}

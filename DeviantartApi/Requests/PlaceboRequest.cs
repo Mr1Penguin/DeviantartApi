@@ -3,7 +3,6 @@ using DeviantartApi.Objects;
 
 namespace DeviantartApi.Requests
 {
-
     public class PlaceboRequest : Request<PlaceboStatus>
     {
 

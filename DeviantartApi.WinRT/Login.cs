@@ -21,7 +21,7 @@ namespace DeviantartApi
         {
             if (scopes == null || scopes.Length == 0) scopes = new[] { Scope.Basic };
             var startUrl = "https://www.deviantart.com/oauth2/authorize?response_type=code&client_id=" + clientId +
-                           "&redirect_uri=" + callbackUrl + "&scope=" + string.Join(" ", new HashSet<string>(scopes.Select(x => x.ToString().ToLower()).ToList()));
+                           "&redirect_uri=" + callbackUrl + "&scope=" + string.Join(" ", new HashSet<string>(scopes.Select(x => Regex.Replace(x.ToString(), "(\\B[A-Z])", ".$1").ToLower()).ToList()));
             var startUri = new Uri(startUrl);
             var endUri = new Uri(callbackUrl);
             string result = null;

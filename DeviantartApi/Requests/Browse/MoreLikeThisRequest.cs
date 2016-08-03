@@ -5,14 +5,23 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
-    public class HotRequest : PageableRequest<Objects.Browse>
+    public class MoreLikeThisRequest : PageableRequest<Objects.Browse>
     {
+        public enum Error
+        {
+            InvalidPrintRequested = 0
+        }
+
         public enum UserExpand
         {
             Watch
         }
 
         public HashSet<UserExpand> UserExpands = new HashSet<UserExpand>();
+        /// <summary>
+        /// DeviantionId
+        /// </summary>
+        public string Seed { get; set; }
         public bool LoadMature { get; set; }
         /// <summary>
         /// Default path: "/"
@@ -21,9 +30,10 @@ namespace DeviantartApi.Requests.Browse
 
         public override async Task<Response<Objects.Browse>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("browse/hot?" + 
-                                             $"category_path={CategoryPath}" + 
-                                             (Offset != null ? $"&offset={Offset}" : "") + 
+            return await ExecuteDefaultAsync("browse/morelikethis?" +
+                                             $"seed={Seed}" + 
+                                             $"&category={CategoryPath}" +
+                                             (Offset != null ? $"&offset={Offset}" : "") +
                                              (Limit != null ? $"&limit={Limit}" : "") +
                                              $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
                                              $"&mature_content={LoadMature.ToString().ToLower()}");
