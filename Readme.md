@@ -14,6 +14,7 @@ If you need something just leave issue or pull request. Or you can easily implem
 * GET /browse/newest
 * GET /browse/popular
 * GET /browse/tags
+* GET /browse/tags/search
 
 ####Deviation
 * GET /deviation/\{deviationid\}
