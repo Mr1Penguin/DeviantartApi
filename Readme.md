@@ -41,8 +41,8 @@ Update-Package -Reinstall -Project DeviantartApi.WinRT
 ```
 
 ####nuget
-[![NuGet](https://img.shields.io/badge/nuget .WINRT-0.1.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
-[![NuGet](https://img.shields.io/badge/nuget .NET-0.1.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
+[![NuGet](https://img.shields.io/badge/nuget .WINRT-0.2.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
+[![NuGet](https://img.shields.io/badge/nuget .NET-0.2.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
 
 ###Usage
 
