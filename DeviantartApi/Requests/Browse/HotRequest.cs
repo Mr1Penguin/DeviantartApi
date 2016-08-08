@@ -12,7 +12,7 @@ namespace DeviantartApi.Requests.Browse
             Watch
         }
 
-        public HashSet<UserExpand> UserExpands = new HashSet<UserExpand>();
+        public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
         public bool LoadMature { get; set; }
         /// <summary>
         /// Default path: "/"

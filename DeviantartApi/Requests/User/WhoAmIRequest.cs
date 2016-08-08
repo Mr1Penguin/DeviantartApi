@@ -15,7 +15,7 @@ namespace DeviantartApi.Requests.User
             Stats
         }
 
-        public HashSet<UserExpand> UserExpands = new HashSet<UserExpand>();
+        public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
         public override async Task<Response<Objects.User>> ExecuteAsync()
         {

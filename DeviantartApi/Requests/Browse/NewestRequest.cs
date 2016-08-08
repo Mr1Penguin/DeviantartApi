@@ -5,34 +5,27 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
-    public class MoreLikeThisRequest : PageableRequest<Objects.Browse>
+    public class NewestRequest : PageableRequest<Objects.Browse>
     {
-        public enum Error
-        {
-            InvalidPrintRequested = 0
-        }
-
         public enum UserExpand
         {
             Watch
         }
 
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
-        /// <summary>
-        /// DeviantionId
-        /// </summary>
-        public string Seed { get; set; }
+
         public bool LoadMature { get; set; }
         /// <summary>
         /// Default path: "/"
         /// </summary>
         public string CategoryPath { get; set; } = "/";
+        public string Query { get; set; }
 
         public override async Task<Response<Objects.Browse>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("browse/morelikethis?" +
-                                             $"seed={Seed}" + 
-                                             $"&category={CategoryPath}" +
+            return await ExecuteDefaultAsync("browse/newest?" +
+                                             $"category_path={CategoryPath}" + 
+                                             $"&q={Query}" +
                                              (Offset != null ? $"&offset={Offset}" : "") +
                                              (Limit != null ? $"&limit={Limit}" : "") +
                                              $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +

@@ -12,11 +12,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Diagnostics;
 
 namespace DeviantartApi
 {
     public static class Requester
     {
+#if DEBUG
+        private static int _requestId = 0;
+#endif
 
         public static string AccessToken { get; internal set; }
         internal static DateTime AccessTokenExpire;
@@ -39,6 +43,11 @@ namespace DeviantartApi
         public static async Task<T> MakeRequestAsync<T>(string uri, HttpContent content, HttpMethod method,
             string majorVersion = "1", string minorVersion = "20160316" /*actual version on 2016-07-13*/)
         {
+#if DEBUG
+            int requestId = Interlocked.Increment(ref _requestId);
+            Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: {uri}");
+            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content?.ToString() ?? "null"));
+#endif
             var timeOut = new TimeSpan(0, 0, 30);
 
             var httpRequestMessage = await GetRequestMessageAsync(uri, majorVersion, minorVersion, content, method);
@@ -56,7 +65,13 @@ namespace DeviantartApi
                 {
                     throw new Exception("Request timed out");
                 }
-                if (result.StatusCode != (HttpStatusCode)429) break;
+                if (result.StatusCode != (HttpStatusCode)429)
+                {
+#if DEBUG
+                    Debug.WriteLine($"{requestId}. HTTP STATUS: {result.StatusCode}");
+#endif
+                    break;
+                }
                 i = i == 0 ? 1 : i << 1;
                 if (i == 8)
                     throw new Exception("Request timed out");
@@ -64,8 +79,11 @@ namespace DeviantartApi
                 timeoutSource = new CancellationTokenSource(timeOut);
                 httpRequestMessage = await GetRequestMessageAsync(uri, majorVersion, minorVersion, content, method);
             } while (true);
-
-            var response = Deserialize<T>(await result.Content.ReadAsStringAsync());
+            var reqResponse = await result.Content.ReadAsStringAsync();
+#if DEBUG
+            Debug.WriteLine($"{requestId}. HTTP REQUEST RESPONSE: {reqResponse}");
+#endif
+            var response = Deserialize<T>(reqResponse);
             return response;
         }
 

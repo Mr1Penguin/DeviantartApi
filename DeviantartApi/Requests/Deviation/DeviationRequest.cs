@@ -17,8 +17,8 @@ namespace DeviantartApi.Requests.Deviation
             Challenge
         }
 
-        public HashSet<UserExpand> UserExpands = new HashSet<UserExpand>();
-        public HashSet<DeviationExpand> DeviationExpands = new HashSet<DeviationExpand>();
+        public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
+        public HashSet<DeviationExpand> DeviationExpands { get; set; } = new HashSet<DeviationExpand>();
 
         private string _deviationId;
 
