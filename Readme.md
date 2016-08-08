@@ -5,17 +5,7 @@ Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1
 ###Implemented requests
 If you need something just leave issue or pull request. Or you can easily implement new request in your code.
 
-####Browse
-* GET /browse/categorytree
-* GET /browse/dailydeviations
-* GET /browse/hot
-* GET /browse/morelikethis
-* GET /browse/morelikethis/preview
-* GET /browse/newest
-* GET /browse/popular
-* GET /browse/tags
-* GET /browse/tags/search
-* GET /browse/undiscovered
+####Browse\[Full\]
 
 ####Deviation
 * GET /deviation/\{deviationid\}

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace DeviantartApi.Objects
 {
@@ -12,5 +13,7 @@ namespace DeviantartApi.Objects
         public string ErrorDescription { get; set; }
         [JsonProperty("error_code")]
         public int ErrorCode { get; set; }
+        [JsonProperty("error_details")]
+        public Dictionary<string, string> ErrorDetails { get; set; }
     }
 }
