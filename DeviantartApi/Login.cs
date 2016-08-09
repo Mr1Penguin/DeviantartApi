@@ -29,8 +29,28 @@ namespace DeviantartApi
             public string LoginErrorShortText { get; set; }
         }
 
+
+
         /*public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl,
             RefreshTokenUpdated updated, Scope[] scopes = null);*/
+
+        public static async Task<LoginResult> ClientCredentialsGrantAsync(string clientId, string secret)
+        {
+            var tokenHandler = await Requester.MakeRequestAsync<TokenHandler>("https://www.deviantart.com/oauth2/token?" +
+                                                                              "grant_type=client_credentials&" +
+                                                                              $"client_id={clientId}&" +
+                                                                              $"client_secret={secret}");
+            if (tokenHandler.Error != null) new LoginResult { IsLoginError = true, LoginErrorText = tokenHandler.ErrorDescription, LoginErrorShortText = tokenHandler.Error };
+            Requester.AccessToken = tokenHandler.AccessToken;
+            Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
+            Requester.Updated = null;
+            Requester.RefreshToken = tokenHandler.RefreshToken;
+            Requester.AppClientId = clientId;
+            Requester.AppSecret = secret;
+            Requester.Scopes = null;
+            Requester.CallbackUrl = null;
+            return new LoginResult { IsLoginError = false };
+        }
 
         private static async Task<TokenHandler> GetTokenAsync(string code, string clientId, string secret, string callbackUrl)
         {

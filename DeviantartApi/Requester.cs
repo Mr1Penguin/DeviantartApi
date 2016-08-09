@@ -93,29 +93,30 @@ namespace DeviantartApi
             var httpRequestMessage = new HttpRequestMessage(method,
                 new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri));
 
-            if (content == null)
-                content = new ByteArrayContent(new byte[0]);
-
-            using (var ms = new MemoryStream())
+            if (content != null)
             {
-                using (var contentStream = new MemoryStream())
+
+                using (var ms = new MemoryStream())
                 {
-                    await content.CopyToAsync(contentStream);
-                    using (var gzip = new GZipStream(ms, CompressionMode.Compress, true))
+                    using (var contentStream = new MemoryStream())
                     {
-                        await contentStream.CopyToAsync(gzip);
+                        await content.CopyToAsync(contentStream);
+                        using (var gzip = new GZipStream(ms, CompressionMode.Compress, true))
+                        {
+                            await contentStream.CopyToAsync(gzip);
+                        }
                     }
+                    ms.Position = 0;
+                    byte[] compressed = new byte[ms.Length];
+                    ms.Read(compressed, 0, compressed.Length);
+
+                    var outStream = new MemoryStream(compressed);
+
+                    var streamContent = new StreamContent(outStream);
+                    streamContent.Headers.Add("Content-Encoding", "gzip");
+                    streamContent.Headers.ContentLength = outStream.Length;
+                    httpRequestMessage.Content = streamContent;
                 }
-                ms.Position = 0;
-                byte[] compressed = new byte[ms.Length];
-                ms.Read(compressed, 0, compressed.Length);
-
-                var outStream = new MemoryStream(compressed);
-
-                var streamContent = new StreamContent(outStream);
-                streamContent.Headers.Add("Content-Encoding", "gzip");
-                streamContent.Headers.ContentLength = outStream.Length;
-                httpRequestMessage.Content = streamContent;
             }
 
     
@@ -129,16 +130,26 @@ namespace DeviantartApi
         {
             var placeboStatus = (await new Requests.PlaceboRequest().ExecuteAsync()).Object;
             if (placeboStatus.Status == "success" && AccessTokenExpire > DateTime.Now) return;
-            var loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, CallbackUrl, RefreshToken, Updated, Scopes);
-            if (loginResult.IsLoginError)
+            Login.LoginResult loginResult;
+            if (RefreshToken != null)
             {
-                if (loginResult.LoginErrorShortText == "invalid_request")
+                loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, CallbackUrl, RefreshToken, Updated, Scopes);
+                if (loginResult.IsLoginError)
                 {
-                    var newLoginResult = await Login.SignInAsync(AppClientId, AppSecret, CallbackUrl, Updated, Scopes);
-                    if (newLoginResult.IsLoginError)
-                        throw new Exception(newLoginResult.LoginErrorText);
+                    if (loginResult.LoginErrorShortText == "invalid_request")
+                    {
+                        var newLoginResult = await Login.SignInAsync(AppClientId, AppSecret, CallbackUrl, Updated, Scopes);
+                        if (newLoginResult.IsLoginError)
+                            throw new Exception(newLoginResult.LoginErrorText);
+                    }
+                    throw new Exception("Unexpected error: " + loginResult.LoginErrorText);
                 }
-                throw new Exception("Unexpected error: " + loginResult.LoginErrorText);
+            }
+            else
+            {
+                loginResult = await Login.ClientCredentialsGrantAsync(AppClientId, AppSecret);
+                if (loginResult.IsLoginError)
+                    throw new Exception("Error: " + loginResult.LoginErrorText);
             }
         }
 
