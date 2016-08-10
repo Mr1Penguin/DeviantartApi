@@ -7,6 +7,9 @@ If you need something just leave issue or pull request. Or you can easily implem
 
 ####Browse\[Full\]
 
+####Collections
+* GET /collections/\{folderid\}
+
 ####Deviation
 * GET /deviation/\{deviationid\}
 * GET /deviation/metadata

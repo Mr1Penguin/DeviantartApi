@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Login.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\BaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\CategoryTree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\CollectionFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\DailyDeviations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Deviation.cs" />
@@ -36,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\Tags\SearchRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\UndiscoveredRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\User\JournalsRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FolderRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />
