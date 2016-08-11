@@ -23,10 +23,10 @@ namespace DeviantartApi.Requests.Browse.MoreLikeThis
 
         public override async Task<Response<Objects.MltPreview>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("browse/morelikethis/preview?" + 
-                                             $"seed={Seed}" +
-                                             $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
-                                             $"&mature_content={LoadMature.ToString().ToLower()}");
+            return await ExecuteDefaultGetAsync("browse/morelikethis/preview?" + 
+                                                $"seed={Seed}" +
+                                                $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
+                                                $"&mature_content={LoadMature.ToString().ToLower()}");
         }
     }
 }

@@ -46,11 +46,11 @@ namespace DeviantartApi
 #if DEBUG
             int requestId = Interlocked.Increment(ref _requestId);
             Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: {uri}");
-            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content?.ToString() ?? "null"));
+            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
 #endif
             var timeOut = new TimeSpan(0, 0, 30);
 
-            var httpRequestMessage = await GetRequestMessageAsync(uri, majorVersion, minorVersion, content, method);
+            var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
 
             var timeoutSource = new CancellationTokenSource(timeOut);
             HttpResponseMessage result;
@@ -77,7 +77,7 @@ namespace DeviantartApi
                     throw new Exception("Request timed out");
                 await Task.Delay(i);
                 timeoutSource = new CancellationTokenSource(timeOut);
-                httpRequestMessage = await GetRequestMessageAsync(uri, majorVersion, minorVersion, content, method);
+                httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
             } while (true);
             var reqResponse = await result.Content.ReadAsStringAsync();
 #if DEBUG
@@ -87,39 +87,29 @@ namespace DeviantartApi
             return response;
         }
 
-        private static async Task<HttpRequestMessage> GetRequestMessageAsync(string uri, string majorVersion, string minorVersion,
+        private static HttpRequestMessage GetRequestMessage(string uri, string majorVersion, string minorVersion,
             HttpContent content, HttpMethod method)
         {
             var httpRequestMessage = new HttpRequestMessage(method,
                 new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri));
 
-            if (content != null)
+            //Looks like deviantart can't work with incoming gzip 
+            /*if (content != null)
             {
-
-                using (var ms = new MemoryStream())
+                byte[] data = await content.ReadAsByteArrayAsync();
+                MemoryStream ms = new MemoryStream();
+                using (GZipStream gzip = new GZipStream(ms, CompressionMode.Compress, true))
                 {
-                    using (var contentStream = new MemoryStream())
-                    {
-                        await content.CopyToAsync(contentStream);
-                        using (var gzip = new GZipStream(ms, CompressionMode.Compress, true))
-                        {
-                            await contentStream.CopyToAsync(gzip);
-                        }
-                    }
-                    ms.Position = 0;
-                    byte[] compressed = new byte[ms.Length];
-                    ms.Read(compressed, 0, compressed.Length);
-
-                    var outStream = new MemoryStream(compressed);
-
-                    var streamContent = new StreamContent(outStream);
-                    streamContent.Headers.Add("Content-Encoding", "gzip");
-                    streamContent.Headers.ContentLength = outStream.Length;
-                    httpRequestMessage.Content = streamContent;
+                    gzip.Write(data, 0, data.Length);
                 }
-            }
+                ms.Position = 0;
+                StreamContent streamContent = new StreamContent(ms);
+                streamContent.Headers.ContentEncoding.Add("gzip");
+                httpRequestMessage.Content = streamContent;
+                
+            }*/
+            httpRequestMessage.Content = content;
 
-    
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Headers.Add("dA-minor-version", minorVersion);
             httpRequestMessage.Headers.UserAgent.ParseAdd("DeviantartApi");

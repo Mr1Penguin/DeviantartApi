@@ -15,9 +15,9 @@ namespace DeviantartApi.Requests.Browse
 
         public override async Task<Response<Objects.CategoryTree>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("browse/categorytree?" + 
-                                             $"catpath={Catpath}" + 
-                                             $"&mature_content={LoadMature.ToString().ToLower()}");
+            return await ExecuteDefaultGetAsync("browse/categorytree?" + 
+                                                $"catpath={Catpath}" + 
+                                                $"&mature_content={LoadMature.ToString().ToLower()}");
         }
     }
 }

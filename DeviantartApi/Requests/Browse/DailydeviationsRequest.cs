@@ -21,10 +21,10 @@ namespace DeviantartApi.Requests.Browse
 
         public override async Task<Response<Objects.DailyDeviations>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("browse/dailydeviations?" + 
-                                             $"date={day?.ToString("yyyy-MM-dd")}" + 
-                                             $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
-                                             $"&mature_content={LoadMature.ToString().ToLower()}");
+            return await ExecuteDefaultGetAsync("browse/dailydeviations?" + 
+                                                $"date={day?.ToString("yyyy-MM-dd")}" + 
+                                                $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
+                                                $"&mature_content={LoadMature.ToString().ToLower()}");
         }
     }
 }

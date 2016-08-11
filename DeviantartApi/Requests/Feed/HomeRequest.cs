@@ -9,9 +9,9 @@ namespace DeviantartApi.Requests.Feed
 
         public override async Task<Response<Objects.Feed>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("feed/home?" +
-                                             $"&mature_content={LoadMature.ToString().ToLower()}" +
-                                             $"&cursor={Cursor}");
+            return await ExecuteDefaultGetAsync("feed/home?" +
+                                                $"&mature_content={LoadMature.ToString().ToLower()}" +
+                                                $"&cursor={Cursor}");
         }
     }
 }

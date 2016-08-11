@@ -19,8 +19,8 @@ namespace DeviantartApi.Requests.User
 
         public override async Task<Response<Objects.User>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("user/whoami?" + "expand=" +
-                                             string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()));
+            return await ExecuteDefaultGetAsync("user/whoami?" + "expand=" +
+                                                string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()));
         }
     }
 }

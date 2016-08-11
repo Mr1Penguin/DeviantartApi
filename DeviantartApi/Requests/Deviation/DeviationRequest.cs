@@ -29,9 +29,9 @@ namespace DeviantartApi.Requests.Deviation
 
         public override async Task<Response<Objects.Deviation>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync($"deviation/{_deviationId}?" + "expand=" +
-                                             string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()) + "," + //legal on 2016-07-18
-                                             string.Join(",", DeviationExpands.Select(x => "deviation." + x.ToString().ToLower()).ToList()));
+            return await ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + "expand=" +
+                                                string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()) + "," + //legal on 2016-07-18
+                                                string.Join(",", DeviationExpands.Select(x => "deviation." + x.ToString().ToLower()).ToList()));
         }
     }
 }

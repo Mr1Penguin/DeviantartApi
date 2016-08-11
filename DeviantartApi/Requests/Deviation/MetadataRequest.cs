@@ -16,12 +16,12 @@ namespace DeviantartApi.Requests.Deviation
 
         public override async Task<Response<Objects.DeviationMetadata>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("deviation/metadata?" +
-                                             string.Join("&", DeviationIds.Select(x => "deviationids[]=" + x).ToList()) +
-                                             "&ext_submission=" + ExtSubmission.ToString().ToLower() +
-                                             "&ext_camera=" + ExtCamera.ToString().ToLower() +
-                                             "&ext_stats=" + ExtStats.ToString().ToLower() +
-                                             "&ext_collection=" + ExtCollection.ToString().ToLower());
+            return await ExecuteDefaultGetAsync("deviation/metadata?" +
+                                                string.Join("&", DeviationIds.Select(x => "deviationids[]=" + x).ToList()) +
+                                                "&ext_submission=" + ExtSubmission.ToString().ToLower() +
+                                                "&ext_camera=" + ExtCamera.ToString().ToLower() +
+                                                "&ext_stats=" + ExtStats.ToString().ToLower() +
+                                                "&ext_collection=" + ExtCollection.ToString().ToLower());
         }
     }
 }

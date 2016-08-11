@@ -28,12 +28,12 @@ namespace DeviantartApi.Requests.Collections
 
         public override async Task<Response<Objects.CollectionFolder>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync($"collections/{_folderId}?" +
-                                             $"username={UserName}" +
-                                             (Offset != null ? $"&offset={Offset}" : "") +
-                                             (Limit != null ? $"&limit={Limit}" : "") +
-                                             $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
-                                             $"&mature_content={LoadMature.ToString().ToLower()}");
+            return await ExecuteDefaultGetAsync($"collections/{_folderId}?" +
+                                                $"username={UserName}" +
+                                                (Offset != null ? $"&offset={Offset}" : "") +
+                                                (Limit != null ? $"&limit={Limit}" : "") +
+                                                $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
+                                                $"&mature_content={LoadMature.ToString().ToLower()}");
         }
     }
 }

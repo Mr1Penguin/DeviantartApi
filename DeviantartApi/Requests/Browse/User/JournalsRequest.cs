@@ -20,13 +20,13 @@ namespace DeviantartApi.Requests.Browse.User
 
         public override async Task<Response<Objects.Browse>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("browse/user/journals" +
-                                             $"?featured={Featured.ToString().ToLower()}" +
-                                             $"&username={UserName}" +
-                                             (Offset != null ? $"&offset={Offset}" : "") +
-                                             (Limit != null ? $"&limit={Limit}" : "") +
-                                             $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
-                                             $"&mature_content={LoadMature.ToString().ToLower()}");
+            return await ExecuteDefaultGetAsync("browse/user/journals" +
+                                                $"?featured={Featured.ToString().ToLower()}" +
+                                                $"&username={UserName}" +
+                                                (Offset != null ? $"&offset={Offset}" : "") +
+                                                (Limit != null ? $"&limit={Limit}" : "") +
+                                                $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
+                                                $"&mature_content={LoadMature.ToString().ToLower()}");
         }
     }
 }

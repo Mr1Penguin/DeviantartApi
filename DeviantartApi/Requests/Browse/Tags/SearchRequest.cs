@@ -11,7 +11,7 @@ namespace DeviantartApi.Requests.Browse.Tags
 
         public override async Task<Response<Objects.TagsSearchResults>> ExecuteAsync()
         {
-            return await ExecuteDefaultAsync("browse/tags/search?" + $"tag_name={Tag}");
+            return await ExecuteDefaultGetAsync("browse/tags/search?" + $"tag_name={Tag}");
         }
     }
 }
