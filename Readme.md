@@ -9,6 +9,9 @@ If you need something just leave issue or pull request. Or you can easily implem
 
 ####Collections\[Full\]
 
+####Comments
+* GET /deviation/\{deviationid\}
+
 ####Deviation
 * GET /deviation/\{deviationid\}
 * GET /deviation/metadata

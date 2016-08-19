@@ -8,6 +8,7 @@ namespace DeviantartApi.Requests
         public string Cursor { get; set; }
         public uint? Offset { get; set; }
         public uint? Limit { get; set; }
+        public uint? PrevOffset { get; set; }
 
         public virtual async Task<Response<T>> GetNextPageAsync()
         {
@@ -15,8 +16,18 @@ namespace DeviantartApi.Requests
             if (!result.IsError && result.Object.HasMore)
             {
                 Cursor = result.Object.Cursor;
+                if (result.Object.HasLess)
+                    PrevOffset = (uint?)result.Object.PrevOffset;
                 Offset = (uint?)result.Object.NextOffset;
             }
+            return result;
+        }
+
+        public virtual async Task<Response<T>> GetPrevPageAsync()
+        {
+            Offset = PrevOffset;
+            var result = await GetNextPageAsync();
+            //if (!result.IsError && result.Object.HasMore)
             return result;
         }
     }
