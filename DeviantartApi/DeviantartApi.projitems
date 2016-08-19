@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\MltPreview.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Pageable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\PlaceboStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Siblings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Status.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\TagsSearchResults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\User.cs" />
@@ -44,6 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FolderRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FoldersRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\UnfaveRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Comment\SiblingsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Deviation\DeviationCommentsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />

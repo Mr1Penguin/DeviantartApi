@@ -10,6 +10,7 @@ If you need something just leave issue or pull request. Or you can easily implem
 ####Collections\[Full\]
 
 ####Comments
+* GET /comments/\{commentid\}/siblings
 * GET /deviation/\{deviationid\}
 
 ####Deviation
