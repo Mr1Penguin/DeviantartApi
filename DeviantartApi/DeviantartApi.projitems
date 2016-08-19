@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FaveRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FolderRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FoldersRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\UnfaveRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />
