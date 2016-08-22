@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DeviantartApi.Requests.Comments.Post.Deviation
+namespace DeviantartApi.Requests.Comments.Post.Profile
 {
-    public class DeviationRequest : Request<Objects.Comment>
+    public class UsernameRequest : Request<Objects.Comment>
     {
-        private string _deviationId;
+        private string _username;
 
         public string CommentId { get; set; }
         public string Body { get; set; }
 
-        public DeviationRequest(string deviationId)
+        public UsernameRequest(string username)
         {
-            _deviationId = deviationId;
+            _username = username;
         }
 
         public override async Task<Response<Objects.Comment>> ExecuteAsync()
@@ -20,7 +20,7 @@ namespace DeviantartApi.Requests.Comments.Post.Deviation
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.Add("body", Body);
             values.Add("commentid", CommentId);
-            return await ExecuteDefaultPostAsync($"comments/post/deviation/{_deviationId}", values);
+            return await ExecuteDefaultPostAsync($"comments/post/profile/{_username}", values);
         }
     }
 }

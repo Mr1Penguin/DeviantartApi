@@ -48,6 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Comment\SiblingsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Deviation\DeviationCommentsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\Deviation\DeviationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\Profile\UsernameRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />

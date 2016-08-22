@@ -1,6 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 
 namespace DeviantartApi.Objects
 {
@@ -8,21 +8,29 @@ namespace DeviantartApi.Objects
     {
         [JsonProperty("userid")]
         public string UserId { get; set; }
+
         [JsonProperty("username")]
         public string Username { get; set; }
+
         [JsonProperty("usericon")]
         public string UserIcon { get; set; }
+
         [JsonProperty("type")]
         [JsonConverter(typeof(UserTypeEnumConverter))]
         public UserType Type { get; set; }
+
         [JsonProperty("is_watching")]
         public bool IsWatching { get; set; }
+
         [JsonProperty("details")]
         public UserDetails Details { get; set; }
+
         [JsonProperty("geo")]
         public UserGeo Geo { get; set; }
+
         [JsonProperty("profile")]
         public UserProfile Profile { get; set; }
+
         [JsonProperty("stats")]
         public UserStats Stats { get; set; }
 
@@ -37,8 +45,10 @@ namespace DeviantartApi.Objects
         {
             [JsonProperty("sex")]
             public string Sex { get; set; }
+
             [JsonProperty("age")]
             public int Age { get; set; }
+
             [JsonProperty("joindate")]
             [JsonConverter(typeof(IsoDateTimeConverter))]
             public DateTime? JoinDate { get; set; }
@@ -48,8 +58,10 @@ namespace DeviantartApi.Objects
         {
             [JsonProperty("country")]
             public string Country { get; set; }
+
             [JsonProperty("countryid")]
             public int CountryId { get; set; }
+
             [JsonProperty("timezone")]
             public string Timezone { get; set; }
         }
@@ -58,18 +70,25 @@ namespace DeviantartApi.Objects
         {
             [JsonProperty("user_is_artist")]
             public bool UserIsArtist { get; set; }
+
             [JsonProperty("artist_level")]
             public string ArtistLevel { get; set; }
+
             [JsonProperty("artist_speciality")]
             public string ArtistSpeciality { get; set; }
+
             [JsonProperty("real_name")]
             public string RealName { get; set; }
+
             [JsonProperty("tagline")]
             public string TagLine { get; set; }
+
             [JsonProperty("website")]
             public string Website { get; set; }
+
             [JsonProperty("cover_photo")]
             public string CoverPhoto { get; set; }
+
             [JsonProperty("profile_pic")]
             public Deviation ProfilePic { get; set; }
         }
@@ -78,6 +97,7 @@ namespace DeviantartApi.Objects
         {
             [JsonProperty("watchers")]
             public int Watchers { get; set; }
+
             [JsonProperty("friends")]
             public int Friends { get; set; }
         }
@@ -105,6 +125,7 @@ namespace DeviantartApi.Objects
                     case "regular":
                         userType = UserType.Regular;
                         break;
+
                     case "premium":
                         userType = UserType.Premium;
                         break;

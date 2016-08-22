@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Diagnostics;
 
 namespace DeviantartApi
 {
@@ -93,7 +86,7 @@ namespace DeviantartApi
             var httpRequestMessage = new HttpRequestMessage(method,
                 new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri));
 
-            //Looks like deviantart can't work with incoming gzip 
+            //Looks like deviantart can't work with incoming gzip
             /*if (content != null)
             {
                 byte[] data = await content.ReadAsByteArrayAsync();
@@ -106,7 +99,6 @@ namespace DeviantartApi
                 StreamContent streamContent = new StreamContent(ms);
                 streamContent.Headers.ContentEncoding.Add("gzip");
                 httpRequestMessage.Content = streamContent;
-                
             }*/
             httpRequestMessage.Content = content;
 

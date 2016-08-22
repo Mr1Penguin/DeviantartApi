@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +6,6 @@ namespace DeviantartApi.Requests.Collections
 {
     public class FolderRequest : PageableRequest<Objects.CollectionFolder>
     {
-
         public enum UserExpand
         {
             Watch

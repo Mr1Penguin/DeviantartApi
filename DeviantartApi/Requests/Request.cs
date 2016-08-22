@@ -8,6 +8,7 @@ namespace DeviantartApi.Requests
     public abstract class Request<T> where T : Objects.BaseObject
     {
         public abstract Task<Response<T>> ExecuteAsync();
+
         protected async Task<Response<T>> ExecuteDefaultGetAsync(string uri)
         {
             T result;
@@ -24,6 +25,7 @@ namespace DeviantartApi.Requests
             }
             return new Response<T>(result);
         }
+
         protected async Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values)
         {
             T result;

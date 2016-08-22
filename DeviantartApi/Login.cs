@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace DeviantartApi
 {
@@ -30,8 +28,6 @@ namespace DeviantartApi
             public string LoginErrorText { get; set; }
             public string LoginErrorShortText { get; set; }
         }
-
-
 
         /*public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl,
             RefreshTokenUpdated updated, Scope[] scopes = null);*/
@@ -140,8 +136,10 @@ namespace DeviantartApi
         {
             [JsonProperty("status")]
             public string Status { get; set; }
+
             [JsonProperty("error")]
             public string Error { get; set; }
+
             [JsonProperty("error_description")]
             public string ErrorDescription { get; set; }
         }
@@ -150,18 +148,25 @@ namespace DeviantartApi
         {
             [JsonProperty("access_token")]
             public string AccessToken { get; set; }
+
             [JsonProperty("token_type")]
             public string TokenType { get; set; }
+
             [JsonProperty("expires_in")]
             public int ExpiresIn { get; set; }
+
             [JsonProperty("refresh_token")]
             public string RefreshToken { get; set; }
+
             [JsonProperty("scope")]
             public string Scope { get; set; }
+
             [JsonProperty("status")]
             public string Status { get; set; }
+
             [JsonProperty("error")]
             public string Error { get; set; }
+
             [JsonProperty("error_description")]
             public string ErrorDescription { get; set; }
         }

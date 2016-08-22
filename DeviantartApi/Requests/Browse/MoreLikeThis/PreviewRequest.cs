@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +22,7 @@ namespace DeviantartApi.Requests.Browse.MoreLikeThis
 
         public override async Task<Response<Objects.MltPreview>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync("browse/morelikethis/preview?" + 
+            return await ExecuteDefaultGetAsync("browse/morelikethis/preview?" +
                                                 $"seed={Seed}" +
                                                 $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
                                                 $"&mature_content={LoadMature.ToString().ToLower()}");

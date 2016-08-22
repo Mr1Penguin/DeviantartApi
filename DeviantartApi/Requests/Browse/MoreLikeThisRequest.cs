@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,11 +17,14 @@ namespace DeviantartApi.Requests.Browse
         }
 
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
+
         /// <summary>
         /// DeviantionId
         /// </summary>
         public string Seed { get; set; }
+
         public bool LoadMature { get; set; }
+
         /// <summary>
         /// Default path: "/"
         /// </summary>
@@ -31,7 +33,7 @@ namespace DeviantartApi.Requests.Browse
         public override async Task<Response<Objects.Browse>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync("browse/morelikethis?" +
-                                                $"seed={Seed}" + 
+                                                $"seed={Seed}" +
                                                 $"&category={CategoryPath}" +
                                                 (Offset != null ? $"&offset={Offset}" : "") +
                                                 (Limit != null ? $"&limit={Limit}" : "") +

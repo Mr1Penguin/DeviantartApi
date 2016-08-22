@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using DeviantartApi.Objects;
+﻿using DeviantartApi.Objects;
+using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests
 {
     public class PlaceboRequest : Request<PlaceboStatus>
     {
-
         public override async Task<Response<PlaceboStatus>> ExecuteAsync()
         {
             return

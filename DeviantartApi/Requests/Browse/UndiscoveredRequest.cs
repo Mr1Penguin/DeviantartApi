@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +14,7 @@ namespace DeviantartApi.Requests.Browse
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
         public bool LoadMature { get; set; }
+
         /// <summary>
         /// Default path: "/"
         /// </summary>

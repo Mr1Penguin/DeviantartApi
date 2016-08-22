@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DeviantartApi.Objects
 {
@@ -9,6 +7,7 @@ namespace DeviantartApi.Objects
     {
         [JsonProperty("estimated_total")]
         public int EstimatedTotal { get; set; }
+
         [JsonProperty("results")]
         public List<Deviation> results { get; set; }
     }

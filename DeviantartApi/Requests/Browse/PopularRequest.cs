@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,10 +26,12 @@ namespace DeviantartApi.Requests.Browse
         public TimeRange SelectedTimeRange { get; set; } = TimeRange.tDefault;
 
         public bool LoadMature { get; set; }
+
         /// <summary>
         /// Default path: "/"
         /// </summary>
         public string CategoryPath { get; set; } = "/";
+
         public string Query { get; set; }
 
         public override async Task<Response<Objects.Browse>> ExecuteAsync()

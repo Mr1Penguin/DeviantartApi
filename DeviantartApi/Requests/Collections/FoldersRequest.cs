@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Collections
 {
     public class FoldersRequest : PageableRequest<Objects.Folders>
     {
         public bool LoadMature { get; set; }
-        public string UserName { get; set; }       
+        public string UserName { get; set; }
         public bool CalculateSize { get; set; }
         public bool ExtPreload { get; set; }
 

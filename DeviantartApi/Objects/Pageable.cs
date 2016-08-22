@@ -6,12 +6,16 @@ namespace DeviantartApi.Objects
     {
         [JsonProperty("cursor")]
         public string Cursor { get; set; }
+
         [JsonProperty("has_more")]
         public bool HasMore { get; set; }
+
         [JsonProperty("next_offset")]
         public int? NextOffset { get; set; }
+
         [JsonProperty("has_less")]
         public bool HasLess { get; set; }
+
         [JsonProperty("prev_offset")]
         public int? PrevOffset { get; set; }
     }

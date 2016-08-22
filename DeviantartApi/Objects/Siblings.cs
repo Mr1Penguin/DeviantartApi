@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DeviantartApi.Objects
 {
@@ -14,10 +11,13 @@ namespace DeviantartApi.Objects
         {
             [JsonProperty("parent")]
             public Comment Parent { get; set; }
+
             [JsonProperty("item_profile")]
             public User ItemProfile { get; set; }
+
             [JsonProperty("item_devation")]
             public Deviation ItemDeviation { get; set; }
+
             [JsonProperty("item_status")]
             public Status ItemStatus { get; set; }
         }

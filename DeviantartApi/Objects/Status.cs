@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace DeviantartApi.Objects
 {
@@ -8,20 +8,28 @@ namespace DeviantartApi.Objects
     {
         [JsonProperty("statusid")]
         public string StatusId { get; set; }
+
         [JsonProperty("body")]
         public string Body { get; set; }
+
         [JsonProperty("ts")]
         public string TS { get; set; }
+
         [JsonProperty("url")]
         public string Url { get; set; }
+
         [JsonProperty("comments_count")]
         public int CommentsCount { get; set; }
+
         [JsonProperty("is_share")]
         public bool IsShare { get; set; }
+
         [JsonProperty("is_deleted")]
         public bool IsDeleted { get; set; }
+
         [JsonProperty("author")]
         public User Author { get; set; }
+
         [JsonProperty("items")]
         public List<Item> Items { get; set; }
 
@@ -30,8 +38,10 @@ namespace DeviantartApi.Objects
             [JsonProperty("type")]
             [JsonConverter(typeof(StatusItemTypeEnumConverter))]
             public StatusItemType Type { get; set; }
+
             [JsonProperty("status")]
             public Status Status { get; set; }
+
             [JsonProperty("deviation")]
             public Deviation Deviation { get; set; }
 
@@ -65,6 +75,7 @@ namespace DeviantartApi.Objects
                         case "deviation":
                             statusItemType = StatusItemType.Deviation;
                             break;
+
                         case "status":
                             statusItemType = StatusItemType.Status;
                             break;

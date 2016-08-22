@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Comments.Deviation
 {
@@ -19,8 +16,8 @@ namespace DeviantartApi.Requests.Comments.Deviation
 
         public override async Task<Response<Objects.DeviationComments>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"comments/deviation/{_deviationId}?" + 
-                                                $"commentid={CommentId}" + 
+            return await ExecuteDefaultGetAsync($"comments/deviation/{_deviationId}?" +
+                                                $"commentid={CommentId}" +
                                                 $"&maxdepth={MaxDepth}" +
                                                 (Offset != null ? $"&offset={Offset}" : "") +
                                                 (Limit != null ? $"&limit={Limit}" : ""));
