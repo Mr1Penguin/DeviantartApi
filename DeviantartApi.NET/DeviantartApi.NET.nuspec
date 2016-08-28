@@ -11,7 +11,7 @@
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Fixed POST request type and added some /collections requests</releaseNotes>
+    <releaseNotes>Added comment.post permission, all collections and comments requests</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Api</tags>
   </metadata>
