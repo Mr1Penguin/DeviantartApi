@@ -27,7 +27,6 @@ namespace DeviantartApi.Requests
         {
             Offset = PrevOffset;
             var result = await GetNextPageAsync();
-            //if (!result.IsError && result.Object.HasMore)
             return result;
         }
     }

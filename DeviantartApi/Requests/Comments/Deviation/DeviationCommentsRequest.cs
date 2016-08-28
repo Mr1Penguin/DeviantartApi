@@ -2,7 +2,7 @@
 
 namespace DeviantartApi.Requests.Comments.Deviation
 {
-    public class DeviationCommentsRequest : PageableRequest<Objects.DeviationComments>
+    public class DeviationCommentsRequest : PageableRequest<Objects.Comments>
     {
         public string CommentId { get; set; }
         public uint MaxDepth { get; set; }
@@ -14,7 +14,7 @@ namespace DeviantartApi.Requests.Comments.Deviation
             _deviationId = deviationId;
         }
 
-        public override async Task<Response<Objects.DeviationComments>> ExecuteAsync()
+        public override async Task<Response<Objects.Comments>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"comments/deviation/{_deviationId}?" +
                                                 $"commentid={CommentId}" +

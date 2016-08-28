@@ -14,7 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\CategoryTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\CollectionFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Comment.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Objects\DeviationComments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Comments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\DailyDeviations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Deviation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Fave.cs" />
@@ -49,6 +49,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Deviation\DeviationCommentsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\Profile\UsernameRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\Status\StatusRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Profile\UsernameRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />

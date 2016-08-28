@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DeviantartApi.Objects
 {
-    public class DeviationComments : Pageable
+    public class Comments : Pageable
     {
         [JsonProperty("thread")]
-        public List<Comment> Comments { get; set; }
+        public List<Comment> Thread { get; set; }
     }
 }

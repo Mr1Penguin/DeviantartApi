@@ -245,3 +245,6 @@ ModelManifest.xml
 .fake/
 
 *.sln
+
+*.jar
+*.clj

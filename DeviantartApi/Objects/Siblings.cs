@@ -2,7 +2,7 @@
 
 namespace DeviantartApi.Objects
 {
-    public class Siblings : DeviationComments
+    public class Siblings : Comments
     {
         [JsonProperty("context")]
         public ContextClass Context { get; set; }
