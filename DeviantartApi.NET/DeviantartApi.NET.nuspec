@@ -11,7 +11,7 @@
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added comment.post permission, all collections and comments requests</releaseNotes>
+    <releaseNotes>Url fixes and all deviant/ requests</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Api</tags>
   </metadata>

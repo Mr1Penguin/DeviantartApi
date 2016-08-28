@@ -2,16 +2,17 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DeviantartApi.Objects
 {
-    public class Feed : Pageable
+    public class Notifications : Pageable
     {
         [JsonProperty("items")]
-        public List<Item> Items { get; set; }
+        public List<Notification> Items { get; set; }
 
-        public class Item
+        public class Notification
         {
             [JsonProperty("ts")]
             [JsonConverter(typeof(IsoDateTimeConverter))]
@@ -27,15 +28,6 @@ namespace DeviantartApi.Objects
             [JsonProperty("deviations")]
             public List<Deviation> Deviations { get; set; }
 
-            [JsonProperty("bucketid")]
-            public string BucketId { get; set; }
-
-            [JsonProperty("bucket_total")]
-            public int BucketTotal { get; set; }
-
-            [JsonProperty("status")]
-            public Status Status { get; set; }
-
             [JsonProperty("comment")]
             public Comment Comment { get; set; }
 
@@ -48,28 +40,25 @@ namespace DeviantartApi.Objects
             [JsonProperty("comment_profile")]
             public User CommentProfile { get; set; }
 
-            [JsonProperty("critique_text")]
-            public string CritiqueText { get; set; }
+            [JsonProperty("status")]
+            public Status Status { get; set; }
 
-            [JsonProperty("collection")]
-            public SubObjects.Collection Collection { get; set; }
-
-            [JsonProperty("formerly")]
-            public string Formerly { get; set; }
-
-            [JsonProperty("added_count")]
-            public int AddedCount { get; set; }
-
-            [JsonProperty("poll")]
-            public SubObjects.Poll Poll { get; set; }
+            [JsonProperty("comment_status")]
+            public Status CommentStatus { get; set; }
 
             public enum EventType
             {
-                DeviationSubmitted,
-                JournalSubmitted,
-                UsernameChange,
-                Status,
-                CollectionUpdate,
+                Reply,
+                CommentDeviation,
+                CommentProfile,
+                MentionDeviationInDeviation,
+                MentionUserInDeviation,
+                MentionDeviationInComment,
+                MentionUserInComment,
+                MentionDeviationInStatus,
+                MentionUserInStatus,
+                Watch,
+                Favourite,
                 Unknown
             }
 
@@ -96,24 +85,48 @@ namespace DeviantartApi.Objects
 
                     switch (enumString)
                     {
-                        case "deviation_submitted":
-                            eventType = EventType.DeviationSubmitted;
+                        case "reply":
+                            eventType = EventType.Reply;
                             break;
 
-                        case "journal_submitted":
-                            eventType = EventType.JournalSubmitted;
+                        case "comment_deviation":
+                            eventType = EventType.CommentDeviation;
                             break;
 
-                        case "username_change":
-                            eventType = EventType.UsernameChange;
+                        case "comment_profile":
+                            eventType = EventType.CommentProfile;
                             break;
 
-                        case "status":
-                            eventType = EventType.Status;
+                        case "mention_deviation_in_deviation":
+                            eventType = EventType.MentionDeviationInDeviation;
                             break;
 
-                        case "collection_update":
-                            eventType = EventType.CollectionUpdate;
+                        case "mention_user_in_deviation":
+                            eventType = EventType.MentionUserInDeviation;
+                            break;
+
+                        case "mention_deviation_in_comment":
+                            eventType = EventType.MentionDeviationInComment;
+                            break;
+
+                        case "mention_user_in_comment":
+                            eventType = EventType.MentionUserInComment;
+                            break;
+
+                        case "mention_deviation_in_status":
+                            eventType = EventType.MentionDeviationInStatus;
+                            break;
+
+                        case "mention_user_in_status":
+                            eventType = EventType.MentionUserInStatus;
+                            break;
+
+                        case "watch":
+                            eventType = EventType.Watch;
+                            break;
+
+                        case "favourite":
+                            eventType = EventType.Favourite;
                             break;
                     }
 
