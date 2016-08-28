@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\CollectionFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Comments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Countries.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\DailyDeviations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Deviation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Fave.cs" />
@@ -25,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\MltPreview.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Pageable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\PlaceboStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Privacy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Siblings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Status.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\TagsSearchResults.cs" />
@@ -51,6 +53,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\Profile\UsernameRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\Status\StatusRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Profile\UsernameRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Status\StatusRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Data\CountriesRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Data\PrivacyRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Deviation\MetadataRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\HomeRequest.cs" />
