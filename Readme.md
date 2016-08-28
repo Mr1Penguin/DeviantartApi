@@ -13,8 +13,7 @@ If you need something just leave issue or pull request. Or you can easily implem
 
 ####Deviation\[Full\]
 
-####Feed
-* GET /feed/home
+####Feed\[Full\]
 
 ####User 
 * GET /user/whoami
@@ -43,8 +42,8 @@ Update-Package -Reinstall -Project DeviantartApi.WinRT
 ```
 
 ####nuget
-[![NuGet](https://img.shields.io/badge/nuget .WINRT-0.2.2-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
-[![NuGet](https://img.shields.io/badge/nuget .NET-0.2.2-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
+[![NuGet](https://img.shields.io/badge/nuget .WINRT-0.4.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
+[![NuGet](https://img.shields.io/badge/nuget .NET-0.4.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
 
 ###Usage
 
