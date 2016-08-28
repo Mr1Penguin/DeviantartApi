@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
-    public class DailyDeviationsRequest : Request<Objects.DailyDeviations>
+    public class DailyDeviationsRequest : Request<Objects.Deviations>
     {
         public enum UserExpand
         {
@@ -21,7 +21,7 @@ namespace DeviantartApi.Requests.Browse
 
         public bool LoadMature { get; set; }
 
-        public override async Task<Response<Objects.DailyDeviations>> ExecuteAsync()
+        public override async Task<Response<Objects.Deviations>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync("browse/dailydeviations?" +
                                                 $"date={day?.ToString("yyyy-MM-dd")}" +

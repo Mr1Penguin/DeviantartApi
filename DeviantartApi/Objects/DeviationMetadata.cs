@@ -52,7 +52,9 @@ namespace DeviantartApi.Objects
             public StatsClass Stats { get; set; }
 
             [JsonProperty("camera")]
-            public CameraClass Camera { get; set; }
+            public Dictionary<string, string> Camera { get; set; }
+
+            //public CameraClass Camera { get; set; }
 
             [JsonProperty("collections")]
             public List<CollectionClass> Collections { get; set; }

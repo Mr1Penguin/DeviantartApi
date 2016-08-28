@@ -74,7 +74,9 @@ namespace DeviantartApi.Objects
         public int DownloadFilesize { get; set; }
 
         [JsonProperty("challenge")]
-        public ChallengeClass Challenge { get; set; }
+        public Dictionary<string, string> Challenge { get; set; }
+
+        //public ChallengeClass Challenge { get; set; }
 
         [JsonProperty("challenge_entry")]
         public ChallengeEntryClass ChallengeEntry { get; set; }
@@ -153,7 +155,7 @@ namespace DeviantartApi.Objects
 
         public class ChallengeClass
         {
-            //todo: find out wtf is going on
+            //example required
         }
 
         public class ChallengeEntryClass

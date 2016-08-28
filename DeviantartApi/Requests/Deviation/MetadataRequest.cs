@@ -6,6 +6,11 @@ namespace DeviantartApi.Requests.Deviation
 {
     public class MetadataRequest : Request<Objects.DeviationMetadata>
     {
+        public enum Error
+        {
+            RequestedTooManyDeviations = 0
+        }
+
         public bool ExtSubmission { get; set; }
         public bool ExtCamera { get; set; }
         public bool ExtStats { get; set; }

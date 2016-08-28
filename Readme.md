@@ -11,9 +11,7 @@ If you need something just leave issue or pull request. Or you can easily implem
 
 ####Comments\[Full\]
 
-####Deviation
-* GET /deviation/\{deviationid\}
-* GET /deviation/metadata
+####Deviation\[Full\]
 
 ####Feed
 * GET /feed/home

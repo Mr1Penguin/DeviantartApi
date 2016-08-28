@@ -6,6 +6,12 @@ namespace DeviantartApi.Requests.Deviation
 {
     public class DeviationRequest : Request<Objects.Deviation>
     {
+        public enum Error
+        {
+            DeviationNotFound = 0,
+            DeviationIsNotOwnedByThisUser = 1
+        }
+
         public enum UserExpand
         {
             Watch

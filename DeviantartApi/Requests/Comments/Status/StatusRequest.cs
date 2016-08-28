@@ -19,7 +19,7 @@ namespace DeviantartApi.Requests.Comments.Status
         public override async Task<Response<Objects.Comments>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"comments/status/{_statusid}?commentid={CommentId}&maxdepth={MaxDepth}"
-                 + (Offset != null ? $"offset={Offset}" : "") + (Limit != null ? $"limit={Limit}" : ""));
+                 + (Offset != null ? $"&offset={Offset}" : "") + (Limit != null ? $"&limit={Limit}" : ""));
         }
     }
 }
