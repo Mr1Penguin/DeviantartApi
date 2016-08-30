@@ -17,7 +17,8 @@ namespace DeviantartApi.Requests.Feed.Home
 
         public override async Task<Response<Objects.Deviations>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"feed/home/{_bucketid}?mature_content={MatureContent.ToString().ToLower()}"
+            return await ExecuteDefaultGetAsync($"feed/home/{_bucketid}?"
+                + $"mature_content={MatureContent.ToString().ToLower()}"
                 + (Offset != null ? $"&offset={Offset}" : "") + (Limit != null ? $"&limit={Limit}" : ""));
         }
     }

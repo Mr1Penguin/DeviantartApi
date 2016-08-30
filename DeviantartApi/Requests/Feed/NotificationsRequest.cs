@@ -9,6 +9,7 @@ namespace DeviantartApi.Requests.Feed
         public override async Task<Response<Objects.Notifications>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"feed/notifications?"
+                + 
                 + (Cursor != null ? $"&cursor={Cursor}" : ""));
         }
     }

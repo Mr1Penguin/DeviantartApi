@@ -9,6 +9,7 @@ namespace DeviantartApi.Requests.Feed
         public override async Task<Response<Objects.ProfileFeed>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"feed/profile?"
+                + 
                 + (Cursor != null ? $"&cursor={Cursor}" : ""));
         }
     }

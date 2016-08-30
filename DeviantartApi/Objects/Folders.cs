@@ -3,24 +3,9 @@ using System.Collections.Generic;
 
 namespace DeviantartApi.Objects
 {
-    public class Folders : Pageable
+    public class Folders<Folder> : Pageable where Folder : SubObjects.CollectonFolder
     {
         [JsonProperty("results")]
-        public List<FolderClass> Results { get; set; }
-
-        public class FolderClass
-        {
-            [JsonProperty("folderid")]
-            public string FolderId { get; set; }
-
-            [JsonProperty("name")]
-            public string Name { get; set; }
-
-            [JsonProperty("size")]
-            public int Size { get; set; }
-
-            [JsonProperty("deviations")]
-            public List<Deviation> Deviation { get; set; }
-        }
+        public List<Folder> Results { get; set; }
     }
 }

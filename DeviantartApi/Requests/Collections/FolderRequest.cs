@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Collections
 {
-    public class FolderRequest : PageableRequest<Objects.CollectionFolder>
+    public class FolderRequest : PageableRequest<Objects.Folder>
     {
         public enum UserExpand
         {
@@ -24,7 +24,7 @@ namespace DeviantartApi.Requests.Collections
             _folderId = folderId;
         }
 
-        public override async Task<Response<Objects.CollectionFolder>> ExecuteAsync()
+        public override async Task<Response<Objects.Folder>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"collections/{_folderId}?" +
                                                 $"username={UserName}" +

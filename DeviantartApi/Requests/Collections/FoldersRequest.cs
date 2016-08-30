@@ -2,14 +2,14 @@
 
 namespace DeviantartApi.Requests.Collections
 {
-    public class FoldersRequest : PageableRequest<Objects.Folders>
+    public class FoldersRequest : PageableRequest<Objects.Folders<Objects.SubObjects.CollectonFolder>>
     {
         public bool LoadMature { get; set; }
         public string UserName { get; set; }
         public bool CalculateSize { get; set; }
         public bool ExtPreload { get; set; }
 
-        public override async Task<Response<Objects.Folders>> ExecuteAsync()
+        public override async Task<Response<Objects.Folders<Objects.SubObjects.CollectonFolder>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync("collections/folders?" +
                                                 $"username={UserName}" +

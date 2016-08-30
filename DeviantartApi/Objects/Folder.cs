@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DeviantartApi.Objects
 {
-    public class CollectionFolder : Pageable
+    public class Folder : Pageable
     {
         [JsonProperty("name")]
         public string Name { get; set; }
