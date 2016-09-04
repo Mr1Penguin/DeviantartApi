@@ -18,7 +18,8 @@ namespace DeviantartApi
             Browse,
             BrowseMlt,
             Collection,
-            CommentPost
+            CommentPost,
+            Message
         }
 
         public struct LoginResult

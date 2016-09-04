@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\Collection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\CollectonFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\GalleryFolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\Message.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\PollAnswer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\Poll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\TagsSearchResults.cs" />
@@ -81,6 +82,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\ProfileRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\SettingsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Feed\Settings\UpdateSettingsRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Gallery\AllGalleryRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Gallery\GalleryFolderRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Gallery\GalleryFoldersRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\PageableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\PlaceboRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Request.cs" />
