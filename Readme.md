@@ -17,6 +17,10 @@ If you need something just leave issue or pull request. Or you can easily implem
 
 ####Feed\[Full\]
 
+####Gallery\[Full\]
+
+####Messages\[Full\]
+
 ####User 
 * GET /user/whoami
 
