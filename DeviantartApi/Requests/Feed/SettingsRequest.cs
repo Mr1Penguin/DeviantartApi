@@ -8,8 +8,7 @@ namespace DeviantartApi.Requests.Feed
     {
         public override async Task<Response<Objects.FeedSettings>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"feed/settings?"
-                + );
+            return await ExecuteDefaultGetAsync($"feed/settings?");
         }
     }
 }
