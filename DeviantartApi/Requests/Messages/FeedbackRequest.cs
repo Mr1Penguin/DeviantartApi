@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Messages
 {
-    public class FeedbackRequest : PageableRequest<Objects.MessagesFeed>
+    public class FeedbackRequest : PageableRequest<Objects.ArrayOfResults<Objects.SubObjects.Message>>
     {
         public enum MessagesType
         {
@@ -17,7 +17,7 @@ namespace DeviantartApi.Requests.Messages
         public string FolderId { get; set; }
         public bool Stack { get; set; }
 
-        public override async Task<Response<Objects.MessagesFeed>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Message>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"messages/feedback?"
                 + $"type={Type.ToString().ToLower()}"

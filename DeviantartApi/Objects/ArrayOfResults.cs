@@ -5,9 +5,9 @@ using System.Text;
 
 namespace DeviantartApi.Objects
 {
-    public class MessagesFeed : Pageable
+    public class ArrayOfResults<T> : Pageable
     {
         [JsonProperty("results")]
-        public List<SubObjects.Message> Results { get; set; }
+        public List<T> Results { get; set; }
     }
 }

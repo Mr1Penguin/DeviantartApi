@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed.Settings
 {
-    public class UpdateSettingsRequest : Request<Objects.BaseObject>
+    public class UpdateRequest : Request<Objects.BaseObject>
     {
         public bool Statuses { get; set; }
         public bool Deviations { get; set; }

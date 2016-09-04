@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Gallery
 {
-    public class GalleryFoldersRequest : PageableRequest<Objects.Folders<Objects.SubObjects.GalleryFolder>>
+    public class FoldersRequest : PageableRequest<Objects.ArrayOfResults<Objects.SubObjects.GalleryFolder>>
     {
         public string Username { get; set; }
         public bool CalculateSize { get; set; }
         public bool ExtPreload { get; set; }
         public bool MatureContent { get; set; }
 
-        public override async Task<Response<Objects.Folders<Objects.SubObjects.GalleryFolder>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.GalleryFolder>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"gallery/folders?"
                 + $"username={Username}"

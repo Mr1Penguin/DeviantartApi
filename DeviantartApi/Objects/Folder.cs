@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace DeviantartApi.Objects
 {
-    public class Folder : Pageable
+    public class Folder : ArrayOfResults<Deviation>
     {
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("results")]
-        public List<Deviation> Results { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Gallery
 {
-    public class GalleryFolderRequest : PageableRequest<Objects.Deviations>
+    public class FolderRequest : PageableRequest<Objects.ArrayOfResults<Objects.Deviation>>
     {
         public enum SortMode
         {
@@ -24,12 +24,12 @@ namespace DeviantartApi.Requests.Gallery
 
         private string _folderid;
 
-        public GalleryFolderRequest(string folderid)
+        public FolderRequest(string folderid)
         {
             _folderid = folderid;
         }
 
-        public override async Task<Response<Objects.Deviations>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"gallery/{_folderid}?"
                 + $"username={Username}"

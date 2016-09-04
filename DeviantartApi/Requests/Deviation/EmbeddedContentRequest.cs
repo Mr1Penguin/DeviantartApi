@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
-    public class EmbeddedContentRequest : PageableRequest<Objects.Deviations>
+    public class EmbeddedContentRequest : PageableRequest<Objects.ArrayOfResults<Objects.Deviation>>
     {
         public enum Error
         {
@@ -15,7 +15,7 @@ namespace DeviantartApi.Requests.Deviation
         public string DeviationId { get; set; }
         public string OffsetDeviationId { get; set; }
 
-        public override async Task<Response<Objects.Deviations>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"deviation/embeddedcontent?deviationid={DeviationId}&offset_deviationid={OffsetDeviationId}"
                 + (Offset != null ? $"&offset={Offset}" : "") + (Limit != null ? $"&limit={Limit}" : ""));

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed.Home
 {
-    public class BucketRequest : PageableRequest<Objects.Deviations>
+    public class BucketRequest : PageableRequest<Objects.ArrayOfResults<Objects.Deviation>>
     {
         public bool MatureContent { get; set; }
 
@@ -15,7 +15,7 @@ namespace DeviantartApi.Requests.Feed.Home
             _bucketid = bucketid;
         }
 
-        public override async Task<Response<Objects.Deviations>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"feed/home/{_bucketid}?"
                 + $"mature_content={MatureContent.ToString().ToLower()}"

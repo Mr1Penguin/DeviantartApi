@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Messages
 {
-    public class FeedRequest : PageableRequest<Objects.MessagesFeed>
+    public class FeedRequest : PageableRequest<Objects.ArrayOfResults<Objects.SubObjects.Message>>
     {
         public string FolderId { get; set; }
         public bool Stack { get; set; }
 
-        public override async Task<Response<Objects.MessagesFeed>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Message>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"messages/feed?"
                 + $"folderid={FolderId}"

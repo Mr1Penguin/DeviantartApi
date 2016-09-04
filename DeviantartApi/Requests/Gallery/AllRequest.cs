@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Gallery
 {
-    public class AllGalleryRequest : PageableRequest<Objects.Deviations>
+    public class AllRequest : PageableRequest<Objects.ArrayOfResults<Objects.Deviation>>
     {
         public string Username { get; set; }
 
-        public override async Task<Response<Objects.Deviations>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
         {
             return await ExecuteDefaultGetAsync($"gallery/all?"
                 + $"username={Username}"

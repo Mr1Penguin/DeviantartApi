@@ -10,7 +10,7 @@ namespace DeviantartApi.Objects
     /// or create Request class returns FeedSettings where
     /// Includes is Dictionary<string,string> or Dictionary<string, bool>
     /// </summary>
-    public class FeedSettings
+    public class FeedSettings : BaseObject
     {
         [JsonProperty("includes")]
         public IncludesClass Includes { get; set; }
