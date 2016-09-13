@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects
 {
-    public class Note
+    public class Note : BaseObject
     {
         [JsonProperty("noteid")]
         public string NoteId { get; set; }

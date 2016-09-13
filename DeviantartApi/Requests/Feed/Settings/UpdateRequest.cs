@@ -16,7 +16,6 @@ namespace DeviantartApi.Requests.Feed.Settings
         public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
-            ulong i;
             values.Add("include[statuses]", Statuses.ToString().ToLower());
             values.Add("include[deviations]", Deviations.ToString().ToLower());
             values.Add("include[journals]", Journals.ToString().ToLower());

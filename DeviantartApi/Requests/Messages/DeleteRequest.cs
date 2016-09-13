@@ -13,7 +13,6 @@ namespace DeviantartApi.Requests.Messages
         public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
-            ulong i;
             values.Add("folderid", FolderId);
             values.Add("messageid", MessageId);
             values.Add("stackid", StackId);

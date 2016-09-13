@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Browse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\FeedSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\MltPreview.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\Note.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Pageable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\PlaceboStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\Information.cs" />
@@ -37,7 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\FeedItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\GalleryFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\Message.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\Note.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\NotesFolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\Notification.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\PollAnswer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\SubObjects\Poll.cs" />
@@ -92,6 +93,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Messages\FeedRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Messages\MentionsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Messages\Mentions\StackRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\NotesRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\DeleteRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\FoldersRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\Folders\CreateRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\MarkRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\MoveRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\NoteRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\Remove\FolderRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\Rename\FolderRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Notes\SendRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\PageableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\PlaceboRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Request.cs" />
