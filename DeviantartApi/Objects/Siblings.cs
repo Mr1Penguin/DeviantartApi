@@ -19,7 +19,7 @@ namespace DeviantartApi.Objects
             public Deviation ItemDeviation { get; set; }
 
             [JsonProperty("item_status")]
-            public Status ItemStatus { get; set; }
+            public SubObjects.Status ItemStatus { get; set; }
         }
     }
 }

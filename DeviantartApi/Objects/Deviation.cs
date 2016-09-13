@@ -37,20 +37,20 @@ namespace DeviantartApi.Objects
         public StatsClass Stats { get; set; }
 
         [JsonProperty("published_time")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonConverter(typeof(Converters.UnixDateTimeConverter))]
         public DateTime PublishedTime { get; set; }
 
         [JsonProperty("allows_comments")]
         public bool AllowComments { get; set; }
 
         [JsonProperty("preivew")]
-        public ImageClass Preview { get; set; }
+        public SubObjects.Image Preview { get; set; }
 
         [JsonProperty("content")]
-        public ImageClass Content { get; set; }
+        public SubObjects.Image Content { get; set; }
 
         [JsonProperty("thumbs")]
-        public List<ImageClass> Thumbs { get; set; }
+        public List<SubObjects.Image> Thumbs { get; set; }
 
         [JsonProperty("videos")]
         public List<VideoClass> Videos { get; set; }
@@ -76,8 +76,6 @@ namespace DeviantartApi.Objects
         [JsonProperty("challenge")]
         public Dictionary<string, string> Challenge { get; set; }
 
-        //public ChallengeClass Challenge { get; set; }
-
         [JsonProperty("challenge_entry")]
         public ChallengeEntryClass ChallengeEntry { get; set; }
 
@@ -91,24 +89,6 @@ namespace DeviantartApi.Objects
 
             [JsonProperty("favourites")]
             public int Favourites { get; set; }
-        }
-
-        public class ImageClass
-        {
-            [JsonProperty("src")]
-            public string Src { get; set; }
-
-            [JsonProperty("height")]
-            public int Height { get; set; }
-
-            [JsonProperty("width")]
-            public int Width { get; set; }
-
-            [JsonProperty("transparency")]
-            public bool Transparency { get; set; }
-
-            [JsonProperty("filesize")]
-            public int Filesize { get; set; }
         }
 
         public class VideoClass
@@ -180,28 +160,6 @@ namespace DeviantartApi.Objects
         {
             [JsonProperty("embed_url")]
             public string EmbedUrl { get; set; }
-        }
-
-        private class UnixDateTimeConverter : JsonConverter
-        {
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                var dateTime = (DateTime)value;
-                writer.WriteValue((long)dateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
-            }
-
-            public override bool CanConvert(Type objectType)
-            {
-                return objectType == typeof(long);
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                var unixTime = (long)reader.Value;
-                var dateTime =
-                    new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(unixTime).ToLocalTime();
-                return dateTime;
-            }
         }
     }
 }

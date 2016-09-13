@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
-namespace DeviantartApi.Objects
+namespace DeviantartApi.Objects.SubObjects
 {
-    public class Status : BaseObject
+    public class Status
     {
         [JsonProperty("statusid")]
         public string StatusId { get; set; }
@@ -13,7 +14,8 @@ namespace DeviantartApi.Objects
         public string Body { get; set; }
 
         [JsonProperty("ts")]
-        public string TS { get; set; }
+        [JsonConverter(typeof(IsoDateTimeConverter))]
+        public DateTime TimeStamp { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
