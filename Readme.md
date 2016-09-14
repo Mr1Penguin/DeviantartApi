@@ -2,6 +2,9 @@
 
 Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1/20160316) from .NET.
 
+###Warning!
+Some requests return status:boolean. In models "status" field has type 'string'. It would be fixed in 1.0 version.
+
 ###Implemented requests
 If you need something just leave issue or pull request. Or you can easily implement new request in your code.
 
