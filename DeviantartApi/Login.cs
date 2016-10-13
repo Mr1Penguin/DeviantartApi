@@ -20,7 +20,9 @@ namespace DeviantartApi
             Collection,
             CommentPost,
             Message,
-            Note
+            Note,
+            Stash,
+            Publish
         }
 
         public struct LoginResult

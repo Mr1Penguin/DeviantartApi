@@ -41,11 +41,11 @@ namespace DeviantartApi.Objects
         [JsonProperty("files")]
         public List<SubObjects.Image> Files { get; set; }
 
-        [JsonProperty("Submission")]
-        public SumbissionClass Submission { get; set; }
+        [JsonProperty("submission")]
+        public SubObjects.MetadataSubmission Submission { get; set; }
 
         [JsonProperty("stats")]
-        public StatsClass Stats { get; set; }
+        public SubObjects.MetadataStats Stats { get; set; }
 
         [JsonProperty("camera")]
         public Dictionary<string, string> Camera { get; set; }
@@ -58,42 +58,5 @@ namespace DeviantartApi.Objects
 
         [JsonProperty("tags")]
         public List<string> Tags { get; set; }
-
-        public class SumbissionClass
-        {
-            [JsonProperty("file_size")]
-            [JsonConverter(typeof(Converters.StringToIntConverter))]
-            public int FileSize { get; set; }
-
-            [JsonProperty("resolution")]
-            public string Resolution { get; set; }
-
-            [JsonProperty("submitted_with")]
-            public SubmittedWithClass SubmittedWith { get; set; }
-
-            public class SubmittedWithClass
-            {
-                [JsonProperty("app")]
-                public string App { get; set; }
-
-                [JsonProperty("url")]
-                public string Url { get; set; }
-            }
-        }
-
-        public class StatsClass
-        {
-            [JsonProperty("views")]
-            public int Views { get; set; }
-
-            [JsonProperty("views_today")]
-            public int ViewsToday { get; set; }
-
-            [JsonProperty("downloads")]
-            public int Downloads { get; set; }
-
-            [JsonProperty("downloads_today")]
-            public int DownloadsToday { get; set; }
-        }
     }
 }

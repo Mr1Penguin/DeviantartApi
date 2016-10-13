@@ -24,6 +24,7 @@ namespace DeviantartApi
         internal static string CallbackUrl;
 
         private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
+        //private static HttpClient _chunkedHttpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate , });
 
         internal static Login.RefreshTokenUpdated Updated;
 
@@ -71,6 +72,53 @@ namespace DeviantartApi
                 await Task.Delay(i);
                 timeoutSource = new CancellationTokenSource(timeOut);
                 httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
+            } while (true);
+            var reqResponse = await result.Content.ReadAsStringAsync();
+#if DEBUG
+            Debug.WriteLine($"{requestId}. HTTP REQUEST RESPONSE: {reqResponse}");
+#endif
+            var response = Deserialize<T>(reqResponse);
+            return response;
+        }
+
+        public static async Task<T> MakeMultiPartPostRequestAsync<T>(string uri, MultipartFormDataContent content,
+            string majorVersion = "1", string minorVersion = "20160316" /*actual version on 2016-07-13*/)
+        {
+#if DEBUG
+            int requestId = Interlocked.Increment(ref _requestId);
+            Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: {uri}");
+            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
+#endif
+            var timeOut = new TimeSpan(0, 5, 0);
+
+            var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, HttpMethod.Post);
+            httpRequestMessage.Content.Headers.ContentType.MediaType = "multipart/form-data; boundary=deviapi---" + DateTime.Now.Ticks.ToString("x");
+            var timeoutSource = new CancellationTokenSource(timeOut);
+            HttpResponseMessage result;
+            var i = 0;
+            do
+            {
+                try
+                {
+                    result = await _httpClient.SendAsync(httpRequestMessage, timeoutSource.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    throw new Exception("Request timed out");
+                }
+                if (result.StatusCode != (HttpStatusCode)429)
+                {
+#if DEBUG
+                    Debug.WriteLine($"{requestId}. HTTP STATUS: {result.StatusCode}");
+#endif
+                    break;
+                }
+                i = i == 0 ? 1 : i << 1;
+                if (i == 8)
+                    throw new Exception("Request timed out");
+                await Task.Delay(i);
+                timeoutSource = new CancellationTokenSource(timeOut);
+                httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, HttpMethod.Post);
             } while (true);
             var reqResponse = await result.Content.ReadAsStringAsync();
 #if DEBUG
