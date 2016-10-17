@@ -3,7 +3,6 @@
 Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1/20160316) from .NET.
 
 ###Implemented requests
-If you need something just leave issue or pull request. Or you can easily implement new request in your code.
 
 ####Browse\[Full\]
 
@@ -49,8 +48,8 @@ Update-Package -Reinstall -Project DeviantartApi.WinRT
 ```
 
 ####nuget
-[![NuGet](https://img.shields.io/badge/nuget .WINRT-0.4.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
-[![NuGet](https://img.shields.io/badge/nuget .NET-0.4.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
+[![NuGet](https://img.shields.io/badge/nuget .WINRT-1.0.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
+[![NuGet](https://img.shields.io/badge/nuget .NET-1.0.0-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
 
 ###Usage
 
