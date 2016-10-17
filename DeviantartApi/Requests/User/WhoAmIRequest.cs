@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using DeviantartApi.Attributes;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User
@@ -14,12 +14,15 @@ namespace DeviantartApi.Requests.User
             Stats
         }
 
+        [Parameter("user")]
+        [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
         public override async Task<Response<Objects.User>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync("user/whoami?" + "expand=" +
-                                                string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()));
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddHashSetParameter(() => UserExpands);
+            return await ExecuteDefaultGetAsync("user/whoami?" + values.ToGetParameters());
         }
     }
 }

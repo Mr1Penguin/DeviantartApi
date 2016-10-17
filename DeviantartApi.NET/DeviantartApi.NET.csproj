@@ -35,6 +35,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>DeviantartApiKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -46,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DeviantartApiKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\DeviantartApi\DeviantartApi.projitems" Label="Shared" />

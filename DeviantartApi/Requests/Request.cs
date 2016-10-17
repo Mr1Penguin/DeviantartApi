@@ -7,6 +7,8 @@ namespace DeviantartApi.Requests
 {
     public abstract class Request<T> where T : Objects.BaseObject
     {
+        private bool _isFirstExpand = true;
+
         public abstract Task<Response<T>> ExecuteAsync();
 
         protected async Task<Response<T>> ExecuteDefaultGetAsync(string uri)

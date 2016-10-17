@@ -1,22 +1,30 @@
+using DeviantartApi.Attributes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
 {
     public class DeltaRequest : PageableRequest<Objects.StashDelta>
     {
+        [Parameter("ext_submission")]
         public bool ExtSubmission { get; set; }
+
+        [Parameter("ext_camera")]
         public bool ExtCamera { get; set; }
+
+        [Parameter("ext_stats")]
         public bool ExtStats { get; set; }
 
         public override async Task<Response<Objects.StashDelta>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"stash/delta?"
-                + $"ext_submission={ExtSubmission.ToString().ToLower()}"
-                + "&" + $"ext_camera={ExtCamera.ToString().ToLower()}"
-                + "&" + $"ext_stats={ExtStats.ToString().ToLower()}"
-                + (Offset != null ? $"&offset={Offset}" : "") + (Limit != null ? $"&limit={Limit}" : "") + (Cursor != null ? $"&cursor={Cursor}" : ""));
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => ExtSubmission);
+            values.AddParameter(() => ExtCamera);
+            values.AddParameter(() => ExtStats);
+            if (Offset != null) values.AddParameter(() => Offset);
+            if (Limit != null) values.AddParameter(() => Limit);
+            if (Cursor != null) values.AddParameter(() => Cursor);
+            return await ExecuteDefaultGetAsync($"stash/delta?" + values.ToGetParameters());
         }
     }
 }

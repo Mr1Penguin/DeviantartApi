@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using DeviantartApi.Attributes;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Collections
 {
     public class FaveRequest : Request<Objects.Fave>
     {
+        [Parameter("deviationid")]
         public string DeviationId { get; set; }
+
+        [Parameter("folderid")]
         public HashSet<string> FolderIds { get; set; } = new HashSet<string>();
 
         public override async Task<Response<Objects.Fave>> ExecuteAsync()
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
-            values.Add("deviationid", DeviationId);
-            ulong i = 0;
-            foreach (var folderId in FolderIds)
-                values.Add($"folderid[{i++}]", folderId);
+            values.AddParameter(() => DeviationId);
+            values.AddHashSetParameter(() => FolderIds);
             return await ExecuteDefaultPostAsync("collections/fave", values);
         }
     }

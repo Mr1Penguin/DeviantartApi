@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DeviantartApi.Objects.SubObjects
 {
-    public class GalleryFolder : CollectonFolder
+    public class GalleryFolder : CollectionFolder
     {
         [JsonProperty("parent")]
         public string Parent { get; set; }

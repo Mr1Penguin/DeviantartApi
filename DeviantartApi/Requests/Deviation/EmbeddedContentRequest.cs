@@ -1,5 +1,5 @@
+using DeviantartApi.Attributes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
@@ -12,13 +12,20 @@ namespace DeviantartApi.Requests.Deviation
             UnsupportedDeviationType = 1
         }
 
+        [Parameter("deviationid")]
         public string DeviationId { get; set; }
+
+        [Parameter("offset_deviationid")]
         public string OffsetDeviationId { get; set; }
 
         public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"deviation/embeddedcontent?deviationid={DeviationId}&offset_deviationid={OffsetDeviationId}"
-                + (Offset != null ? $"&offset={Offset}" : "") + (Limit != null ? $"&limit={Limit}" : ""));
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => DeviationId);
+            values.AddParameter(() => OffsetDeviationId);
+            if (Offset != null) values.AddParameter(() => Offset);
+            if (Limit != null) values.AddParameter(() => Limit);
+            return await ExecuteDefaultGetAsync($"deviation/embeddedcontent?" + values.ToGetParameters());
         }
     }
 }

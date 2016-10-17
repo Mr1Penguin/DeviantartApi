@@ -32,6 +32,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>DeviantartApiKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <TargetPlatform Include="Windows, Version=8.1" />
@@ -48,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DeviantartApiKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

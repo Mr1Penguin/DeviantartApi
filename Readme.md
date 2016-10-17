@@ -2,9 +2,6 @@
 
 Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1/20160316) from .NET.
 
-###Warning!
-Some requests return status:boolean. In models "status" field has type 'string'. It would be fixed in 1.0 version.
-
 ###Implemented requests
 If you need something just leave issue or pull request. Or you can easily implement new request in your code.
 
@@ -24,14 +21,15 @@ If you need something just leave issue or pull request. Or you can easily implem
 
 ####Messages\[Full\]
 
-####User 
-* GET /user/whoami
+####Stash\[Full\]
+
+####User\[Full\]
 
 ####Util\[Full\]
 
 ###Acquiring
 ####git
-Add library as submodule to use it in your project
+Add library as submodule(or just clone it) to use it in your project
 
 ```
 git submodule add https://github.com/Mr1Penguin/DeviantartApi.git

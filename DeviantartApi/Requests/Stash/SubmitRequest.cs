@@ -1,7 +1,7 @@
+using DeviantartApi.Attributes;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -15,30 +15,43 @@ namespace DeviantartApi.Requests.Stash
             ValidationError = 2
         }
 
+        [Parameter("title")]
         public string Title { get; set; }
+
+        [Parameter("artist_comments")]
         public string ArtistComments { get; set; }
+
+        [Parameter("tags")]
         public HashSet<string> Tags { get; set; } = new HashSet<string>();
+
+        [Parameter("original_url")]
         public string OriginalUrl { get; set; }
+
+        [Parameter("is_dirty")]
         public bool IsDirty { get; set; }
+
         public byte[] Data { get; set; }
+
+        [Parameter("itemid")]
         public int ItemId { get; set; }
+
+        [Parameter("stack")]
         public string Stack { get; set; }
+
+        [Parameter("stackid")]
         public int StackId { get; set; }
 
         public override async Task<Response<Objects.SubmitResult>> ExecuteAsync()
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
-            ulong i;
-            values.Add("title", Title);
-            values.Add("artist_comments", ArtistComments);
-            i = 0;
-            foreach (var val in Tags)
-                values.Add($"tags[{i++}]", val);
-            values.Add("original_url", OriginalUrl);
-            values.Add("is_dirty", IsDirty.ToString().ToLower());
-            values.Add("itemid", ItemId.ToString().ToLower());
-            values.Add("stack", Stack);
-            values.Add("stackid", StackId.ToString().ToLower());
+            values.AddParameter(() => Title);
+            values.AddParameter(() => ArtistComments);
+            values.AddHashSetParameter(() => Tags);
+            values.AddParameter(() => OriginalUrl);
+            values.AddParameter(() => IsDirty);
+            values.AddParameter(() => ItemId);
+            values.AddParameter(() => Stack);
+            values.AddParameter(() => StackId);
             Objects.SubmitResult result;
             try
             {

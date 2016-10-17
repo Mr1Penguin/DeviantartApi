@@ -1,5 +1,5 @@
+using DeviantartApi.Attributes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Gallery
@@ -17,9 +17,17 @@ namespace DeviantartApi.Requests.Gallery
             Watch
         }
 
+        [Parameter("user")]
+        [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
-        public string Username { get; set; }
+
+        [Parameter("mature_content")]
         public bool MatureContent { get; set; }
+
+        [Parameter("username")]
+        public string Username { get; set; }
+
+        [Parameter("mode")]
         public SortMode Mode { get; set; }
 
         private string _folderid;
@@ -31,12 +39,14 @@ namespace DeviantartApi.Requests.Gallery
 
         public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"gallery/{_folderid}?"
-                + $"username={Username}"
-                + "&" + $"mature_content={MatureContent.ToString().ToLower()}"
-                + "&" + $"mode={Mode.ToString().ToLower()}"
-                + (Offset != null ? $"&offset={Offset}" : "") + (Limit != null ? $"&limit={Limit}" : "")
-                + "&expand=" + string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()));
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => Mode);
+            values.AddParameter(() => Username);
+            values.AddParameter(() => MatureContent);
+            if (Offset != null) values.AddParameter(() => Offset);
+            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddHashSetParameter(() => UserExpands);
+            return await ExecuteDefaultGetAsync($"gallery/{_folderid}?" + values.ToGetParameters());
         }
     }
 }

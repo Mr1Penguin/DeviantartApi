@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 
 namespace DeviantartApi.Objects
@@ -29,7 +28,7 @@ namespace DeviantartApi.Objects
         public UserGeo Geo { get; set; }
 
         [JsonProperty("profile")]
-        public UserProfile Profile { get; set; }
+        public Profile Profile { get; set; }
 
         [JsonProperty("stats")]
         public UserStats Stats { get; set; }
@@ -50,7 +49,7 @@ namespace DeviantartApi.Objects
             public int Age { get; set; }
 
             [JsonProperty("joindate")]
-            [JsonConverter(typeof(IsoDateTimeConverter))]
+            [JsonConverter(typeof(Converters.NullableIsoDateTimeConverter))]
             public DateTime? JoinDate { get; set; }
         }
 
@@ -64,33 +63,6 @@ namespace DeviantartApi.Objects
 
             [JsonProperty("timezone")]
             public string Timezone { get; set; }
-        }
-
-        public class UserProfile
-        {
-            [JsonProperty("user_is_artist")]
-            public bool UserIsArtist { get; set; }
-
-            [JsonProperty("artist_level")]
-            public string ArtistLevel { get; set; }
-
-            [JsonProperty("artist_speciality")]
-            public string ArtistSpeciality { get; set; }
-
-            [JsonProperty("real_name")]
-            public string RealName { get; set; }
-
-            [JsonProperty("tagline")]
-            public string TagLine { get; set; }
-
-            [JsonProperty("website")]
-            public string Website { get; set; }
-
-            [JsonProperty("cover_photo")]
-            public string CoverPhoto { get; set; }
-
-            [JsonProperty("profile_pic")]
-            public Deviation ProfilePic { get; set; }
         }
 
         public class UserStats

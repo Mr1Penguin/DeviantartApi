@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using DeviantartApi.Attributes;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
@@ -22,7 +22,12 @@ namespace DeviantartApi.Requests.Deviation
             Challenge
         }
 
+        [Parameter("user")]
+        [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
+
+        [Parameter("deviation")]
+        [Expands]
         public HashSet<DeviationExpand> DeviationExpands { get; set; } = new HashSet<DeviationExpand>();
 
         private string _deviationId;
@@ -34,9 +39,10 @@ namespace DeviantartApi.Requests.Deviation
 
         public override async Task<Response<Objects.Deviation>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + "expand=" +
-                                                string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList()) + "," + //legal on 2016-07-18
-                                                string.Join(",", DeviationExpands.Select(x => "deviation." + x.ToString().ToLower()).ToList()));
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddHashSetParameter(() => UserExpands);
+            values.AddHashSetParameter(() => DeviationExpands);
+            return await ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + values.ToGetParameters());
         }
     }
 }

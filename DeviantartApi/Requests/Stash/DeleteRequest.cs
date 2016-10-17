@@ -1,5 +1,5 @@
+using DeviantartApi.Attributes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
@@ -11,12 +11,13 @@ namespace DeviantartApi.Requests.Stash
             DeviationNotFound = 0
         }
 
+        [Parameter("itemid")]
         public int ItemId { get; set; }
 
         public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
-            values.Add("itemid", ItemId.ToString().ToLower());
+            values.AddParameter(() => ItemId);
             return await ExecuteDefaultPostAsync("stash/delete", values);
         }
     }

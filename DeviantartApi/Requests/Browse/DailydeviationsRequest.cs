@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DeviantartApi.Attributes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
@@ -12,21 +12,27 @@ namespace DeviantartApi.Requests.Browse
             Watch
         }
 
+        [Parameter("user")]
+        [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
         /// <summary>
         /// Day to browse. Left null for today.
         /// </summary>
-        public DateTime? day = null;
+        [Parameter("date")]
+        [DateTimeFormat("yyyy-MM-dd")]
+        public DateTime? Day { get; set; } = null;
 
-        public bool LoadMature { get; set; }
+        [Parameter("mature_content")]
+        public bool MatureContent { get; set; }
 
         public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync("browse/dailydeviations?" +
-                                                $"date={day?.ToString("yyyy-MM-dd")}" +
-                                                $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
-                                                $"&mature_content={LoadMature.ToString().ToLower()}");
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => Day);
+            values.AddHashSetParameter(() => UserExpands);
+            values.AddParameter(() => MatureContent);
+            return await ExecuteDefaultGetAsync("browse/dailydeviations?" + values.ToGetParameters());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using DeviantartApi.Attributes;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
@@ -7,15 +9,18 @@ namespace DeviantartApi.Requests.Browse
         /// <summary>
         /// Default path: "/"
         /// </summary>
+        [Parameter("catpath")]
         public string Catpath { get; set; } = "/";
 
-        public bool LoadMature { get; set; }
+        [Parameter("mature_content")]
+        public bool MatureContent { get; set; }
 
         public override async Task<Response<Objects.CategoryTree>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync("browse/categorytree?" +
-                                                $"catpath={Catpath}" +
-                                                $"&mature_content={LoadMature.ToString().ToLower()}");
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => Catpath);
+            values.AddParameter(() => MatureContent);
+            return await ExecuteDefaultGetAsync("browse/categorytree?" + values.ToGetParameters());
         }
     }
 }

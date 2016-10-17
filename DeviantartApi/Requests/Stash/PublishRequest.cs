@@ -1,5 +1,5 @@
+using DeviantartApi.Attributes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
@@ -37,14 +37,14 @@ namespace DeviantartApi.Requests.Stash
 
         public enum Resolution
         {
-            rOriginal,
-            r400px,
-            r600px,
-            r800px,
-            r900px,
-            r1024px,
-            r1280px,
-            r1600px
+            rOriginal = 0,
+            r400px = 1,
+            r600px = 2,
+            r800px = 3,
+            r900px = 4,
+            r1024px = 5,
+            r1280px = 6,
+            r1600px = 7
         }
 
         public enum SharingOption
@@ -61,49 +61,85 @@ namespace DeviantartApi.Requests.Stash
             Share
         }
 
+        [Parameter("is_mature")]
         public bool IsMature { get; set; }
+
+        [Parameter("mature_level")]
         public LevelOFMature MatureLevel { get; set; }
-        public ClassificationOfMature MatureClassification { get; set; }
+
+        [Parameter("mature_classification")]
+        public HashSet<ClassificationOfMature> MatureClassification { get; set; } = new HashSet<ClassificationOfMature>();
+
+        [Parameter("agree_submission")]
         public bool AgreeSubmission { get; set; }
+
+        [Parameter("agree_tos")]
         public bool AgreeTos { get; set; }
+
+        [Parameter("catpath")]
         public string CatPath { get; set; }
+
+        [Parameter("feature")]
         public bool Feature { get; set; }
+
+        [Parameter("allow_comments")]
         public bool AllowComments { get; set; }
+
+        [Parameter("request_critique")]
         public bool RequestCritique { get; set; }
-        public Resolution DisplayResolution { get; set; }
-        public SharingOption Sharing { get; set; }
+
+        [Parameter("display_resolution")]
+        [EnumToNum]
+        public Resolution DisplayResolution { get; set; } = Resolution.rOriginal;
+
+        [Parameter("sharing")]
+        public SharingOption Sharing { get; set; } = SharingOption.Allow;
+
+        [Parameter("creative_commons")]
         public bool LicenseCreativeCommons { get; set; }
+
+        [Parameter("comercial")]
         public bool LicenseComercial { get; set; }
-        public LicenseModifyOption LicenseModify { get; set; }
+
+        [Parameter("modify")]
+        public LicenseModifyOption LicenseModify { get; set; } = LicenseModifyOption.No;
+
+        [Parameter("galleryids")]
         public HashSet<string> GalleryIds { get; set; } = new HashSet<string>();
+
+        [Parameter("allow_free_download")]
         public bool AllowFreeDownload { get; set; }
+
+        [Parameter("idd_watermark")]
         public bool AddWatermark { get; set; }
+
+        [Parameter("itemid")]
         public string ItemId { get; set; }
 
         public override async Task<Response<Objects.PublishResult>> ExecuteAsync()
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
-            ulong i;
-            values.Add("is_mature", IsMature.ToString().ToLower());
-            values.Add("mature_level", MatureLevel.ToString().ToLower());
-            values.Add("mature_classification", MatureClassification.ToString().ToLower());
-            values.Add("agree_submission", AgreeSubmission.ToString().ToLower());
-            values.Add("agree_tos", AgreeTos.ToString().ToLower());
-            values.Add("catpath", CatPath);
-            values.Add("feature", Feature.ToString().ToLower());
-            values.Add("aloow_comments", AllowComments.ToString().ToLower());
-            values.Add("request_critique", RequestCritique.ToString().ToLower());
-            values.Add("display_resolution", DisplayResolution.ToString().ToLower());
-            values.Add("sharing", Sharing.ToString().ToLower());
-            values.Add("creative_commons", LicenseCreativeCommons.ToString().ToLower());
-            values.Add("comercial", LicenseComercial.ToString().ToLower());
-            values.Add("modify", LicenseModify.ToString().ToLower());
-            i = 0;
-            foreach(var val in GalleryIds)
-                values.Add($"galleryids[{i++}]", val);
-            values.Add("allow_free_download", AllowFreeDownload.ToString().ToLower());
-            values.Add("add_watermark", AddWatermark.ToString().ToLower());
-            values.Add("itemid", ItemId);
+            values.AddParameter(() => IsMature);
+            if (IsMature)
+            {
+                values.AddParameter(() => MatureLevel);
+                values.AddHashSetParameter(() => MatureClassification);
+            }
+            values.AddParameter(() => AgreeSubmission);
+            values.AddParameter(() => AgreeTos);
+            values.AddParameter(() => CatPath);
+            values.AddParameter(() => Feature);
+            values.AddParameter(() => AllowComments);
+            values.AddParameter(() => RequestCritique);
+            values.AddParameter(() => DisplayResolution);
+            values.AddParameter(() => Sharing);
+            values.AddParameter(() => LicenseCreativeCommons);
+            values.AddParameter(() => LicenseComercial);
+            values.AddParameter(() => LicenseModify);
+            values.AddHashSetParameter(() => GalleryIds);
+            values.AddParameter(() => AllowFreeDownload);
+            values.AddParameter(() => AddWatermark);
+            values.AddParameter(() => ItemId);
             return await ExecuteDefaultPostAsync("stash/publish", values);
         }
     }

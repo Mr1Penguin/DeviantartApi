@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using DeviantartApi.Attributes;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
@@ -11,21 +11,30 @@ namespace DeviantartApi.Requests.Deviation
             RequestedTooManyDeviations = 0
         }
 
+        [Parameter("ext_submission")]
         public bool ExtSubmission { get; set; }
+
+        [Parameter("ext_camera")]
         public bool ExtCamera { get; set; }
+
+        [Parameter("ext_stats")]
         public bool ExtStats { get; set; }
+
+        [Parameter("ext_collection")]
         public bool ExtCollection { get; set; }
 
-        public HashSet<string> DeviationIds = new HashSet<string>();
+        [Parameter("deviationids")]
+        public HashSet<string> DeviationIds { get; set; } = new HashSet<string>();
 
         public override async Task<Response<Objects.DeviationMetadata>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync("deviation/metadata?" +
-                                                string.Join("&", DeviationIds.Select(x => "deviationids[]=" + x).ToList()) +
-                                                "&ext_submission=" + ExtSubmission.ToString().ToLower() +
-                                                "&ext_camera=" + ExtCamera.ToString().ToLower() +
-                                                "&ext_stats=" + ExtStats.ToString().ToLower() +
-                                                "&ext_collection=" + ExtCollection.ToString().ToLower());
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => ExtSubmission);
+            values.AddParameter(() => ExtCamera);
+            values.AddParameter(() => ExtStats);
+            values.AddParameter(() => ExtCollection);
+            values.AddHashSetParameter(() => DeviationIds);
+            return await ExecuteDefaultGetAsync("deviation/metadata?" + values.ToGetParameters());
         }
     }
 }

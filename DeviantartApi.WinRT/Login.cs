@@ -39,12 +39,15 @@ namespace DeviantartApi
                     case Windows.Security.Authentication.Web.WebAuthenticationStatus.Success:
                         result = webAuthenticationResult.ResponseData;
                         break;
+
                     case Windows.Security.Authentication.Web.WebAuthenticationStatus.ErrorHttp:
                         loginErrorString = webAuthenticationResult.ResponseErrorDetail.ToString();
                         break;
+
                     case Windows.Security.Authentication.Web.WebAuthenticationStatus.UserCancel:
                         loginErrorString = "User canceled";
                         break;
+
                     default:
                         loginErrorString = "Unexpected error: " + webAuthenticationResult.ResponseData;
                         break;
@@ -65,7 +68,7 @@ namespace DeviantartApi
 
             var code = new Regex(@".*/.*?code=([^/&]+)").Match(result).Groups[1].Value;
 
-            TokenHandler tokenHandler = null;
+            TokenHandler tokenHandler;
 
             try
             {

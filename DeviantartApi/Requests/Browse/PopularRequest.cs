@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using DeviantartApi.Attributes;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
@@ -8,9 +8,8 @@ namespace DeviantartApi.Requests.Browse
     {
         public enum TimeRange
         {
-            tDefault,
             t8hr,
-            t24ht,
+            t24hr,
             t3days,
             t1week,
             t1month,
@@ -22,28 +21,37 @@ namespace DeviantartApi.Requests.Browse
             Watch
         }
 
+        [Parameter("user")]
+        [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
-        public TimeRange SelectedTimeRange { get; set; } = TimeRange.tDefault;
 
-        public bool LoadMature { get; set; }
+        [Parameter("timerange")]
+        [NoFirstLetterEnum]
+        public TimeRange SelectedTimeRange { get; set; } = TimeRange.t24hr;
+
+        [Parameter("mature_content")]
+        public bool MatureContent { get; set; }
 
         /// <summary>
         /// Default path: "/"
         /// </summary>
+        [Parameter("category_path")]
         public string CategoryPath { get; set; } = "/";
 
+        [Parameter("q")]
         public string Query { get; set; }
 
         public override async Task<Response<Objects.Browse>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync("browse/popular?" +
-                                                $"category_path={CategoryPath}" +
-                                                $"&q={Query}" +
-                                                (Offset != null ? $"&offset={Offset}" : "") +
-                                                (Limit != null ? $"&limit={Limit}" : "") +
-                                                $"&expand={string.Join(",", UserExpands.Select(x => "user." + x.ToString().ToLower()).ToList())}" +
-                                                (SelectedTimeRange == TimeRange.tDefault ? "" : "&timerange" + SelectedTimeRange.ToString().Substring(1)) +
-                                                $"&mature_content={LoadMature.ToString().ToLower()}");
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => CategoryPath);
+            if (Offset != null) values.AddParameter(() => Offset);
+            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddHashSetParameter(() => UserExpands);
+            values.AddParameter(() => MatureContent);
+            values.AddParameter(() => Query);
+            values.AddParameter(() => SelectedTimeRange);
+            return await ExecuteDefaultGetAsync("browse/popular?" + values.ToGetParameters());
         }
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Messages.Mentions
@@ -15,8 +14,10 @@ namespace DeviantartApi.Requests.Messages.Mentions
 
         public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Message>>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"messages/mentions/{_stackid}?"
-                + (Offset != null ? $"&offset={Offset}" : "") + (Limit != null ? $"&limit={Limit}" : ""));
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            if (Offset != null) values.AddParameter(() => Offset);
+            if (Limit != null) values.AddParameter(() => Limit);
+            return await ExecuteDefaultGetAsync($"messages/mentions/{_stackid}?" + values.ToGetParameters());
         }
     }
 }

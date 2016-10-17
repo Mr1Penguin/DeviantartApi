@@ -1,5 +1,5 @@
+using DeviantartApi.Attributes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
@@ -12,11 +12,14 @@ namespace DeviantartApi.Requests.Deviation
             UnsupportedDeviationType = 1
         }
 
+        [Parameter("deviationid")]
         public string DeviationId { get; set; }
 
         public override async Task<Response<Objects.Content>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"deviation/content?deviationid={DeviationId}");
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            values.AddParameter(() => DeviationId);
+            return await ExecuteDefaultGetAsync($"deviation/content?" + values.ToGetParameters());
         }
     }
 }

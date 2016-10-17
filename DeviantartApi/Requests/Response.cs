@@ -17,7 +17,9 @@
         }
 
         public T Object { get; }
+
         public bool IsError { get; }
+
         public string ErrorText { get; }
     }
 }

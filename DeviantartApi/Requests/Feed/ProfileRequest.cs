@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed
@@ -8,8 +7,9 @@ namespace DeviantartApi.Requests.Feed
     {
         public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.ProfileFeedItem>>> ExecuteAsync()
         {
-            return await ExecuteDefaultGetAsync($"feed/profile?"
-                + (Cursor != null ? $"&cursor={Cursor}" : ""));
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            if (Cursor != null) values.AddParameter(() => Cursor); //do I need to check on null in every request?
+            return await ExecuteDefaultGetAsync($"feed/profile?" + values.ToGetParameters());
         }
     }
 }

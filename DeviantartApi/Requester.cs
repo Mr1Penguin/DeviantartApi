@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -86,7 +85,7 @@ namespace DeviantartApi
         {
 #if DEBUG
             int requestId = Interlocked.Increment(ref _requestId);
-            Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: {uri}");
+            Debug.WriteLine($"{requestId}. HTTP REQUEST [POST]: {uri}");
             Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
 #endif
             var timeOut = new TimeSpan(0, 5, 0);
@@ -184,7 +183,5 @@ namespace DeviantartApi
         }
 
         private static T Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json);
-
-        private static string Serialize<T>(T t) => JsonConvert.SerializeObject(t);
     }
 }
