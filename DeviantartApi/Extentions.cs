@@ -48,10 +48,11 @@ namespace DeviantartApi
 
         public static void AddParameter<T>(this Dictionary<string, string> dict, Expression<Func<T>> value)
         {
-            if (typeof(T).GetGenericTypeDefinition() == typeof(HashSet<>))
+            //todo: find a way to check if generic
+            /*if (typeof(T).GetGenericTypeDefinition() == typeof(HashSet<>))
             {
                 throw new ArgumentException("HashSet is not allowed here");
-            }
+            }*/
             var memberExpression = value.Body as MemberExpression;
             var paramAttr = (Attributes.ParameterAttribute)CustomAttributeExtensions.GetCustomAttribute(memberExpression.Member, typeof(Attributes.ParameterAttribute));
             if (paramAttr == null)
@@ -68,7 +69,7 @@ namespace DeviantartApi
             var noFirstLevelEnumAttr = (Attributes.NoFirstLetterEnumAttribute)CustomAttributeExtensions.GetCustomAttribute(memberExpression.Member, typeof(Attributes.NoFirstLetterEnumAttribute));
             if (!typeof(T).GetTypeInfo().IsEnum && enumToNumAttr != null || noFirstLevelEnumAttr != null)
                 throw new Exception("Type of property is not an enum");
-            var strVal = val.ToString();
+            var strVal = val?.ToString();
             if (enumToNumAttr != null)
                 strVal = Convert.ToInt32(val).ToString();
             if (noFirstLevelEnumAttr != null)
