@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
+#if DEBUG
+using System.Diagnostics;
+#endif
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;

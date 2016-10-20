@@ -26,36 +26,43 @@ namespace DeviantartApi
             var endUri = new Uri(callbackUrl);
             string result = null;
             var loginErrorString = "";
-            try
+            int attemptsLeft = 3;
+            while (attemptsLeft != 0)
             {
-                var webAuthenticationResult =
-                    await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
-                    Windows.Security.Authentication.Web.WebAuthenticationOptions.None,
-                    startUri,
-                    endUri);
-
-                switch (webAuthenticationResult.ResponseStatus)
+                try
                 {
-                    case Windows.Security.Authentication.Web.WebAuthenticationStatus.Success:
-                        result = webAuthenticationResult.ResponseData;
-                        break;
+                    var webAuthenticationResult =
+                        await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
+                        Windows.Security.Authentication.Web.WebAuthenticationOptions.None,
+                        startUri,
+                        endUri);
 
-                    case Windows.Security.Authentication.Web.WebAuthenticationStatus.ErrorHttp:
-                        loginErrorString = webAuthenticationResult.ResponseErrorDetail.ToString();
-                        break;
+                    switch (webAuthenticationResult.ResponseStatus)
+                    {
+                        case Windows.Security.Authentication.Web.WebAuthenticationStatus.Success:
+                            result = webAuthenticationResult.ResponseData;
+                            break;
 
-                    case Windows.Security.Authentication.Web.WebAuthenticationStatus.UserCancel:
-                        loginErrorString = "User canceled";
-                        break;
+                        case Windows.Security.Authentication.Web.WebAuthenticationStatus.ErrorHttp:
+                            loginErrorString = webAuthenticationResult.ResponseErrorDetail.ToString();
+                            break;
 
-                    default:
-                        loginErrorString = "Unexpected error: " + webAuthenticationResult.ResponseData;
-                        break;
+                        case Windows.Security.Authentication.Web.WebAuthenticationStatus.UserCancel:
+                            loginErrorString = "User canceled";
+                            break;
+
+                        default:
+                            loginErrorString = "Unexpected error: " + webAuthenticationResult.ResponseData;
+                            break;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                loginErrorString = "Unexpected error: " + ex.Message;
+                catch (Exception ex)
+                {
+                    --attemptsLeft;
+                    loginErrorString = "Unexpected error: " + ex.Message;
+                    continue;
+                }
+                break;
             }
 
             if (result == null)
