@@ -69,9 +69,9 @@ namespace DeviantartApi
                     break;
                 }
                 i = i == 0 ? 1 : i << 1;
-                if (i == 8)
-                    throw new Exception("Request timed out");
-                await Task.Delay(i);
+                if (i == 32)
+                    throw new Exception("Too many requests");
+                await Task.Delay(i * 1000);
                 timeoutSource = new CancellationTokenSource(timeOut);
                 httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
             } while (true);
