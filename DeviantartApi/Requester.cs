@@ -24,6 +24,7 @@ namespace DeviantartApi
         internal static string AppClientId;
         internal static Login.Scope[] Scopes;
         internal static string CallbackUrl;
+        private static DateTime? LastTimeAccessTokenChecked;
 
         private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
         //private static HttpClient _chunkedHttpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate , });
@@ -160,6 +161,9 @@ namespace DeviantartApi
 
         public static async Task CheckTokenAsync()
         {
+            if (LastTimeAccessTokenChecked != null && LastTimeAccessTokenChecked.Value.AddMinutes(20) > DateTime.Now)
+                return;
+            LastTimeAccessTokenChecked = DateTime.Now;
             var placeboStatus = (await new Requests.PlaceboRequest().ExecuteAsync()).Object;
             if (placeboStatus.Status == "success" && AccessTokenExpire > DateTime.Now) return;
             Login.LoginResult loginResult;
