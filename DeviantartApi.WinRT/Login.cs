@@ -17,7 +17,7 @@ namespace DeviantartApi
         /// <param name="updated">Function for getting new refresh_token during working process(other requests to site)</param>
         /// <param name="scopes">Scopes</param>
         /// <returns>Tuple with refresh_token, flag for login error and login error message</returns>
-        public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl, RefreshTokenUpdated updated, Scope[] scopes = null)
+        public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl, RefreshTokenUpdated updated, Scope[] scopes = null, bool disableAutoAccessTokenChecking = false)
         {
             if (scopes == null || scopes.Length == 0) scopes = new[] { Scope.Basic };
             var startUrl = "https://www.deviantart.com/oauth2/authorize?response_type=code&client_id=" + clientId +
@@ -110,6 +110,7 @@ namespace DeviantartApi
             Requester.AppSecret = secret;
             Requester.Scopes = scopes;
             Requester.CallbackUrl = callbackUrl;
+            Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
             return new LoginResult
             {
                 RefreshToken = tokenHandler.RefreshToken,

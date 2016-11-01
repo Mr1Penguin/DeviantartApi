@@ -40,7 +40,7 @@ namespace DeviantartApi
         /*public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl,
             RefreshTokenUpdated updated, Scope[] scopes = null);*/
 
-        public static async Task<LoginResult> ClientCredentialsGrantAsync(string clientId, string secret)
+        public static async Task<LoginResult> ClientCredentialsGrantAsync(string clientId, string secret, bool disableAutoAccessTokenChecking = false)
         {
             var tokenHandler = await Requester.MakeRequestAsync<TokenHandler>("https://www.deviantart.com/oauth2/token?" +
                                                                               "grant_type=client_credentials&" +
@@ -55,6 +55,7 @@ namespace DeviantartApi
             Requester.AppSecret = secret;
             Requester.Scopes = null;
             Requester.CallbackUrl = null;
+            Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
             return new LoginResult { IsLoginError = false };
         }
 
@@ -76,7 +77,7 @@ namespace DeviantartApi
         /// <param name="refreshToken">Token gained on previus login</param>
         /// <param name="updated">Function for getting new refresh_token during working process(other requests to site)</param>
         /// <returns>Tuple with returned refresh_token, flag for login error and login error message</returns>
-        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(string clientId, string secret, string callbackUrl, string refreshToken, RefreshTokenUpdated updated, Scope[] scopes = null)
+        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(string clientId, string secret, string callbackUrl, string refreshToken, RefreshTokenUpdated updated, Scope[] scopes = null, bool disableAutoAccessTokenChecking = false)
         {
             TokenHandler tokenHandler = null;
             try
@@ -120,6 +121,7 @@ namespace DeviantartApi
             Requester.AppSecret = secret;
             Requester.Scopes = scopes;
             Requester.CallbackUrl = callbackUrl;
+            Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
             return new LoginResult
             {
                 RefreshToken = tokenHandler.RefreshToken,

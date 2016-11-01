@@ -20,7 +20,7 @@ namespace DeviantartApi
 
         public static CustomSignIn CustomSignInAsync { get; set; }
 
-        public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl, RefreshTokenUpdated updated, Scope[] scopes = null)
+        public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl, RefreshTokenUpdated updated, Scope[] scopes = null, bool disableAutoAccessTokenChecking = false)
         {
             var signInResult = await CustomSignInAsync(clientId, secret, callbackUrl, updated, scopes);
             if (signInResult.IsSignInError)
@@ -44,6 +44,7 @@ namespace DeviantartApi
             Requester.AppSecret = secret;
             Requester.Scopes = scopes;
             Requester.CallbackUrl = callbackUrl;
+            Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
             return new LoginResult
             {
                 RefreshToken = tokenHandler.RefreshToken,

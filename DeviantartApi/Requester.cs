@@ -24,6 +24,7 @@ namespace DeviantartApi
         internal static string AppClientId;
         internal static Login.Scope[] Scopes;
         internal static string CallbackUrl;
+        internal static bool AutoAccessTokenCheckingDisabled;
         private static DateTime? LastTimeAccessTokenChecked;
 
         private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
@@ -161,6 +162,7 @@ namespace DeviantartApi
 
         public static async Task CheckTokenAsync()
         {
+            if (AutoAccessTokenCheckingDisabled) return;
             if (LastTimeAccessTokenChecked != null && LastTimeAccessTokenChecked.Value.AddMinutes(20) > DateTime.Now)
                 return;
             LastTimeAccessTokenChecked = DateTime.Now;
