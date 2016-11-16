@@ -47,6 +47,7 @@ namespace DeviantartApi
                                                                               $"client_id={clientId}&" +
                                                                               $"client_secret={secret}");
             if (tokenHandler.Error != null) new LoginResult { IsLoginError = true, LoginErrorText = tokenHandler.ErrorDescription, LoginErrorShortText = tokenHandler.Error };
+            if (tokenHandler.Error != null) return new LoginResult { IsLoginError = true, LoginErrorText = tokenHandler.ErrorDescription, LoginErrorShortText = tokenHandler.Error };
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
             Requester.Updated = null;
