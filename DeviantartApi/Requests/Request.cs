@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests
@@ -9,43 +10,72 @@ namespace DeviantartApi.Requests
     {
         private bool _isFirstExpand = true;
 
-        public abstract Task<Response<T>> ExecuteAsync();
+        public abstract Task<Response<T>> ExecuteAsync(CancellationToken cancellationToken);
+
+        public virtual async Task<Response<T>> ExecuteAsync()
+        {
+            return await this.ExecuteAsync(CancellationToken.None);
+        }
 
         protected async Task<Response<T>> ExecuteDefaultGetAsync(string uri)
+        {
+            return await ExecuteDefaultGetAsync(uri, CancellationToken.None);
+        }
+
+        protected async Task<Response<T>> ExecuteDefaultGetAsync(string uri, CancellationToken cancellationToken)
         {
             T result;
             try
             {
-                await Requester.CheckTokenAsync();
+                cancellationToken.ThrowIfCancellationRequested();
+                await Requester.CheckTokenAsync(cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
                 result =
                     await
-                        Requester.MakeRequestAsync<T>(uri + $"&access_token={Requester.AccessToken}");
+                        Requester.MakeRequestAsync<T>(uri + $"&access_token={Requester.AccessToken}", cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception e)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 return new Response<T>(true, e.Message);
             }
+            cancellationToken.ThrowIfCancellationRequested();
             return new Response<T>(result);
         }
 
         protected async Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values)
         {
+            return await ExecuteDefaultPostAsync(uri, values, CancellationToken.None);
+        }
+
+        protected async Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             T result;
             try
             {
-                await Requester.CheckTokenAsync();
-                if (values == null)
-                    values = new Dictionary<string, string>();
+                cancellationToken.ThrowIfCancellationRequested();
+                await Requester.CheckTokenAsync(cancellationToken);
+                if (values == null) values = new Dictionary<string, string>();
                 values.Add("access_token", Requester.AccessToken);
                 HttpContent content = new FormUrlEncodedContent(values);
-                result =
-                    await
-                        Requester.MakeRequestAsync<T>(uri, content, HttpMethod.Post);
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await Requester.MakeRequestAsync<T>(uri, content, HttpMethod.Post, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception e)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 return new Response<T>(true, e.Message);
             }
+            cancellationToken.ThrowIfCancellationRequested();
             return new Response<T>(result);
         }
     }

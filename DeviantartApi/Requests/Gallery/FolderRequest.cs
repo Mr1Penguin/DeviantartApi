@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Gallery
 {
+    using System.Threading;
+
     public class FolderRequest : PageableRequest<Objects.ArrayOfResults<Objects.Deviation>>
     {
         public enum SortMode
@@ -37,7 +39,7 @@ namespace DeviantartApi.Requests.Gallery
             _folderid = folderid;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Mode);
@@ -46,7 +48,8 @@ namespace DeviantartApi.Requests.Gallery
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
-            return await ExecuteDefaultGetAsync($"gallery/{_folderid}?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"gallery/{_folderid}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

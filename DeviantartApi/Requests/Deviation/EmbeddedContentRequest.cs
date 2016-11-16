@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
+    using System.Threading;
+
     public class EmbeddedContentRequest : PageableRequest<Objects.ArrayOfResults<Objects.Deviation>>
     {
         public enum Error
@@ -18,14 +20,15 @@ namespace DeviantartApi.Requests.Deviation
         [Parameter("offset_deviationid")]
         public string OffsetDeviationId { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => DeviationId);
             values.AddParameter(() => OffsetDeviationId);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
-            return await ExecuteDefaultGetAsync($"deviation/embeddedcontent?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"deviation/embeddedcontent?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

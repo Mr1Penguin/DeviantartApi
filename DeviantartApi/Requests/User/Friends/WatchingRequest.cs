@@ -2,6 +2,8 @@
 
 namespace DeviantartApi.Requests.User.Friends
 {
+    using System.Threading;
+
     public class WatchingRequest : Request<Objects.WatchingResponse>
     {
         public enum Error
@@ -16,9 +18,10 @@ namespace DeviantartApi.Requests.User.Friends
             _username = username;
         }
 
-        public override async Task<Response<Objects.WatchingResponse>> ExecuteAsync()
+        public override async Task<Response<Objects.WatchingResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return await ExecuteDefaultGetAsync($"user/friends/watching/{_username}");
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"user/friends/watching/{_username}", cancellationToken);
         }
     }
 }

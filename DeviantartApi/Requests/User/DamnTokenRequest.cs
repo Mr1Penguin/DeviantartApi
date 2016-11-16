@@ -2,11 +2,14 @@
 
 namespace DeviantartApi.Requests.User
 {
+    using System.Threading;
+
     internal class DamnTokenRequest : Request<Objects.DamnResponse>
     {
-        public override async Task<Response<Objects.DamnResponse>> ExecuteAsync()
+        public override async Task<Response<Objects.DamnResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return await ExecuteDefaultGetAsync("user/damntoken");
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync("user/damntoken", cancellationToken);
         }
     }
 }

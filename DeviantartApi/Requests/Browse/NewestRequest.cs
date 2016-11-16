@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
+    using System.Threading;
+
     public class NewestRequest : PageableRequest<Objects.Browse>
     {
         public enum UserExpand
@@ -27,7 +29,7 @@ namespace DeviantartApi.Requests.Browse
         [Parameter("q")]
         public string Query { get; set; }
 
-        public override async Task<Response<Objects.Browse>> ExecuteAsync()
+        public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => CategoryPath);
@@ -36,7 +38,8 @@ namespace DeviantartApi.Requests.Browse
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
             values.AddParameter(() => Query);
-            return await ExecuteDefaultGetAsync("browse/newest?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync("browse/newest?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

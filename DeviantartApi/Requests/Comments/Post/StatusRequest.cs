@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Comments.Post
 {
+    using System.Threading;
+
     public class StatusRequest : Request<Objects.Comment>
     {
         private string _statusId;
@@ -19,12 +21,13 @@ namespace DeviantartApi.Requests.Comments.Post
             _statusId = statusId;
         }
 
-        public override async Task<Response<Objects.Comment>> ExecuteAsync()
+        public override async Task<Response<Objects.Comment>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Body);
             values.AddParameter(() => CommentId);
-            return await ExecuteDefaultPostAsync($"comments/post/status/{_statusId}", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync($"comments/post/status/{_statusId}", values, cancellationToken);
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Comments.Post
 {
+    using System.Threading;
+
     public class ProfileRequest : Request<Objects.Comment>
     {
         private string _username;
@@ -19,12 +21,13 @@ namespace DeviantartApi.Requests.Comments.Post
             _username = username;
         }
 
-        public override async Task<Response<Objects.Comment>> ExecuteAsync()
+        public override async Task<Response<Objects.Comment>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Body);
             values.AddParameter(() => CommentId);
-            return await ExecuteDefaultPostAsync($"comments/post/profile/{_username}", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync($"comments/post/profile/{_username}", values, cancellationToken);
         }
     }
 }

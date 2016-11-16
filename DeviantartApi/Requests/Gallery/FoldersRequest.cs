@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Gallery
 {
+    using System.Threading;
+
     public class FoldersRequest : PageableRequest<Objects.ArrayOfResults<Objects.SubObjects.GalleryFolder>>
     {
         [Parameter("username")]
@@ -18,7 +20,7 @@ namespace DeviantartApi.Requests.Gallery
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.GalleryFolder>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.GalleryFolder>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Username);
@@ -27,7 +29,8 @@ namespace DeviantartApi.Requests.Gallery
             values.AddParameter(() => MatureContent);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
-            return await ExecuteDefaultGetAsync($"gallery/folders?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"gallery/folders?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

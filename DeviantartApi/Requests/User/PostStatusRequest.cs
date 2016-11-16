@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User
 {
+    using System.Threading;
+
     public class PostStatusRequest : Request<Objects.StatusPostResponse>
     {
         [Parameter("body")]
@@ -18,7 +20,7 @@ namespace DeviantartApi.Requests.User
         [Parameter("stashid")]
         public string StashId { get; set; }
 
-        public override async Task<Response<Objects.StatusPostResponse>> ExecuteAsync()
+        public override async Task<Response<Objects.StatusPostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             if (string.IsNullOrEmpty(Body))
@@ -29,7 +31,8 @@ namespace DeviantartApi.Requests.User
                 values.AddParameter(() => ParentId);
             if (string.IsNullOrWhiteSpace(StashId))
                 values.AddParameter(() => StashId);
-            return await ExecuteDefaultPostAsync("user/statuses/post", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("user/statuses/post", values, cancellationToken);
         }
     }
 }

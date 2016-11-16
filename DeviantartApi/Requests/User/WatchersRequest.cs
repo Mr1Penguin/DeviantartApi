@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User
 {
+    using System.Threading;
+
     public class WatchersRequest : PageableRequest<Objects.ArrayOfResults<Objects.SubObjects.Watcher>>
     {
         public enum UserExpand
@@ -25,13 +27,14 @@ namespace DeviantartApi.Requests.User
             _username = username;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Watcher>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Watcher>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
-            return await ExecuteDefaultGetAsync($"/user/watchers/{_username}?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"/user/watchers/{_username}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

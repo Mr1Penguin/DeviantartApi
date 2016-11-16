@@ -2,11 +2,14 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed
 {
+    using System.Threading;
+
     public class SettingsRequest : Request<Objects.FeedSettings>
     {
-        public override async Task<Response<Objects.FeedSettings>> ExecuteAsync()
+        public override async Task<Response<Objects.FeedSettings>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return await ExecuteDefaultGetAsync($"feed/settings?");
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"feed/settings?", cancellationToken);
         }
     }
 }

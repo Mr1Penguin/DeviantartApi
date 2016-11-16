@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User.Profile
 {
+    using System.Threading;
+
     public class UpdateRequest : Request<Objects.BaseObject>
     {
         public enum LevelOfArtist
@@ -53,7 +55,7 @@ namespace DeviantartApi.Requests.User.Profile
         [Parameter("bio")]
         public string Bio { get; set; }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => UserIsArtist);
@@ -67,7 +69,8 @@ namespace DeviantartApi.Requests.User.Profile
             values.AddParameter(() => CountryId);
             values.AddParameter(() => Website);
             values.AddParameter(() => Bio);
-            return await ExecuteDefaultPostAsync("user/profile/update", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("user/profile/update", values, cancellationToken);
         }
     }
 }

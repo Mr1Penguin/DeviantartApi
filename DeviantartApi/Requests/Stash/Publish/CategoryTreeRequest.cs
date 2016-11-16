@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash.Publish
 {
+    using System.Threading;
+
     public class CategoryTreeRequest : Request<Objects.CategoryTree>
     {
         [Parameter("catpath")]
@@ -15,13 +17,14 @@ namespace DeviantartApi.Requests.Stash.Publish
         [Parameter("frequent")]
         public bool Frequent { get; set; }
 
-        public override async Task<Response<Objects.CategoryTree>> ExecuteAsync()
+        public override async Task<Response<Objects.CategoryTree>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => CatPath);
             values.AddParameter(() => FileType);
             values.AddParameter(() => Frequent);
-            return await ExecuteDefaultGetAsync($"stash/publish/categorytree?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"stash/publish/categorytree?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

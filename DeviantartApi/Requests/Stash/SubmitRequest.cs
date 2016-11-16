@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
 {
+    using System.Threading;
+
     public class SubmitRequest : Request<Objects.SubmitResult>
     {
         public enum Error
@@ -41,7 +43,7 @@ namespace DeviantartApi.Requests.Stash
         [Parameter("stackid")]
         public int StackId { get; set; }
 
-        public override async Task<Response<Objects.SubmitResult>> ExecuteAsync()
+        public override async Task<Response<Objects.SubmitResult>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Title);
@@ -56,15 +58,22 @@ namespace DeviantartApi.Requests.Stash
             try
             {
                 await Requester.CheckTokenAsync();
-                if (values == null)
-                    values = new Dictionary<string, string>();
                 values.Add("access_token", Requester.AccessToken);
-                MultipartFormDataContent content = new MultipartFormDataContent("deviapi---" + DateTime.Now.Ticks.ToString("x"));
+                MultipartFormDataContent content =
+                    new MultipartFormDataContent("deviapi---" + DateTime.Now.Ticks.ToString("x"));
                 content.Add(new FormUrlEncodedContent(values));
                 content.Add(new StreamContent(new MemoryStream(Data)));
+                cancellationToken.ThrowIfCancellationRequested();
                 result =
                     await
-                        Requester.MakeMultiPartPostRequestAsync<Objects.SubmitResult>("stash/submit", content);
+                        Requester.MakeMultiPartPostRequestAsync<Objects.SubmitResult>(
+                            "stash/submit",
+                            content,
+                            cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception e)
             {

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User
 {
+    using System.Threading;
+
     public class WhoIsRequest : Request<Objects.ArrayOfResults<Objects.User>>
     {
         public enum Error
@@ -27,12 +29,13 @@ namespace DeviantartApi.Requests.User
         [Parameter("usernames")]
         public HashSet<string> Usernames { get; set; } = new HashSet<string>();
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.User>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.User>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
             values.AddHashSetParameter(() => Usernames);
-            return await ExecuteDefaultPostAsync("user/whois", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("user/whois", values, cancellationToken);
         }
     }
 }

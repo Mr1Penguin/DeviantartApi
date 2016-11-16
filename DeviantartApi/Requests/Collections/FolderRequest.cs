@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Collections
 {
+    using System.Threading;
+
     public class FolderRequest : PageableRequest<Objects.Folder>
     {
         public enum UserExpand
@@ -28,7 +30,7 @@ namespace DeviantartApi.Requests.Collections
             _folderId = folderId;
         }
 
-        public override async Task<Response<Objects.Folder>> ExecuteAsync()
+        public override async Task<Response<Objects.Folder>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => UserName);
@@ -36,7 +38,8 @@ namespace DeviantartApi.Requests.Collections
             if (Limit != null) values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
-            return await ExecuteDefaultGetAsync($"collections/{_folderId}?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"collections/{_folderId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

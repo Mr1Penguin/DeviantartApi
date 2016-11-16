@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User
 {
+    using System.Threading;
+
     public class WhoAmIRequest : Request<Objects.User>
     {
         public enum UserExpand
@@ -18,11 +20,12 @@ namespace DeviantartApi.Requests.User
         [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
-        public override async Task<Response<Objects.User>> ExecuteAsync()
+        public override async Task<Response<Objects.User>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
-            return await ExecuteDefaultGetAsync("user/whoami?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync("user/whoami?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

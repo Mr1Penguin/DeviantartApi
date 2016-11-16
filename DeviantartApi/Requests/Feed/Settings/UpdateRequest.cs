@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed
 {
+    using System.Threading;
+
     public class UpdateRequest : Request<Objects.BaseObject>
 
     {
@@ -26,7 +28,7 @@ namespace DeviantartApi.Requests.Feed
         [Parameter("include[misc]")]
         public bool Misc { get; set; }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
 
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
@@ -36,7 +38,8 @@ namespace DeviantartApi.Requests.Feed
             values.AddParameter(() => GroupDeviations);
             values.AddParameter(() => Collections);
             values.AddParameter(() => Misc);
-            return await ExecuteDefaultPostAsync("feed/settings/update", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("feed/settings/update", values, cancellationToken);
         }
     }
 }

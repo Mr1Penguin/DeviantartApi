@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi
 {
+    using System.Threading;
+
     public static partial class Login
     {
         /// <summary>
@@ -15,10 +17,50 @@ namespace DeviantartApi
         /// <param name="secret">Secret of application</param>
         /// <param name="callbackUrl">Allowed url used for getting code</param>
         /// <param name="updated">Function for getting new refresh_token during working process(other requests to site)</param>
-        /// <param name="scopes">Scopes</param>
+        /// <param name="scopes">Scopes for client</param>
+        /// <param name="disableAutoAccessTokenChecking">Disable automatic checking accessToken</param>
         /// <returns>Tuple with refresh_token, flag for login error and login error message</returns>
-        public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl, RefreshTokenUpdated updated, Scope[] scopes = null, bool disableAutoAccessTokenChecking = false)
+        public static async Task<LoginResult> SignInAsync(
+            string clientId,
+            string secret,
+            string callbackUrl,
+            RefreshTokenUpdated updated,
+            Scope[] scopes = null,
+            bool disableAutoAccessTokenChecking = false)
         {
+            return
+                await
+                    SignInAsync(
+                        clientId,
+                        secret,
+                        callbackUrl,
+                        updated,
+                        CancellationToken.None,
+                        scopes,
+                        disableAutoAccessTokenChecking);
+        }
+
+        /// <summary>
+        /// SignIn into system to get refresh_token for getting new access_token on next start
+        /// </summary>
+        /// <param name="clientId">Id of application</param>
+        /// <param name="secret">Secret of application</param>
+        /// <param name="callbackUrl">Allowed url used for getting code</param>
+        /// <param name="updated">Function for getting new refresh_token during working process(other requests to site)</param>
+        /// <param name="cancellationToken">Token to interrupt executing</param>
+        /// <param name="scopes">Scopes for client</param>
+        /// <param name="disableAutoAccessTokenChecking">Disable automatic checking accessToken</param>
+        /// <returns>Tuple with refresh_token, flag for login error and login error message</returns>
+        public static async Task<LoginResult> SignInAsync(
+            string clientId,
+            string secret,
+            string callbackUrl,
+            RefreshTokenUpdated updated,
+            CancellationToken cancellationToken,
+            Scope[] scopes = null,
+            bool disableAutoAccessTokenChecking = false)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             if (scopes == null || scopes.Length == 0) scopes = new[] { Scope.Basic };
             var startUrl = "https://www.deviantart.com/oauth2/authorize?response_type=code&client_id=" + clientId +
                            "&redirect_uri=" + callbackUrl + "&scope=" + string.Join(" ", new HashSet<string>(scopes.Select(x => Regex.Replace(x.ToString(), "(\\B[A-Z])", ".$1").ToLower()).ToList()));
@@ -31,11 +73,13 @@ namespace DeviantartApi
             {
                 try
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     var webAuthenticationResult =
-                        await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
-                        Windows.Security.Authentication.Web.WebAuthenticationOptions.None,
-                        startUri,
-                        endUri);
+                        await
+                            Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync(
+                                Windows.Security.Authentication.Web.WebAuthenticationOptions.None,
+                                startUri,
+                                endUri).AsTask(cancellationToken);
 
                     switch (webAuthenticationResult.ResponseStatus)
                     {
@@ -56,6 +100,10 @@ namespace DeviantartApi
                             break;
                     }
                 }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     --attemptsLeft;
@@ -64,7 +112,7 @@ namespace DeviantartApi
                 }
                 break;
             }
-
+            cancellationToken.ThrowIfCancellationRequested();
             if (result == null)
                 return new LoginResult
                 {
@@ -79,15 +127,20 @@ namespace DeviantartApi
 
             try
             {
-                tokenHandler = await GetTokenAsync(code, clientId, secret, callbackUrl);
+                cancellationToken.ThrowIfCancellationRequested();
+                tokenHandler = await GetTokenAsync(code, clientId, secret, callbackUrl, cancellationToken);
 
                 if (tokenHandler.Error != null)
                     return new LoginResult
-                    {
-                        RefreshToken = null,
-                        IsLoginError = true,
-                        LoginErrorText = tokenHandler.ErrorDescription
-                    };
+                               {
+                                   RefreshToken = null,
+                                   IsLoginError = true,
+                                   LoginErrorText = tokenHandler.ErrorDescription
+                               };
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -98,7 +151,7 @@ namespace DeviantartApi
                     LoginErrorText = e.Message
                 };
             }
-
+            cancellationToken.ThrowIfCancellationRequested();
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
             if (Requester.Updated != updated)
@@ -111,6 +164,7 @@ namespace DeviantartApi
             Requester.Scopes = scopes;
             Requester.CallbackUrl = callbackUrl;
             Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
+            cancellationToken.ThrowIfCancellationRequested();
             return new LoginResult
             {
                 RefreshToken = tokenHandler.RefreshToken,

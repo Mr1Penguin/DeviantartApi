@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes
 {
+    using System.Threading;
+
     public class MoveRequest : Request<Objects.BaseObject>
     {
         [Parameter("notesids")]
@@ -12,12 +14,13 @@ namespace DeviantartApi.Requests.Notes
         [Parameter("folderid")]
         public string FolderId { get; set; }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => NotesIds);
             values.AddParameter(() => FolderId);
-            return await ExecuteDefaultPostAsync("notes/move", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("notes/move", values, cancellationToken);
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
+    using System.Threading;
+
     public class MetadataRequest : Request<Objects.DeviationMetadata>
     {
         public enum Error
@@ -26,7 +28,7 @@ namespace DeviantartApi.Requests.Deviation
         [Parameter("deviationids")]
         public HashSet<string> DeviationIds { get; set; } = new HashSet<string>();
 
-        public override async Task<Response<Objects.DeviationMetadata>> ExecuteAsync()
+        public override async Task<Response<Objects.DeviationMetadata>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => ExtSubmission);
@@ -34,7 +36,8 @@ namespace DeviantartApi.Requests.Deviation
             values.AddParameter(() => ExtStats);
             values.AddParameter(() => ExtCollection);
             values.AddHashSetParameter(() => DeviationIds);
-            return await ExecuteDefaultGetAsync("deviation/metadata?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync("deviation/metadata?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

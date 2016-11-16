@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes.Folders
 {
+    using System.Threading;
+
     public class RenameRequest : Request<Objects.BaseObject>
     {
         [Parameter("title")]
@@ -16,11 +18,12 @@ namespace DeviantartApi.Requests.Notes.Folders
             _folderid = folderid;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Title);
-            return await ExecuteDefaultPostAsync($"notes/rename/{_folderid}", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync($"notes/rename/{_folderid}", values, cancellationToken);
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User.Friends
 {
+    using System.Threading;
+
     public class WatchRequest : Request<Objects.BaseObject>
     {
         public enum Error
@@ -44,7 +46,7 @@ namespace DeviantartApi.Requests.User.Friends
             _username = username;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Friend);
@@ -55,7 +57,8 @@ namespace DeviantartApi.Requests.User.Friends
             values.AddParameter(() => Scraps);
             values.AddParameter(() => Activity);
             values.AddParameter(() => Collections);
-            return await ExecuteDefaultPostAsync($"/user/friends/watch/{_username}", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync($"/user/friends/watch/{_username}", values, cancellationToken);
         }
     }
 }

@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes
 {
+    using System.Threading;
+
     public class NoteRequest : Request<Objects.Note>
     {
         public enum Error
@@ -16,9 +18,10 @@ namespace DeviantartApi.Requests.Notes
             _noteid = noteid;
         }
 
-        public override async Task<Response<Objects.Note>> ExecuteAsync()
+        public override async Task<Response<Objects.Note>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return await ExecuteDefaultGetAsync($"notes/{_noteid}?");
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"notes/{_noteid}?", cancellationToken);
         }
     }
 }

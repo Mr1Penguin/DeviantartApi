@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
 {
+    using System.Threading;
+
     public class PublishRequest : Request<Objects.PublishResult>
     {
         public enum Error
@@ -116,7 +118,7 @@ namespace DeviantartApi.Requests.Stash
         [Parameter("itemid")]
         public string ItemId { get; set; }
 
-        public override async Task<Response<Objects.PublishResult>> ExecuteAsync()
+        public override async Task<Response<Objects.PublishResult>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => IsMature);
@@ -140,7 +142,8 @@ namespace DeviantartApi.Requests.Stash
             values.AddParameter(() => AllowFreeDownload);
             values.AddParameter(() => AddWatermark);
             values.AddParameter(() => ItemId);
-            return await ExecuteDefaultPostAsync("stash/publish", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("stash/publish", values, cancellationToken);
         }
     }
 }

@@ -2,11 +2,14 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes.Folders
 {
+    using System.Threading;
+
     public class ListRequest : Request<Objects.ArrayOfResults<Objects.SubObjects.NotesFolder>>
     {
-        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.NotesFolder>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.NotesFolder>>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return await ExecuteDefaultGetAsync($"notes/folders?");
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"notes/folders?", cancellationToken);
         }
     }
 }

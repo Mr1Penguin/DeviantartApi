@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
+    using System.Threading;
+
     public class DeviationRequest : Request<Objects.Deviation>
     {
         public enum Error
@@ -37,12 +39,13 @@ namespace DeviantartApi.Requests.Deviation
             _deviationId = deviationId;
         }
 
-        public override async Task<Response<Objects.Deviation>> ExecuteAsync()
+        public override async Task<Response<Objects.Deviation>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
             values.AddHashSetParameter(() => DeviationExpands);
-            return await ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

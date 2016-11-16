@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
 {
+    using System.Threading;
+
     internal class ContentsRequest : PageableRequest<Objects.ArrayOfResults<Objects.StashMetadata>>
     {
         public enum Error
@@ -27,7 +29,7 @@ namespace DeviantartApi.Requests.Stash
             _stackId = stackId;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.StashMetadata>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.StashMetadata>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => ExtSubmission);
@@ -35,7 +37,8 @@ namespace DeviantartApi.Requests.Stash
             values.AddParameter(() => ExtStats);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
-            return await ExecuteDefaultGetAsync($"stash/{_stackId}/contents?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"stash/{_stackId}/contents?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

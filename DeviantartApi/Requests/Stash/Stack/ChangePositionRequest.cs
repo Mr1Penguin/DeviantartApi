@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
 {
+    using System.Threading;
+
     public class ChangePositionRequest : Request<Objects.BaseObject>
     {
         [Parameter("position")]
@@ -16,11 +18,12 @@ namespace DeviantartApi.Requests.Stash
             _stackid = stackid;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Position);
-            return await ExecuteDefaultPostAsync("stash/position/{_stackid}", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("stash/position/{_stackid}", values, cancellationToken);
         }
     }
 }

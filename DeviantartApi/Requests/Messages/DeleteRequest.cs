@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Messages
 {
+    using System.Threading;
+
     public class DeleteRequest : Request<Objects.BaseObject>
     {
         [Parameter("folderid")]
@@ -15,13 +17,14 @@ namespace DeviantartApi.Requests.Messages
         [Parameter("stackid")]
         public string StackId { get; set; }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => FolderId);
             values.AddParameter(() => MessageId);
             values.AddParameter(() => StackId);
-            return await ExecuteDefaultPostAsync("messages/delete", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("messages/delete", values, cancellationToken);
         }
     }
 }

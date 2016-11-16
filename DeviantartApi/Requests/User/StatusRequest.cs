@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.User
 {
+    using System.Threading;
+
     public class StatusRequest : Request<Objects.Status>
     {
         private string _statusId;
@@ -16,11 +18,12 @@ namespace DeviantartApi.Requests.User
             _statusId = statusId;
         }
 
-        public override async Task<Response<Objects.Status>> ExecuteAsync()
+        public override async Task<Response<Objects.Status>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => MatureContent);
-            return await ExecuteDefaultGetAsync($"user/statuses/{_statusId}?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"user/statuses/{_statusId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

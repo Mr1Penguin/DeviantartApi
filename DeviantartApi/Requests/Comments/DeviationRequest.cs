@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Comments
 {
+    using System.Threading;
+
     public class DeviationRequest : PageableRequest<Objects.Comments>
     {
         [Parameter("commentid")]
@@ -19,14 +21,15 @@ namespace DeviantartApi.Requests.Comments
             _deviationId = deviationId;
         }
 
-        public override async Task<Response<Objects.Comments>> ExecuteAsync()
+        public override async Task<Response<Objects.Comments>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => CommentId);
             values.AddParameter(() => MaxDepth);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
-            return await ExecuteDefaultGetAsync($"comments/deviation/{_deviationId}?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"comments/deviation/{_deviationId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

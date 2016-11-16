@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse.User
 {
+    using System.Threading;
+
     public class JournalsRequest : PageableRequest<Objects.Browse>
     {
         public enum UserExpand
@@ -24,7 +26,7 @@ namespace DeviantartApi.Requests.Browse.User
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        public override async Task<Response<Objects.Browse>> ExecuteAsync()
+        public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Featured);
@@ -33,7 +35,8 @@ namespace DeviantartApi.Requests.Browse.User
             if (Limit != null) values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
-            return await ExecuteDefaultGetAsync("browse/user/journals?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync("browse/user/journals?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

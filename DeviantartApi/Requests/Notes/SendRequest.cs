@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes
 {
+    using System.Threading;
+
     public class SendRequest : Request<Objects.BaseObject>
     {
         [Parameter("to")]
@@ -18,14 +20,15 @@ namespace DeviantartApi.Requests.Notes
         [Parameter("noteid")]
         public string NoteId { get; set; }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync()
+        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => To);
             values.AddParameter(() => Subject);
             values.AddParameter(() => Body);
             values.AddParameter(() => NoteId);
-            return await ExecuteDefaultPostAsync("notes/send", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("notes/send", values, cancellationToken);
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Messages.Mentions
 {
+    using System.Threading;
+
     public class StackRequest : PageableRequest<Objects.ArrayOfResults<Objects.SubObjects.Message>>
     {
         private string _stackid;
@@ -12,12 +14,13 @@ namespace DeviantartApi.Requests.Messages.Mentions
             _stackid = stackid;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Message>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Message>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
-            return await ExecuteDefaultGetAsync($"messages/mentions/{_stackid}?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"messages/mentions/{_stackid}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

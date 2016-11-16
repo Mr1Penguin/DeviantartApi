@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi
 {
+    using System.Threading;
+
     public static partial class Login
     {
         public delegate void RefreshTokenUpdated(string newRefreshToken);
@@ -40,13 +42,33 @@ namespace DeviantartApi
         /*public static async Task<LoginResult> SignInAsync(string clientId, string secret, string callbackUrl,
             RefreshTokenUpdated updated, Scope[] scopes = null);*/
 
-        public static async Task<LoginResult> ClientCredentialsGrantAsync(string clientId, string secret, bool disableAutoAccessTokenChecking = false)
+        public static async Task<LoginResult> ClientCredentialsGrantAsync(
+            string clientId,
+            string secret,
+            bool disableAutoAccessTokenChecking = false)
         {
-            var tokenHandler = await Requester.MakeRequestAsync<TokenHandler>("https://www.deviantart.com/oauth2/token?" +
-                                                                              "grant_type=client_credentials&" +
-                                                                              $"client_id={clientId}&" +
-                                                                              $"client_secret={secret}");
-            if (tokenHandler.Error != null) new LoginResult { IsLoginError = true, LoginErrorText = tokenHandler.ErrorDescription, LoginErrorShortText = tokenHandler.Error };
+            return
+                await
+                    ClientCredentialsGrantAsync(
+                        clientId,
+                        secret,
+                        CancellationToken.None,
+                        disableAutoAccessTokenChecking);
+        }
+
+        public static async Task<LoginResult> ClientCredentialsGrantAsync(
+            string clientId,
+            string secret,
+            CancellationToken cancellationToken,
+            bool disableAutoAccessTokenChecking = false)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var tokenHandler =
+                await
+                    Requester.MakeRequestAsync<TokenHandler>(
+                        "https://www.deviantart.com/oauth2/token?" + "grant_type=client_credentials&"
+                        + $"client_id={clientId}&" + $"client_secret={secret}", cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
             if (tokenHandler.Error != null) return new LoginResult { IsLoginError = true, LoginErrorText = tokenHandler.ErrorDescription, LoginErrorShortText = tokenHandler.Error };
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
@@ -57,17 +79,24 @@ namespace DeviantartApi
             Requester.Scopes = null;
             Requester.CallbackUrl = null;
             Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
+            cancellationToken.ThrowIfCancellationRequested();
             return new LoginResult { IsLoginError = false };
         }
 
         private static async Task<TokenHandler> GetTokenAsync(string code, string clientId, string secret, string callbackUrl)
         {
+            return await GetTokenAsync(code, clientId, secret, callbackUrl, CancellationToken.None);
+        }
+
+        private static async Task<TokenHandler> GetTokenAsync(string code, string clientId, string secret, string callbackUrl, CancellationToken cancellationToken)
+         {
+            cancellationToken.ThrowIfCancellationRequested();
             return await Requester.MakeRequestAsync<TokenHandler>("https://www.deviantart.com/oauth2/token?" +
                                                                   "grant_type=authorization_code&" +
                                                                   $"client_id={clientId}&" +
                                                                   $"client_secret={secret}&" +
                                                                   $"code={code}&" +
-                                                                  $"redirect_uri={callbackUrl}");
+                                                                  $"redirect_uri={callbackUrl}", cancellationToken);
         }
 
         /// <summary>
@@ -75,20 +104,70 @@ namespace DeviantartApi
         /// </summary>
         /// <param name="clientId">Id of application</param>
         /// <param name="secret">Secret of application</param>
+        /// <param name="callbackUrl">Url where client must be after successful request</param>
         /// <param name="refreshToken">Token gained on previus login</param>
         /// <param name="updated">Function for getting new refresh_token during working process(other requests to site)</param>
+        /// <param name="scopes">Scopes for application</param>
+        /// <param name="disableAutoAccessTokenChecking">Disable automatic checking accessToken</param>
         /// <returns>Tuple with returned refresh_token, flag for login error and login error message</returns>
-        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(string clientId, string secret, string callbackUrl, string refreshToken, RefreshTokenUpdated updated, Scope[] scopes = null, bool disableAutoAccessTokenChecking = false)
+        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(
+            string clientId,
+            string secret,
+            string callbackUrl,
+            string refreshToken,
+            RefreshTokenUpdated updated,
+            Scope[] scopes = null,
+            bool disableAutoAccessTokenChecking = false)
+        {
+            return
+                await
+                    SetAccessTokenByRefreshAsync(
+                        clientId,
+                        secret,
+                        callbackUrl,
+                        refreshToken,
+                        updated,
+                        CancellationToken.None,
+                        scopes,
+                        disableAutoAccessTokenChecking);
+        }
+
+        /// <summary>
+        /// Retrieve new AccessToken for api and get returned refreshToken
+        /// </summary>
+        /// <param name="clientId">Id of application</param>
+        /// <param name="secret">Secret of application</param>
+        /// <param name="callbackUrl">Url where client must be after successful request</param>
+        /// <param name="refreshToken">Token gained on previus login</param>
+        /// <param name="updated">Function for getting new refresh_token during working process(other requests to site)</param>
+        /// <param name="cancellationToken">Token to interrupt executing</param>
+        /// <param name="scopes">Scopes for application</param>
+        /// <param name="disableAutoAccessTokenChecking">Disable automatic checking accessToken</param>
+        /// <returns>Tuple with returned refresh_token, flag for login error and login error message</returns>
+        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(
+            string clientId,
+            string secret,
+            string callbackUrl,
+            string refreshToken,
+            RefreshTokenUpdated updated,
+            CancellationToken cancellationToken,
+            Scope[] scopes = null,
+            bool disableAutoAccessTokenChecking = false)
         {
             TokenHandler tokenHandler = null;
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 tokenHandler =
-                    await Requester.MakeRequestAsync<TokenHandler>("https://www.deviantart.com/oauth2/token?" +
-                                                                   "grant_type=refresh_token&" +
-                                                                   $"client_id={clientId}&" +
-                                                                   $"client_secret={secret}&" +
-                                                                   $"refresh_token={refreshToken}");
+                    await
+                        Requester.MakeRequestAsync<TokenHandler>(
+                            "https://www.deviantart.com/oauth2/token?" + "grant_type=refresh_token&"
+                            + $"client_id={clientId}&" + $"client_secret={secret}&" + $"refresh_token={refreshToken}",
+                            cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -101,8 +180,9 @@ namespace DeviantartApi
             }
             if (tokenHandler.Error != null)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 if (tokenHandler.Error == "invalid_request")
-                    return await SignInAsync(clientId, secret, callbackUrl, updated, scopes);
+                    return await SignInAsync(clientId, secret, callbackUrl, updated, cancellationToken, scopes);
                 return new LoginResult
                 {
                     RefreshToken = null,
@@ -110,7 +190,7 @@ namespace DeviantartApi
                     LoginErrorText = tokenHandler.ErrorDescription
                 };
             }
-
+            cancellationToken.ThrowIfCancellationRequested();
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
             if (Requester.Updated != updated)
@@ -123,6 +203,7 @@ namespace DeviantartApi
             Requester.Scopes = scopes;
             Requester.CallbackUrl = callbackUrl;
             Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
+            cancellationToken.ThrowIfCancellationRequested();
             return new LoginResult
             {
                 RefreshToken = tokenHandler.RefreshToken,
@@ -133,9 +214,15 @@ namespace DeviantartApi
 
         public static async Task<string> LogoutAsync(string token)
         {
+            return await LogoutAsync(token, CancellationToken.None);
+        }
+
+        public static async Task<string> LogoutAsync(string token, CancellationToken cancellationToken)
+        {
             //not tested yet
+            cancellationToken.ThrowIfCancellationRequested();
             return (await
-                    Requester.MakeRequestAsync<LogoutStatus>("https://www.deviantart.com/oauth2/revoke",
+                    Requester.MakeRequestAsync<LogoutStatus>("https://www.deviantart.com/oauth2/revoke", cancellationToken,
                         new FormUrlEncodedContent(new[]
                         {
                             new KeyValuePair<string, string>("token", token),

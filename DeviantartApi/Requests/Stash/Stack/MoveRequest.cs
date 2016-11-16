@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
 {
+    using System.Threading;
+
     public class MoveRequest : Request<Objects.MoveStackResult>
     {
         public enum Error
@@ -22,11 +24,12 @@ namespace DeviantartApi.Requests.Stash
             _stackid = stackid;
         }
 
-        public override async Task<Response<Objects.MoveStackResult>> ExecuteAsync()
+        public override async Task<Response<Objects.MoveStackResult>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => TargetId);
-            return await ExecuteDefaultPostAsync("stash/move/{_stackid}", values);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultPostAsync("stash/move/{_stackid}", values, cancellationToken);
         }
     }
 }

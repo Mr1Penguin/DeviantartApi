@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
+    using System.Threading;
+
     public class WhoFavedRequest : PageableRequest<Objects.ArrayOfResults<Objects.SubObjects.FavedUser>>
     {
         public enum UserExpand
@@ -21,14 +23,15 @@ namespace DeviantartApi.Requests.Deviation
         [Parameter("deviationid")]
         public string DeviationId { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.FavedUser>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SubObjects.FavedUser>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => DeviationId);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
-            return await ExecuteDefaultGetAsync($"deviation/whofaved?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"deviation/whofaved?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed
 {
+    using System.Threading;
+
     /// <summary>
     /// Fetch Watch Feed 
     /// <para>GET https://www.deviantart.com/api/v1/oauth2/feed/home</para>
@@ -17,12 +19,13 @@ namespace DeviantartApi.Requests.Feed
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfItems<Objects.SubObjects.FeedItem>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfItems<Objects.SubObjects.FeedItem>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => MatureContent);
             values.AddParameter(() => Cursor);
-            return await ExecuteDefaultGetAsync("feed/home?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync("feed/home?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

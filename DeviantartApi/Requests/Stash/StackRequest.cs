@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
 {
+    using System.Threading;
+
     public class StackRequest : Request<Objects.StashMetadata>
     {
         public enum Error
@@ -16,9 +18,10 @@ namespace DeviantartApi.Requests.Stash
             _stackid = stackid;
         }
 
-        public override async Task<Response<Objects.StashMetadata>> ExecuteAsync()
+        public override async Task<Response<Objects.StashMetadata>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return await ExecuteDefaultGetAsync($"stash/{_stackid}?");
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"stash/{_stackid}?", cancellationToken);
         }
     }
 }

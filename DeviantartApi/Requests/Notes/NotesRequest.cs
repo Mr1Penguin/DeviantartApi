@@ -4,18 +4,21 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes
 {
+    using System.Threading;
+
     public class NotesRequest : PageableRequest<Objects.ArrayOfResults<Objects.Note>>
     {
         [Parameter("folderid")]
         public string FolderId { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Note>>> ExecuteAsync()
+        public override async Task<Response<Objects.ArrayOfResults<Objects.Note>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => FolderId);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
-            return await ExecuteDefaultGetAsync($"notes?" + values.ToGetParameters());
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"notes?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
+    using System.Threading;
+
     public class DownloadRequest : Request<Objects.Download>
     {
         public enum Error
@@ -18,9 +20,10 @@ namespace DeviantartApi.Requests.Deviation
             deviationid = eviationid;
         }
 
-        public override async Task<Response<Objects.Download>> ExecuteAsync()
+        public override async Task<Response<Objects.Download>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return await ExecuteDefaultGetAsync($"deviation/download/{deviationid}?");
+            cancellationToken.ThrowIfCancellationRequested();
+            return await ExecuteDefaultGetAsync($"deviation/download/{deviationid}?", cancellationToken);
         }
     }
 }
