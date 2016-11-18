@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests
 {
+    using System.Linq;
+
     public abstract class Request<T> where T : Objects.BaseObject
     {
         private bool _isFirstExpand = true;
@@ -41,7 +43,13 @@ namespace DeviantartApi.Requests
             catch (Exception e)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                return new Response<T>(true, e.Message);
+                var message =
+                    e.InnerException?.Message.Split('\r', '\n')
+                        .FirstOrDefault(
+                            s =>
+                                !string.IsNullOrWhiteSpace(s)
+                                && s != "The text associated with this error code could not be found.") ?? e.Message;
+                return new Response<T>(true, message);
             }
             cancellationToken.ThrowIfCancellationRequested();
             return new Response<T>(result);
@@ -73,7 +81,13 @@ namespace DeviantartApi.Requests
             catch (Exception e)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                return new Response<T>(true, e.Message);
+                var message =
+                    e.InnerException?.Message.Split('\r', '\n')
+                        .FirstOrDefault(
+                            s =>
+                                !string.IsNullOrWhiteSpace(s)
+                                && s != "The text associated with this error code could not be found.") ?? e.Message;
+                return new Response<T>(true, message);
             }
             cancellationToken.ThrowIfCancellationRequested();
             return new Response<T>(result);
