@@ -8,7 +8,7 @@ namespace DeviantartApi.Requests.Feed
 
     /// <summary>
     /// Fetch Watch Feed 
-    /// <para>GET https://www.deviantart.com/api/v1/oauth2/feed/home</para>
+    /// <para>GET https://www.deviantart.com/api/v1/oauth2/feed/home </para>
     /// <para>Required scopes: feed</para>
     /// </summary>
     public class HomeRequest : PageableRequest<Objects.ArrayOfItems<Objects.SubObjects.FeedItem>>

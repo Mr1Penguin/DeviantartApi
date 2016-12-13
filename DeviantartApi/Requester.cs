@@ -73,11 +73,10 @@ namespace DeviantartApi
             Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: " + (uri.StartsWith("http") ? uri : $"https://www.deviantart.com/api/v{majorVersion}/oauth2/" + uri));
             Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
 #endif
-            var timeOut = new TimeSpan(0, 0, 30);
             cancellationToken.ThrowIfCancellationRequested();
             var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
 
-            var timeoutSource = new CancellationTokenSource(timeOut);
+            var timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
             HttpResponseMessage result;
             var i = 0;
             cancellationToken.ThrowIfCancellationRequested();
@@ -116,7 +115,7 @@ namespace DeviantartApi
                 if (i == 32)
                     throw new Exception("Too many requests");
                 await Task.Delay(i * 1000, cancellationToken);
-                timeoutSource = new CancellationTokenSource(timeOut);
+                timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
                 httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
             } while (true);
             cancellationToken.ThrowIfCancellationRequested();
@@ -150,11 +149,10 @@ namespace DeviantartApi
             Debug.WriteLine($"{requestId}. HTTP REQUEST [POST]: " + (uri.StartsWith("http") ? uri : $"https://www.deviantart.com/api/v{majorVersion}/oauth2/" + uri));
             Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
 #endif
-            var timeOut = new TimeSpan(0, 5, 0);
             cancellationToken.ThrowIfCancellationRequested();
             var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, HttpMethod.Post);
             httpRequestMessage.Content.Headers.ContentType.MediaType = "multipart/form-data; boundary=deviapi---" + DateTime.Now.Ticks.ToString("x");
-            var timeoutSource = new CancellationTokenSource(timeOut);
+            var timeoutSource = new CancellationTokenSource(new TimeSpan(0, 5, 0));
             HttpResponseMessage result;
             var i = 0;
             cancellationToken.ThrowIfCancellationRequested();
@@ -191,7 +189,7 @@ namespace DeviantartApi
                 if (i == 8)
                     throw new Exception("Request timed out");
                 await Task.Delay(i, cancellationToken);
-                timeoutSource = new CancellationTokenSource(timeOut);
+                timeoutSource = new CancellationTokenSource(new TimeSpan(0, 5, 0));
                 httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, HttpMethod.Post);
             } while (true);
             cancellationToken.ThrowIfCancellationRequested();
