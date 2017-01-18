@@ -212,12 +212,12 @@ namespace DeviantartApi
             };
         }
 
-        public static async Task<string> LogoutAsync(string token)
+        public static async Task<bool> LogoutAsync(string token)
         {
             return await LogoutAsync(token, CancellationToken.None);
         }
 
-        public static async Task<string> LogoutAsync(string token, CancellationToken cancellationToken)
+        public static async Task<bool> LogoutAsync(string token, CancellationToken cancellationToken)
         {
             //not tested yet
             cancellationToken.ThrowIfCancellationRequested();
@@ -227,13 +227,13 @@ namespace DeviantartApi
                         {
                             new KeyValuePair<string, string>("token", token),
                             new KeyValuePair<string, string>("revoke_refresh_only", "true")
-                        }), HttpMethod.Post, cancellationToken)).Status;
+                        }), HttpMethod.Post, cancellationToken)).Success;
         }
 
         private class LogoutStatus
         {
-            [JsonProperty("status")]
-            public string Status { get; set; }
+            [JsonProperty("success")]
+            public bool Success { get; set; }
 
             [JsonProperty("error")]
             public string Error { get; set; }
