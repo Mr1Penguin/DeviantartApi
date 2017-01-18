@@ -222,12 +222,12 @@ namespace DeviantartApi
             //not tested yet
             cancellationToken.ThrowIfCancellationRequested();
             return (await
-                    Requester.MakeRequestAsync<LogoutStatus>("https://www.deviantart.com/oauth2/revoke", cancellationToken,
+                    Requester.MakeRequestAsync<LogoutStatus>("https://www.deviantart.com/oauth2/revoke",
                         new FormUrlEncodedContent(new[]
                         {
                             new KeyValuePair<string, string>("token", token),
                             new KeyValuePair<string, string>("revoke_refresh_only", "true")
-                        }))).Status;
+                        }), HttpMethod.Post, cancellationToken)).Status;
         }
 
         private class LogoutStatus
