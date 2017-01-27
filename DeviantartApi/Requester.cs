@@ -19,7 +19,7 @@ namespace DeviantartApi
 
         public static string AccessToken { get; set; }
         public static DateTime AccessTokenExpire { get; internal set; }
-        internal static string RefreshToken;
+        public static string RefreshToken { get; set; }
         internal static string AppSecret;
         internal static string AppClientId;
         internal static Login.Scope[] Scopes;
