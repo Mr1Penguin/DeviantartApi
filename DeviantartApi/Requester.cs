@@ -18,7 +18,7 @@ namespace DeviantartApi
 #endif
 
         public static string AccessToken { get; set; }
-        public static DateTime AccessTokenExpire { get; internal set; }
+        public static DateTime AccessTokenExpire { get; set; }
         public static string RefreshToken { get; set; }
         internal static string AppSecret;
         internal static string AppClientId;
