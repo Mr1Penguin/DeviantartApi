@@ -17,8 +17,8 @@ namespace DeviantartApi
         private static int _requestId = 0;
 #endif
 
-        public static string AccessToken { get; internal set; }
-        internal static DateTime AccessTokenExpire;
+        public static string AccessToken { get; set; }
+        public static DateTime AccessTokenExpire { get; internal set; }
         internal static string RefreshToken;
         internal static string AppSecret;
         internal static string AppClientId;
