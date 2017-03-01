@@ -36,10 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>DeviantartApiKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Login.cs" />
@@ -52,7 +53,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DeviantartApiKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\DeviantartApi\DeviantartApi.projitems" Label="Shared" />
@@ -62,10 +62,5 @@
   <Target Name="BeforeBuild">
   </Target>-->
   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release' ">
-    <Exec Command="where nuget" ConsoleToMSBuild="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="NugetPath" />
-    </Exec>
-    <Exec Command="nuget pack $(ProjectFileName) -Prop Configuration=Release" Condition=" '$(NugetPath)' != ''">
-    </Exec>
   </Target>
 </Project>
