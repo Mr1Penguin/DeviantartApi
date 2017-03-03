@@ -26,6 +26,9 @@ namespace DeviantartApi
         internal static string CallbackUrl;
         internal static bool AutoAccessTokenCheckingDisabled;
         private static DateTime? LastTimeAccessTokenChecked;
+        private static int DelayStep;
+        private static Task DelayRemoverTask;
+        private static CancellationTokenSource DelayCancellationTokenSource = new CancellationTokenSource();
 
         private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
 
@@ -78,10 +81,11 @@ namespace DeviantartApi
 
             var timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
             HttpResponseMessage result;
-            var i = 0;
             cancellationToken.ThrowIfCancellationRequested();
             do
             {
+                await Task.Delay(new TimeSpan(0, 0, DelayStep), cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
                     using (
@@ -111,10 +115,16 @@ namespace DeviantartApi
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
-                i = i == 0 ? 1 : i << 1;
-                if (i == 32)
+                DelayStep = DelayStep == 0 ? 1 : DelayStep << 1;
+#if DEBUG
+                Debug.WriteLine($"{requestId}. Delay increased to: {DelayStep * 1000}");
+#endif
+                DelayCancellationTokenSource.Cancel();
+                DelayCancellationTokenSource.Dispose();
+                DelayCancellationTokenSource = new CancellationTokenSource();
+                DelayRemoverTask = DelayRemover();
+                if (DelayStep == 16)
                     throw new Exception("Too many requests");
-                await Task.Delay(i * 1000, cancellationToken);
                 timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
                 httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
             } while (true);
@@ -272,5 +282,24 @@ namespace DeviantartApi
         }
 
         private static T Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json);
+
+        private static Task DelayRemover()
+        {
+            return Task.Run(async () =>
+            {
+                while(true)
+                {
+                    await Task.Delay(new TimeSpan(0, 0, 10), DelayCancellationTokenSource.Token);
+                    DelayCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    if (DelayStep != 0)
+                    {
+                        DelayStep >>= 1;
+#if DEBUG
+                        Debug.WriteLine($"Delay Decreased to: {DelayStep * 1000}");
+#endif
+                    }
+                }
+            }, DelayCancellationTokenSource.Token);
+        }
     }
 }
