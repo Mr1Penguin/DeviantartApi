@@ -272,5 +272,11 @@ namespace DeviantartApi
         }
 
         private static T Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json);
+
+        public static void SetAppData(string appClientId, string appSecret)
+        {
+            AppClientId = appClientId;
+            AppSecret = appSecret;
+        }
     }
 }
