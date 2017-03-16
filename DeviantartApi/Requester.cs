@@ -17,6 +17,8 @@ namespace DeviantartApi
         private static int _requestId = 0;
 #endif
 
+        //todo: rewrite this class
+
         public static string AccessToken { get; set; }
         public static DateTime AccessTokenExpire { get; set; }
         public static string RefreshToken { get; set; }
@@ -33,6 +35,11 @@ namespace DeviantartApi
         private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
 
         internal static Login.RefreshTokenUpdated Updated;
+
+        public static void SetTokenUpdatedHandler(Login.RefreshTokenUpdated handler)
+        {
+            Updated = handler;
+        }
 
         public static async Task<T> MakeRequestAsync<T>(
             string uri,
