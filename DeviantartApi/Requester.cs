@@ -41,33 +41,33 @@ namespace DeviantartApi
             Updated = handler;
         }
 
-        public static async Task<T> MakeRequestAsync<T>(
+        public static Task<T> MakeRequestAsync<T>(
             string uri,
             HttpContent content = null,
             string majorVersion = "1",
             string minorVersion = "20160316" /*actual version on 2016-07-13*/)
         {
-            return await MakeRequestAsync<T>(uri, CancellationToken.None, content, majorVersion, minorVersion);
+            return MakeRequestAsync<T>(uri, CancellationToken.None, content, majorVersion, minorVersion);
         }
 
-        public static async Task<T> MakeRequestAsync<T>(
+        public static Task<T> MakeRequestAsync<T>(
             string uri,
             CancellationToken cancellationToken,
             HttpContent content = null,
             string majorVersion = "1",
             string minorVersion = "20160316" /*actual version on 2016-07-13*/)
         {
-            return await MakeRequestAsync<T>(uri, content, HttpMethod.Get, cancellationToken, majorVersion, minorVersion);
+            return MakeRequestAsync<T>(uri, content, HttpMethod.Get, cancellationToken, majorVersion, minorVersion);
         }
 
-        public static async Task<T> MakeRequestAsync<T>(
+        public static Task<T> MakeRequestAsync<T>(
             string uri,
             HttpContent content,
             HttpMethod method,
             string majorVersion = "1",
             string minorVersion = "20160316" /*actual version on 2016-07-13*/)
         {
-            return await MakeRequestAsync<T>(uri, content, method, CancellationToken.None, majorVersion, minorVersion);
+            return MakeRequestAsync<T>(uri, content, method, CancellationToken.None, majorVersion, minorVersion);
         }
 
         public static async Task<T> MakeRequestAsync<T>(
@@ -144,14 +144,14 @@ namespace DeviantartApi
             return response;
         }
 
-        public static async Task<T> MakeMultiPartPostRequestAsync<T>(
+        public static Task<T> MakeMultiPartPostRequestAsync<T>(
             string uri,
             MultipartFormDataContent content,
             string majorVersion = "1",
             string minorVersion = "20160316" /*actual version on 2016-07-13*/)
         {
             return
-                await MakeMultiPartPostRequestAsync<T>(uri, content, CancellationToken.None, majorVersion, minorVersion);
+                MakeMultiPartPostRequestAsync<T>(uri, content, CancellationToken.None, majorVersion, minorVersion);
         }
 
         public static async Task<T> MakeMultiPartPostRequestAsync<T>(
@@ -254,7 +254,7 @@ namespace DeviantartApi
         public static async Task CheckTokenAsync(CancellationToken cancellationToken)
         {
             if (AutoAccessTokenCheckingDisabled) return;
-            if (LastTimeAccessTokenChecked != null && LastTimeAccessTokenChecked.Value.AddMinutes(20) > DateTime.Now)
+            if (LastTimeAccessTokenChecked?.AddMinutes(20) > DateTime.Now && AccessTokenExpire > LastTimeAccessTokenChecked?.AddMinutes(20))
                 return;
             cancellationToken.ThrowIfCancellationRequested();
             LastTimeAccessTokenChecked = DateTime.Now;
