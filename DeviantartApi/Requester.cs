@@ -254,12 +254,13 @@ namespace DeviantartApi
         public static async Task CheckTokenAsync(CancellationToken cancellationToken)
         {
             if (AutoAccessTokenCheckingDisabled) return;
+            var lastChecked = LastTimeAccessTokenChecked;
             if (LastTimeAccessTokenChecked?.AddMinutes(20) > DateTime.Now && AccessTokenExpire > LastTimeAccessTokenChecked?.AddMinutes(20))
                 return;
             cancellationToken.ThrowIfCancellationRequested();
             LastTimeAccessTokenChecked = DateTime.Now;
             var placeboStatus = (await new Requests.PlaceboRequest().ExecuteAsync(cancellationToken)).Object;
-            if (placeboStatus.Status == "success" && AccessTokenExpire > DateTime.Now) return;
+            if (placeboStatus.Status == "success" && AccessTokenExpire > lastChecked?.AddMinutes(20)) return;
             Login.LoginResult loginResult;
             if (RefreshToken != null)
             {
