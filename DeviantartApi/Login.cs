@@ -193,10 +193,8 @@ namespace DeviantartApi
             cancellationToken.ThrowIfCancellationRequested();
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
-            if (Requester.Updated != updated)
-                Requester.Updated = updated;
-            else
-                Requester.Updated?.Invoke(tokenHandler.RefreshToken);
+            Requester.Updated = updated;
+            Requester.Updated?.Invoke(tokenHandler.RefreshToken);
             Requester.RefreshToken = tokenHandler.RefreshToken;
             Requester.AppClientId = clientId;
             Requester.AppSecret = secret;
