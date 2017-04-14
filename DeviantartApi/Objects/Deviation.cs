@@ -43,7 +43,7 @@ namespace DeviantartApi.Objects
         [JsonProperty("allows_comments")]
         public bool AllowComments { get; set; }
 
-        [JsonProperty("preivew")]
+        [JsonProperty("preview")]
         public SubObjects.Image Preview { get; set; }
 
         [JsonProperty("content")]
