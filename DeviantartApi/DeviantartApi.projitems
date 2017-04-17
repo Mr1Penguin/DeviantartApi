@@ -87,7 +87,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FolderRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\FoldersRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Collections\UnfaveRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\GetCommentsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\DeviationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\PostCommentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\DeviationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\ProfileRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Comments\Post\StatusRequest.cs" />

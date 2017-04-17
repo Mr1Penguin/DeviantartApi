@@ -6,7 +6,7 @@ namespace DeviantartApi.Requests.Comments
 {
     using System.Threading;
 
-    public class DeviationRequest : CommentsRequest
+    public class DeviationRequest : GetCommentsRequest
     {
         public DeviationRequest(string deviationId)
         {

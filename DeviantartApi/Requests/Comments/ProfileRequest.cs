@@ -6,7 +6,7 @@ namespace DeviantartApi.Requests.Comments.Profile
 {
     using System.Threading;
 
-    public class ProfileRequest : CommentsRequest
+    public class ProfileRequest : GetCommentsRequest
     {
         public ProfileRequest(string username)
         {

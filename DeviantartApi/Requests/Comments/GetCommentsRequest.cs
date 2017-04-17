@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DeviantartApi.Requests.Comments
 {
-    public abstract class CommentsRequest : PageableRequest<Objects.Comments>
+    public abstract class GetCommentsRequest : PageableRequest<Objects.Comments>
     {
         [Parameter("commentid")]
         public string CommentId { get; set; }

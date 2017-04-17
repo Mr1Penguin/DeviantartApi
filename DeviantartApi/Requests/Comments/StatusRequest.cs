@@ -6,7 +6,7 @@ namespace DeviantartApi.Requests.Comments.Status
 {
     using System.Threading;
 
-    public class StatusRequest : CommentsRequest
+    public class StatusRequest : GetCommentsRequest
     {
         public StatusRequest(string statusid)
         {
