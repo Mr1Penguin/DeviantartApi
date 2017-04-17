@@ -2,7 +2,7 @@ using DeviantartApi.Attributes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DeviantartApi.Requests.Comments.Status
+namespace DeviantartApi.Requests.Comments
 {
     using System.Threading;
 
