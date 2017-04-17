@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DeviantartApi.Requests.Comments.Profile
+namespace DeviantartApi.Requests.Comments
 {
     using System.Threading;
 
