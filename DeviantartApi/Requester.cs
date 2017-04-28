@@ -22,11 +22,11 @@ namespace DeviantartApi
         public static string AccessToken { get; set; }
         public static DateTime AccessTokenExpire { get; set; }
         public static string RefreshToken { get; set; }
-        internal static string AppSecret;
-        internal static string AppClientId;
-        internal static Login.Scope[] Scopes;
-        internal static string CallbackUrl;
-        internal static bool AutoAccessTokenCheckingDisabled;
+        public static string AppSecret;
+        public static string AppClientId;
+        public static Login.Scope[] Scopes;
+        public static string CallbackUrl;
+        public static bool AutoAccessTokenCheckingDisabled;
         private static DateTime? LastTimeAccessTokenChecked;
         private static int DelayStep;
         private static Task DelayRemoverTask;

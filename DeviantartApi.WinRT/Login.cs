@@ -108,6 +108,7 @@ namespace DeviantartApi
                 {
                     --attemptsLeft;
                     loginErrorString = "Unexpected error: " + ex.Message;
+                    await Task.Delay(100);
                     continue;
                 }
                 break;
