@@ -10,18 +10,16 @@ namespace DeviantartApi.Requests
 
     public abstract class Request<T> where T : Objects.BaseObject
     {
-        private bool _isFirstExpand = true;
-
         public abstract Task<Response<T>> ExecuteAsync(CancellationToken cancellationToken);
 
-        public virtual async Task<Response<T>> ExecuteAsync()
+        public virtual Task<Response<T>> ExecuteAsync()
         {
-            return await this.ExecuteAsync(CancellationToken.None);
+            return this.ExecuteAsync(CancellationToken.None);
         }
 
-        protected async Task<Response<T>> ExecuteDefaultGetAsync(string uri)
+        protected Task<Response<T>> ExecuteDefaultGetAsync(string uri)
         {
-            return await ExecuteDefaultGetAsync(uri, CancellationToken.None);
+            return ExecuteDefaultGetAsync(uri, CancellationToken.None);
         }
 
         protected async Task<Response<T>> ExecuteDefaultGetAsync(string uri, CancellationToken cancellationToken)
@@ -55,9 +53,9 @@ namespace DeviantartApi.Requests
             return new Response<T>(result);
         }
 
-        protected async Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values)
+        protected Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values)
         {
-            return await ExecuteDefaultPostAsync(uri, values, CancellationToken.None);
+            return ExecuteDefaultPostAsync(uri, values, CancellationToken.None);
         }
 
         protected async Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values, CancellationToken cancellationToken)

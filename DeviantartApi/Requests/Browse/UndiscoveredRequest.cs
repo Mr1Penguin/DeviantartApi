@@ -6,27 +6,9 @@ namespace DeviantartApi.Requests.Browse
 {
     using System.Threading;
 
-    public class UndiscoveredRequest : PageableRequest<Objects.Browse>
+    public class UndiscoveredRequest : BrowseRequest
     {
-        public enum UserExpand
-        {
-            Watch
-        }
-
-        [Parameter("user")]
-        [Expands]
-        public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
-
-        [Parameter("mature_content")]
-        public bool MatureContent { get; set; }
-
-        /// <summary>
-        /// Default path: "/"
-        /// </summary>
-        [Parameter("category_path")]
-        public string CategoryPath { get; set; } = "/";
-
-        public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => CategoryPath);
@@ -35,7 +17,7 @@ namespace DeviantartApi.Requests.Browse
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("browse/undiscovered?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("browse/undiscovered?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

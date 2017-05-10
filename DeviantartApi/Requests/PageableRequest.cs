@@ -35,9 +35,9 @@ namespace DeviantartApi.Requests
             return result;
         }
 
-        public virtual async Task<Response<T>> GetNextPageAsync()
+        public virtual Task<Response<T>> GetNextPageAsync()
         {
-            return await this.GetNextPageAsync(CancellationToken.None);
+            return this.GetNextPageAsync(CancellationToken.None);
         }
 
         public virtual async Task<Response<T>> GetPrevPageAsync(CancellationToken cancellationToken)
@@ -49,9 +49,9 @@ namespace DeviantartApi.Requests
             return result;
         }
 
-        public virtual async Task<Response<T>> GetPrevPageAsync()
+        public virtual Task<Response<T>> GetPrevPageAsync()
         {
-            return await this.GetNextPageAsync(CancellationToken.None);
+            return this.GetNextPageAsync(CancellationToken.None);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace DeviantartApi
             var val = value.Compile()();
             var enumToNumAttr = (Attributes.EnumToNumAttribute)CustomAttributeExtensions.GetCustomAttribute(memberExpression.Member, typeof(Attributes.EnumToNumAttribute));
             var noFirstLevelEnumAttr = (Attributes.NoFirstLetterEnumAttribute)CustomAttributeExtensions.GetCustomAttribute(memberExpression.Member, typeof(Attributes.NoFirstLetterEnumAttribute));
-            if (!typeof(T).GetTypeInfo().IsEnum && enumToNumAttr != null || noFirstLevelEnumAttr != null)
+            if (!typeof(T).GetTypeInfo().IsEnum && (enumToNumAttr != null || noFirstLevelEnumAttr != null))
                 throw new Exception("Type of property is not an enum");
             var strVal = val?.ToString();
             if (enumToNumAttr != null)
@@ -90,7 +90,7 @@ namespace DeviantartApi
         public static string ToGetParameters(this Dictionary<string, string> dict)
         {
             return string.Join("&", (from pair in dict
-                                     select pair.Key + "=" + pair.Value).ToList());
+                                     select pair.Key + "=" + (pair.Value == null ? pair.Value : Uri.EscapeDataString(pair.Value))).ToList());
         }
     }
 }

@@ -110,7 +110,7 @@ namespace DeviantartApi
         /// <param name="scopes">Scopes for application</param>
         /// <param name="disableAutoAccessTokenChecking">Disable automatic checking accessToken</param>
         /// <returns>Tuple with returned refresh_token, flag for login error and login error message</returns>
-        public static async Task<LoginResult> SetAccessTokenByRefreshAsync(
+        public static Task<LoginResult> SetAccessTokenByRefreshAsync(
             string clientId,
             string secret,
             string callbackUrl,
@@ -119,17 +119,15 @@ namespace DeviantartApi
             Scope[] scopes = null,
             bool disableAutoAccessTokenChecking = false)
         {
-            return
-                await
-                    SetAccessTokenByRefreshAsync(
-                        clientId,
-                        secret,
-                        callbackUrl,
-                        refreshToken,
-                        updated,
-                        CancellationToken.None,
-                        scopes,
-                        disableAutoAccessTokenChecking);
+            return SetAccessTokenByRefreshAsync(
+                    clientId,
+                    secret,
+                    callbackUrl,
+                    refreshToken,
+                    updated,
+                    CancellationToken.None,
+                    scopes,
+                    disableAutoAccessTokenChecking);
         }
 
         /// <summary>
@@ -181,13 +179,14 @@ namespace DeviantartApi
             if (tokenHandler.Error != null)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                if (tokenHandler.Error == "invalid_request")
-                    return await SignInAsync(clientId, secret, callbackUrl, updated, cancellationToken, scopes);
+                /*if (tokenHandler.Error == "invalid_request")
+                    return await SignInAsync(clientId, secret, callbackUrl, updated, cancellationToken, scopes);*/
                 return new LoginResult
                 {
                     RefreshToken = null,
                     IsLoginError = true,
-                    LoginErrorText = tokenHandler.ErrorDescription
+                    LoginErrorText = tokenHandler.ErrorDescription,
+                    LoginErrorShortText = tokenHandler.Error
                 };
             }
             cancellationToken.ThrowIfCancellationRequested();
@@ -210,9 +209,9 @@ namespace DeviantartApi
             };
         }
 
-        public static async Task<bool> LogoutAsync(string token)
+        public static Task<bool> LogoutAsync(string token)
         {
-            return await LogoutAsync(token, CancellationToken.None);
+            return LogoutAsync(token, CancellationToken.None);
         }
 
         public static async Task<bool> LogoutAsync(string token, CancellationToken cancellationToken)

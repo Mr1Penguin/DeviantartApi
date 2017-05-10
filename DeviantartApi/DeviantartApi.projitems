@@ -72,6 +72,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Objects\UserData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Objects\WatchingResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\BrowseRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\CategorytreeRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\DailyDeviationsRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\Browse\HotRequest.cs" />
