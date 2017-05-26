@@ -21,7 +21,7 @@ namespace DeviantartApi.Requests.User.Friends
         public override async Task<Response<Objects.WatchingResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"user/friends/watching/{_username}", cancellationToken);
+            return await ExecuteDefaultGetAsync($"user/friends/watching/{_username}?", cancellationToken);
         }
     }
 }

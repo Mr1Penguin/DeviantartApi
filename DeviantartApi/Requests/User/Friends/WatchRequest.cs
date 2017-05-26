@@ -58,7 +58,7 @@ namespace DeviantartApi.Requests.User.Friends
             values.AddParameter(() => Activity);
             values.AddParameter(() => Collections);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync($"/user/friends/watch/{_username}", values, cancellationToken);
+            return await ExecuteDefaultPostAsync($"user/friends/watch/{_username}", values, cancellationToken);
         }
     }
 }
