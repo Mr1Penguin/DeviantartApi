@@ -25,7 +25,7 @@ namespace DeviantartApi
         public static string AppSecret { get; set; }
         public static string AppClientId { get; set; }
         public static Login.Scope[] Scopes { get; set; }
-        public static string CallbackUrl { get; set; }
+        public static Uri CallbackUrl { get; set; }
         public static bool AutoAccessTokenCheckingDisabled { get; set; }
         private static DateTime? LastTimeAccessTokenChecked { get; set; }
         private static int DelayStep { get; set; }
@@ -91,7 +91,7 @@ namespace DeviantartApi
             cancellationToken.ThrowIfCancellationRequested();
             do
             {
-                await Task.Delay(new TimeSpan(0, 0, DelayStep), cancellationToken);
+                await Task.Delay(new TimeSpan(0, 0, DelayStep), cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
@@ -100,7 +100,7 @@ namespace DeviantartApi
                             cancellationToken,
                             timeoutSource.Token))
                     {
-                        result = await _httpClient.SendAsync(httpRequestMessage, combined.Token);
+                        result = await _httpClient.SendAsync(httpRequestMessage, combined.Token).ConfigureAwait(false);
                     }
                 }
                 catch (OperationCanceledException)
@@ -136,7 +136,7 @@ namespace DeviantartApi
                 httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
             } while (true);
             cancellationToken.ThrowIfCancellationRequested();
-            var reqResponse = await result.Content.ReadAsStringAsync();
+            var reqResponse = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
 #if false
             Debug.WriteLine($"{requestId}. HTTP REQUEST RESPONSE: {reqResponse}");
 #endif
@@ -182,7 +182,7 @@ namespace DeviantartApi
                             cancellationToken,
                             timeoutSource.Token))
                     {
-                        result = await _httpClient.SendAsync(httpRequestMessage, combined.Token);
+                        result = await _httpClient.SendAsync(httpRequestMessage, combined.Token).ConfigureAwait(false);
                     }
                 }
                 catch (OperationCanceledException)
@@ -210,7 +210,7 @@ namespace DeviantartApi
                 httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, HttpMethod.Post);
             } while (true);
             cancellationToken.ThrowIfCancellationRequested();
-            var reqResponse = await result.Content.ReadAsStringAsync();
+            var reqResponse = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
 #if false
             Debug.WriteLine($"{requestId}. HTTP REQUEST RESPONSE: {reqResponse}");
 #endif
@@ -246,9 +246,9 @@ namespace DeviantartApi
             return httpRequestMessage;
         }
 
-        public static async Task CheckTokenAsync()
+        public static Task CheckTokenAsync()
         {
-            await CheckTokenAsync(CancellationToken.None);
+            return CheckTokenAsync(CancellationToken.None);
         }
 
         public static async Task CheckTokenAsync(CancellationToken cancellationToken)
@@ -259,19 +259,19 @@ namespace DeviantartApi
                 return;
             cancellationToken.ThrowIfCancellationRequested();
             LastTimeAccessTokenChecked = DateTime.Now;
-            var placeboStatus = (await new Requests.Utils.PlaceboRequest().ExecuteAsync(cancellationToken)).Object;
+            var placeboStatus = (await new Requests.Utils.PlaceboRequest().ExecuteAsync(cancellationToken).ConfigureAwait(false)).Object;
             if (placeboStatus.Status == "success" && AccessTokenExpire > lastChecked?.AddMinutes(20)) return;
-            Login.LoginResult loginResult;
+            LoginResult loginResult;
             if (RefreshToken != null)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, CallbackUrl, RefreshToken, Updated, cancellationToken, Scopes);
+                loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, CallbackUrl, RefreshToken, Updated, Scopes, cancellationToken: cancellationToken).ConfigureAwait(false);
                 if (loginResult.IsLoginError)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     if (loginResult.LoginErrorShortText == "invalid_request")
                     {
-                        var newLoginResult = await Login.SignInAsync(AppClientId, AppSecret, CallbackUrl, Updated, cancellationToken, Scopes);
+                        var newLoginResult = await Login.SignInAsync(AppClientId, AppSecret, CallbackUrl, Updated, Scopes, cancellationToken: cancellationToken).ConfigureAwait(false);
                         cancellationToken.ThrowIfCancellationRequested();
                         if (newLoginResult.IsLoginError)
                             throw new Exception(newLoginResult.LoginErrorText);
@@ -282,7 +282,7 @@ namespace DeviantartApi
             else
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                loginResult = await Login.ClientCredentialsGrantAsync(AppClientId, AppSecret, cancellationToken);
+                loginResult = await Login.ClientCredentialsGrantAsync(AppClientId, AppSecret, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
                 if (loginResult.IsLoginError)
                     throw new Exception("Error: " + loginResult.LoginErrorText);
@@ -303,7 +303,7 @@ namespace DeviantartApi
             {
                 while (true)
                 {
-                    await Task.Delay(new TimeSpan(0, 0, 10), DelayCancellationTokenSource.Token);
+                    await Task.Delay(new TimeSpan(0, 0, 10), DelayCancellationTokenSource.Token).ConfigureAwait(false);
                     DelayCancellationTokenSource.Token.ThrowIfCancellationRequested();
                     if (DelayStep != 0)
                     {
