@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Profile
 {
     public class GalleryFolder : CollectionFolder
     {

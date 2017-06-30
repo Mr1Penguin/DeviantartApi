@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Profile
 {
     public class CollectionFolder
     {
@@ -15,6 +15,6 @@ namespace DeviantartApi.Objects.SubObjects
         public int Size { get; set; }
 
         [JsonProperty("deviations")]
-        public List<Deviation> Deviation { get; set; }
+        public List<Objects.Deviation> Deviations { get; private set; }
     }
 }

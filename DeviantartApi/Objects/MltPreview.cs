@@ -12,9 +12,9 @@ namespace DeviantartApi.Objects
         public User Author { get; set; }
 
         [JsonProperty("more_from_artist")]
-        public List<Deviation> MoreFromArtist { get; set; }
+        public List<Deviation> MoreFromArtist { get; private set; }
 
         [JsonProperty("more_from_da")]
-        public List<Deviation> MoreFromDa { get; set; }
+        public List<Deviation> MoreFromDa { get; private set; }
     }
 }

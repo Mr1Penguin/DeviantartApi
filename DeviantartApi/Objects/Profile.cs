@@ -1,5 +1,6 @@
-﻿using DeviantartApi.Objects.SubObjects;
+﻿using DeviantartApi.Objects.SubObjects.Profile;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace DeviantartApi.Objects
@@ -13,7 +14,8 @@ namespace DeviantartApi.Objects
         public bool IsWatching { get; set; }
 
         [JsonProperty("profile_url")]
-        public string ProfileUrl { get; set; }
+        [JsonConverter(typeof(Converters.UriConverter))]
+        public Uri ProfileUrl { get; set; }
 
         [JsonProperty("user_is_artist")]
         public bool UserIsArtist { get; set; }
@@ -52,30 +54,12 @@ namespace DeviantartApi.Objects
         public Status LastStatus { get; set; }
 
         [JsonProperty("stats")]
-        public StatsClass Stats { get; set; }
+        public Stats Stats { get; set; }
 
         [JsonProperty("collections")]
-        public List<CollectionFolder> Collections { get; set; }
+        public List<CollectionFolder> Collections { get; private set; }
 
         [JsonProperty("galleries")]
-        public List<GalleryFolder> Galleries { get; set; }
-
-        public class StatsClass
-        {
-            [JsonProperty("user_deviations")]
-            public int UserDeviations { get; set; }
-
-            [JsonProperty("user_favourites")]
-            public int UserFavourites { get; set; }
-
-            [JsonProperty("user_comments")]
-            public int UserComments { get; set; }
-
-            [JsonProperty("profile_pageviews")]
-            public int ProfilePageViews { get; set; }
-
-            [JsonProperty("profile_comments")]
-            public int ProfileComments { get; set; }
-        }
+        public List<GalleryFolder> Galleries { get; private set; }
     }
 }

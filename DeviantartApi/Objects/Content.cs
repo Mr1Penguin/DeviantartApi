@@ -12,6 +12,6 @@ namespace DeviantartApi.Objects
         public string Css { get; set; }
 
         [JsonProperty("css_fonts")]
-        public List<string> CssFonts { get; set; }
+        public List<string> CssFonts { get; private set; }
     }
 }

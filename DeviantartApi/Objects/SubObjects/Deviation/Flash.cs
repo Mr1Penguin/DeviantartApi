@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Deviation
 {
     public class Flash
     {

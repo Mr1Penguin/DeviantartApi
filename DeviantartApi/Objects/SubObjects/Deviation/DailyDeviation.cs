@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Deviation
 {
     public class DailyDeviation
     {
@@ -11,9 +11,9 @@ namespace DeviantartApi.Objects.SubObjects
         public string Time { get; set; }
 
         [JsonProperty("giver")]
-        public User Giver { get; set; }
+        public Objects.User Giver { get; set; }
 
         [JsonProperty("suggester")]
-        public User Suggester { get; set; }
+        public Objects.User Suggester { get; set; }
     }
 }

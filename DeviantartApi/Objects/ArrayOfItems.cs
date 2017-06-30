@@ -6,6 +6,6 @@ namespace DeviantartApi.Objects
     public class ArrayOfItems<T> : Pageable
     {
         [JsonProperty("items")]
-        public List<T> Items { get; set; }
+        public List<T> Items { get; private set; }
     }
 }

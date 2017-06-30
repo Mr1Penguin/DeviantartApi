@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Watch
 {
     public class Poll
     {
@@ -12,6 +12,6 @@ namespace DeviantartApi.Objects.SubObjects
         public int TotalVotes { get; set; }
 
         [JsonProperty("answers")]
-        public List<PollAnswer> Answers { get; set; }
+        public List<PollAnswer> Answers { get; private set; }
     }
 }

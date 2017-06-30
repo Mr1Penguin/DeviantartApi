@@ -1,4 +1,5 @@
 ﻿using DeviantartApi.Objects.SubObjects;
+using DeviantartApi.Objects.SubObjects.Deviation;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Deviation
 {
     public class Image
     {

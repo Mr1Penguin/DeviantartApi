@@ -4,8 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Watch
 {
+    public enum EventType
+    {
+        DeviationSubmitted,
+        JournalSubmitted,
+        UsernameChange,
+        Status,
+        CollectionUpdate,
+        Unknown
+    }
+
     public class FeedItem
     {
         [JsonProperty("ts")]
@@ -14,13 +24,13 @@ namespace DeviantartApi.Objects.SubObjects
 
         [JsonProperty("type")]
         [JsonConverter(typeof(EventTypeEnumConverter))]
-        public EventType Type { get; set; }
+        public EventType EventType { get; set; }
 
         [JsonProperty("by_user")]
-        public User ByUser { get; set; }
+        public Objects.User ByUser { get; set; }
 
         [JsonProperty("deviations")]
-        public List<Deviation> Deviations { get; set; }
+        public List<Objects.Deviation> Deviations { get; private set; }
 
         [JsonProperty("bucketid")]
         public string BucketId { get; set; }
@@ -29,7 +39,7 @@ namespace DeviantartApi.Objects.SubObjects
         public int BucketTotal { get; set; }
 
         [JsonProperty("status")]
-        public Status Status { get; set; }
+        public Objects.Status Status { get; set; }
 
         [JsonProperty("comment")]
         public Comment Comment { get; set; }
@@ -38,16 +48,16 @@ namespace DeviantartApi.Objects.SubObjects
         public Comment CommentParent { get; set; }
 
         [JsonProperty("comment_deviation")]
-        public Deviation CommentDeviation { get; set; }
+        public Objects.Deviation CommentDeviation { get; set; }
 
         [JsonProperty("comment_profile")]
-        public User CommentProfile { get; set; }
+        public Objects.User CommentProfile { get; set; }
 
         [JsonProperty("critique_text")]
         public string CritiqueText { get; set; }
 
         [JsonProperty("collection")]
-        public Collection Collection { get; set; }
+        public CollectionInfo Collection { get; set; }
 
         [JsonProperty("formerly")]
         public string Formerly { get; set; }
@@ -57,16 +67,6 @@ namespace DeviantartApi.Objects.SubObjects
 
         [JsonProperty("poll")]
         public Poll Poll { get; set; }
-
-        public enum EventType
-        {
-            DeviationSubmitted,
-            JournalSubmitted,
-            UsernameChange,
-            Status,
-            CollectionUpdate,
-            Unknown
-        }
 
         private class EventTypeEnumConverter : JsonConverter
         {

@@ -18,6 +18,6 @@ namespace DeviantartApi.Objects
         public int ErrorCode { get; set; }
 
         [JsonProperty("error_details")]
-        public Dictionary<string, string> ErrorDetails { get; set; }
+        public Dictionary<string, string> ErrorDetails { get; private set; }
     }
 }

@@ -6,6 +6,6 @@ namespace DeviantartApi.Objects
     public class Comments : Pageable
     {
         [JsonProperty("thread")]
-        public List<Comment> Thread { get; set; }
+        public List<Comment> Thread { get; private set; }
     }
 }

@@ -1,8 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using DeviantartApi.Objects.SubObjects.User;
+using Newtonsoft.Json;
 using System;
 
 namespace DeviantartApi.Objects
 {
+    public enum UserType
+    {
+        Regular,
+        Premium,
+        Unknown
+    }
+
     public class User : BaseObject
     {
         [JsonProperty("userid")]
@@ -16,63 +24,22 @@ namespace DeviantartApi.Objects
 
         [JsonProperty("type")]
         [JsonConverter(typeof(UserTypeEnumConverter))]
-        public UserType Type { get; set; }
+        public UserType UserType { get; set; }
 
         [JsonProperty("is_watching")]
         public bool IsWatching { get; set; }
 
         [JsonProperty("details")]
-        public UserDetails Details { get; set; }
+        public Details Details { get; set; }
 
         [JsonProperty("geo")]
-        public UserGeo Geo { get; set; }
+        public Geo Geo { get; set; }
 
         [JsonProperty("profile")]
         public Profile Profile { get; set; }
 
         [JsonProperty("stats")]
-        public UserStats Stats { get; set; }
-
-        public enum UserType
-        {
-            Regular,
-            Premium,
-            Unknown
-        }
-
-        public class UserDetails
-        {
-            [JsonProperty("sex")]
-            public string Sex { get; set; }
-
-            [JsonProperty("age")]
-            public int Age { get; set; }
-
-            [JsonProperty("joindate")]
-            [JsonConverter(typeof(Converters.NullableIsoDateTimeConverter))]
-            public DateTime? JoinDate { get; set; }
-        }
-
-        public class UserGeo
-        {
-            [JsonProperty("country")]
-            public string Country { get; set; }
-
-            [JsonProperty("countryid")]
-            public int CountryId { get; set; }
-
-            [JsonProperty("timezone")]
-            public string Timezone { get; set; }
-        }
-
-        public class UserStats
-        {
-            [JsonProperty("watchers")]
-            public int Watchers { get; set; }
-
-            [JsonProperty("friends")]
-            public int Friends { get; set; }
-        }
+        public Stats Stats { get; set; }
 
         private class UserTypeEnumConverter : JsonConverter
         {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Deviation
 {
     public class ChallengeEntry
     {
@@ -11,7 +11,7 @@ namespace DeviantartApi.Objects.SubObjects
         public string ChallengeTitle { get; set; }
 
         [JsonProperty("challenge")]
-        public Deviation Challenge { get; set; }
+        public Objects.Deviation Challenge { get; set; }
 
         [JsonProperty("timed_duration")]
         public int TimedDuration { get; set; }

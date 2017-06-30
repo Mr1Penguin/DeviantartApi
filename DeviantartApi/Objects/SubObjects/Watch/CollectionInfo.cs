@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 
-namespace DeviantartApi.Objects.SubObjects
+namespace DeviantartApi.Objects.SubObjects.Watch
 {
-    public class Collection
+    public class CollectionInfo
     {
         [JsonProperty("folderid")]
         public string FolderId { get; set; }
@@ -11,7 +12,8 @@ namespace DeviantartApi.Objects.SubObjects
         public string Name { get; set; }
 
         [JsonProperty("url")]
-        public string Url { get; set; }
+        [JsonConverter(typeof(Converters.UriConverter))]
+        public Uri Url { get; set; }
 
         [JsonProperty("size")]
         public int Size { get; set; }
