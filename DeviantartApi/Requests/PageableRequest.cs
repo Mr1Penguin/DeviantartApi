@@ -23,13 +23,13 @@ namespace DeviantartApi.Requests
         {
             cancellationToken.ThrowIfCancellationRequested();
             var result = await ExecuteAsync();
-            if (!result.IsError && result.Object.HasMore)
+            if (!result.IsError && result.Result.HasMore)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                Cursor = result.Object.Cursor;
-                if (result.Object.HasLess)
-                    PrevOffset = (uint?)result.Object.PrevOffset;
-                Offset = (uint?)result.Object.NextOffset;
+                Cursor = result.Result.Cursor;
+                if (result.Result.HasLess)
+                    PrevOffset = (uint?)result.Result.PrevOffset;
+                Offset = (uint?)result.Result.NextOffset;
             }
             cancellationToken.ThrowIfCancellationRequested();
             return result;

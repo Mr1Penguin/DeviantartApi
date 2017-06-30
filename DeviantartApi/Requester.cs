@@ -232,7 +232,7 @@ namespace DeviantartApi
                 return;
             cancellationToken.ThrowIfCancellationRequested();
             LastTimeAccessTokenChecked = DateTime.Now;
-            var placeboStatus = (await new Requests.Utils.PlaceboRequest().ExecuteAsync(cancellationToken).ConfigureAwait(false)).Object;
+            var placeboStatus = (await new Requests.Utils.PlaceboRequest().ExecuteAsync(cancellationToken).ConfigureAwait(false)).Result;
             if (placeboStatus.Status == "success" && AccessTokenExpire > lastChecked?.AddMinutes(20)) return;
             LoginResult loginResult;
             if (RefreshToken != null)

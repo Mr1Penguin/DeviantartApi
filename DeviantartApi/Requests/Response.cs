@@ -2,21 +2,21 @@
 {
     public class Response<T>
     {
-        public Response(T @object)
+        public Response(T result)
         {
-            Object = @object;
+            Result = @result;
             IsError = false;
             ErrorText = null;
         }
 
         public Response(bool isError, string errorText)
         {
-            Object = default(T);
+            Result = default(T);
             IsError = isError;
             ErrorText = errorText;
         }
 
-        public T Object { get; }
+        public T Result { get; }
 
         public bool IsError { get; }
 
