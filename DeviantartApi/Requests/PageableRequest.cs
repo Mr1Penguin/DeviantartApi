@@ -22,7 +22,7 @@ namespace DeviantartApi.Requests
         public virtual async Task<Response<T>> GetNextPageAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var result = await ExecuteAsync();
+            var result = await ExecuteAsync().ConfigureAwait(false);
             if (!result.IsError && result.Result.HasMore)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -44,7 +44,7 @@ namespace DeviantartApi.Requests
         {
             Offset = PrevOffset;
             cancellationToken.ThrowIfCancellationRequested();
-            var result = await GetNextPageAsync(cancellationToken);
+            var result = await GetNextPageAsync(cancellationToken).ConfigureAwait(false);
             cancellationToken.ThrowIfCancellationRequested();
             return result;
         }

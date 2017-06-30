@@ -8,7 +8,7 @@ namespace DeviantartApi.Requests.Browse.MoreLikeThis
 
     public class PreviewRequest : Request<Objects.MltPreview>
     {
-        public enum Error
+        public enum ErrorCode
         {
             InvalidSeedRequested = 0
         }
@@ -28,14 +28,14 @@ namespace DeviantartApi.Requests.Browse.MoreLikeThis
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        public override async Task<Response<Objects.MltPreview>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.MltPreview>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => Seed);
             values.AddParameter(() => MatureContent);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("browse/morelikethis/preview?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("browse/morelikethis/preview?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

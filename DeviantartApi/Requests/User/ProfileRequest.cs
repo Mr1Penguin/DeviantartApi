@@ -8,7 +8,7 @@ namespace DeviantartApi.Requests.User
 
     public class ProfileRequest : Request<Objects.Profile>
     {
-        public enum Error
+        public enum ErrorCode
         {
             AccountHasBeenSuspended = 0,
             AccountIsInactive = 1,
@@ -39,14 +39,14 @@ namespace DeviantartApi.Requests.User
             _username = username;
         }
 
-        public override async Task<Response<Objects.Profile>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Profile>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => ExtCollections);
             values.AddParameter(() => ExtGalleries);
             values.AddHashSetParameter(() => UserExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"user/profile/{_username}?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"user/profile/{_username}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

@@ -20,12 +20,12 @@ namespace DeviantartApi.Requests.User
         [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
-        public override async Task<Response<Objects.User>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.User>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("user/whoami?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("user/whoami?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

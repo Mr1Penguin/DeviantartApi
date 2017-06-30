@@ -8,7 +8,7 @@ namespace DeviantartApi.Requests.Deviation
 
     public class DeviationRequest : Request<Objects.Deviation>
     {
-        public enum Error
+        public enum ErrorCode
         {
             DeviationNotFound = 0,
             DeviationIsNotOwnedByThisUser = 1
@@ -39,13 +39,13 @@ namespace DeviantartApi.Requests.Deviation
             _deviationId = deviationId;
         }
 
-        public override async Task<Response<Objects.Deviation>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Deviation>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
             values.AddHashSetParameter(() => DeviationExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

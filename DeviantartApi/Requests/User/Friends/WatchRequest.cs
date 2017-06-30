@@ -8,7 +8,7 @@ namespace DeviantartApi.Requests.User.Friends
 
     public class WatchRequest : Request<Objects.BaseObject>
     {
-        public enum Error
+        public enum ErrorCode
         {
             UserNotFound = 0,
             FriendsLimitReached = 1,
@@ -46,7 +46,7 @@ namespace DeviantartApi.Requests.User.Friends
             _username = username;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddParameter(() => Friend);
@@ -58,7 +58,7 @@ namespace DeviantartApi.Requests.User.Friends
             values.AddParameter(() => Activity);
             values.AddParameter(() => Collections);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync($"user/friends/watch/{_username}", values, cancellationToken);
+            return ExecuteDefaultPostAsync($"user/friends/watch/{_username}", values, cancellationToken);
         }
     }
 }

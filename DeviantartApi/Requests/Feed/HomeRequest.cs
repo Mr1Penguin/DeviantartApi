@@ -19,13 +19,13 @@ namespace DeviantartApi.Requests.Feed
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfItems<Objects.SubObjects.FeedItem>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfItems<Objects.SubObjects.FeedItem>>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => MatureContent);
             values.AddParameter(() => Cursor);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("feed/home?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("feed/home?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

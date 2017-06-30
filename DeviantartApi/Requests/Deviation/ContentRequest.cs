@@ -8,7 +8,7 @@ namespace DeviantartApi.Requests.Deviation
 
     public class ContentRequest : Request<Objects.Content>
     {
-        public enum Error
+        public enum ErrorCode
         {
             DeviatonNotFound = 0,
             UnsupportedDeviationType = 1
@@ -17,12 +17,12 @@ namespace DeviantartApi.Requests.Deviation
         [Parameter("deviationid")]
         public string DeviationId { get; set; }
 
-        public override async Task<Response<Objects.Content>> ExecuteAsync(CancellationToken cancellationToken)
+        public override  Task<Response<Objects.Content>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => DeviationId);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"deviation/content?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"deviation/content?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

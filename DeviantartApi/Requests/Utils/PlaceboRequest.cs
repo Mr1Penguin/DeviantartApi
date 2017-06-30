@@ -16,7 +16,10 @@ namespace DeviantartApi.Requests.Utils
             PlaceboStatus httpResponse;
             try
             {
-                httpResponse = await Requester.MakeRequestAsync<PlaceboStatus>(new Uri(BasePath, $"placebo?access_token={Requester.AccessToken}"), cancellationToken: cancellationToken);
+                httpResponse = await Requester.MakeRequestAsync<PlaceboStatus>(
+                    new Uri(BasePath, $"placebo?access_token={Requester.AccessToken}"),
+                    cancellationToken: cancellationToken
+                    ).ConfigureAwait(false);
             }
             catch (Exception e)
             {

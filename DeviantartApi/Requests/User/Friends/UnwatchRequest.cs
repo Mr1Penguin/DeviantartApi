@@ -6,7 +6,7 @@ namespace DeviantartApi.Requests.User.Friends
 
     public class UnwatchRequest : Request<Objects.BaseObject>
     {
-        public enum Error
+        public enum ErrorCode
         {
             UserNotFound = 0
         }
@@ -18,10 +18,10 @@ namespace DeviantartApi.Requests.User.Friends
             _username = username;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"user/friends/unwatch/{_username}?", cancellationToken);
+            return ExecuteDefaultGetAsync($"user/friends/unwatch/{_username}?", cancellationToken);
         }
     }
 }

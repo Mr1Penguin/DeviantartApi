@@ -8,7 +8,7 @@ namespace DeviantartApi.Requests.Deviation
 
     public class MetadataRequest : Request<Objects.DeviationMetadata>
     {
-        public enum Error
+        public enum ErrorCode
         {
             RequestedTooManyDeviations = 0
         }
@@ -28,16 +28,16 @@ namespace DeviantartApi.Requests.Deviation
         [Parameter("deviationids")]
         public HashSet<string> DeviationIds { get; set; } = new HashSet<string>();
 
-        public override async Task<Response<Objects.DeviationMetadata>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.DeviationMetadata>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => ExtSubmission);
             values.AddParameter(() => ExtCamera);
             values.AddParameter(() => ExtStats);
             values.AddParameter(() => ExtCollection);
             values.AddHashSetParameter(() => DeviationIds);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("deviation/metadata?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("deviation/metadata?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

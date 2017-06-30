@@ -27,7 +27,7 @@ namespace DeviantartApi.Requests.Browse
 
         public override Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => CategoryPath);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
