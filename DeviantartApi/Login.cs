@@ -39,12 +39,9 @@ namespace DeviantartApi
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                tokenHandler =
-                    await
-                        Requester.MakeRequestAsync<TokenHandler>(
-                            "https://www.deviantart.com/oauth2/token?" + "grant_type=refresh_token&"
-                            + $"client_id={clientId}&" + $"client_secret={secret}&" + $"refresh_token={refreshToken}",
-                            cancellationToken).ConfigureAwait(false);
+                var uri = new Uri("https://www.deviantart.com/oauth2/token?grant_type=refresh_token&" +
+                    $"client_id={clientId}&" + $"client_secret={secret}&" + $"refresh_token={refreshToken}");
+                tokenHandler = await Requester.MakeRequestAsync<TokenHandler>(uri, cancellationToken: cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -73,12 +70,12 @@ namespace DeviantartApi
             cancellationToken.ThrowIfCancellationRequested();
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
-            Requester.Updated = refreshTokenUpdatedHandler;
-            Requester.Updated?.Invoke(tokenHandler.RefreshToken);
+            Requester._refreshTokenUpdated = refreshTokenUpdatedHandler;
+            Requester._refreshTokenUpdated?.Invoke(tokenHandler.RefreshToken);
             Requester.RefreshToken = tokenHandler.RefreshToken;
             Requester.AppClientId = clientId;
             Requester.AppSecret = secret;
-            Requester.Scopes = scopes;
+            Requester.SetScope(scopes);
             Requester.CallbackUrl = callbackUrl;
             Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
             cancellationToken.ThrowIfCancellationRequested();
@@ -124,14 +121,14 @@ namespace DeviantartApi
             cancellationToken.ThrowIfCancellationRequested();
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
-            if (Requester.Updated != refreshTokenUpdatedHandler)
-                Requester.Updated = refreshTokenUpdatedHandler;
+            if (Requester._refreshTokenUpdated != refreshTokenUpdatedHandler)
+                Requester._refreshTokenUpdated = refreshTokenUpdatedHandler;
             else
-                Requester.Updated?.Invoke(tokenHandler.RefreshToken);
+                Requester._refreshTokenUpdated?.Invoke(tokenHandler.RefreshToken);
             Requester.RefreshToken = tokenHandler.RefreshToken;
             Requester.AppClientId = clientId;
             Requester.AppSecret = secret;
-            Requester.Scopes = scopes;
+            Requester.SetScope(scopes);
             Requester.CallbackUrl = callbackUrl;
             Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
             cancellationToken.ThrowIfCancellationRequested();
@@ -160,12 +157,13 @@ namespace DeviantartApi
             CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return Requester.MakeRequestAsync<TokenHandler>("https://www.deviantart.com/oauth2/token?" +
-                                                            "grant_type=authorization_code&" +
-                                                            $"client_id={clientId}&" +
-                                                            $"client_secret={secret}&" +
-                                                            $"code={code}&" +
-                                                            $"redirect_uri={callbackUrl}", cancellationToken);
+            var uri = new Uri("https://www.deviantart.com/oauth2/token?" +
+                              "grant_type=authorization_code&" +
+                              $"client_id={clientId}&" +
+                              $"client_secret={secret}&" +
+                              $"code={code}&" +
+                              $"redirect_uri={callbackUrl}");
+            return Requester.MakeRequestAsync<TokenHandler>(uri, cancellationToken: cancellationToken);
         }
 
         public static Task<LoginResult> ClientCredentialsGrantAsync(
@@ -183,11 +181,9 @@ namespace DeviantartApi
             bool disableAutoAccessTokenChecking = false)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var tokenHandler =
-                await
-                    Requester.MakeRequestAsync<TokenHandler>(
-                        "https://www.deviantart.com/oauth2/token?" + "grant_type=client_credentials&"
-                        + $"client_id={clientId}&" + $"client_secret={secret}", cancellationToken).ConfigureAwait(false);
+            var uri = new Uri("https://www.deviantart.com/oauth2/token?" + "grant_type=client_credentials&"
+                        + $"client_id={clientId}&" + $"client_secret={secret}");
+            var tokenHandler = await Requester.MakeRequestAsync<TokenHandler>(uri, cancellationToken: cancellationToken).ConfigureAwait(false);
             cancellationToken.ThrowIfCancellationRequested();
             if (tokenHandler.Error != null)
             {
@@ -200,11 +196,11 @@ namespace DeviantartApi
             }
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
-            Requester.Updated = null;
+            Requester._refreshTokenUpdated = null;
             Requester.RefreshToken = tokenHandler.RefreshToken;
             Requester.AppClientId = clientId;
             Requester.AppSecret = secret;
-            Requester.Scopes = null;
+            Requester.SetScope(null);
             Requester.CallbackUrl = null;
             Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
             cancellationToken.ThrowIfCancellationRequested();
@@ -220,13 +216,16 @@ namespace DeviantartApi
         {
             //not tested yet
             cancellationToken.ThrowIfCancellationRequested();
+            var uri = new Uri("https://www.deviantart.com/oauth2/revoke");
             return (await
-                    Requester.MakeRequestAsync<LogoutStatus>("https://www.deviantart.com/oauth2/revoke",
+                    Requester.MakeRequestAsync<LogoutStatus>(uri,
                         new FormUrlEncodedContent(new[]
                         {
                             new KeyValuePair<string, string>("token", token),
                             new KeyValuePair<string, string>("revoke_refresh_only", "true")
-                        }), HttpMethod.Post, cancellationToken).ConfigureAwait(false)).Success;
+                        }),
+                        method: HttpMethod.Post,
+                        cancellationToken: cancellationToken).ConfigureAwait(false)).Success;
         }
 
         private class LogoutStatus

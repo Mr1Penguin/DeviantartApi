@@ -70,7 +70,7 @@ namespace DeviantartApi
                         + $"client_id={clientId}&" + $"client_secret={secret}", cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             if (tokenHandler.Error != null) return new LoginResult { IsLoginError = true, LoginErrorText = tokenHandler.ErrorDescription, LoginErrorShortText = tokenHandler.Error };
-            Requester.AccessToken = tokenHandler.AccessToken;
+            Requester.SetAccessToken(tokenHandler.AccessToken);
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
             Requester.Updated = null;
             Requester.RefreshToken = tokenHandler.RefreshToken;

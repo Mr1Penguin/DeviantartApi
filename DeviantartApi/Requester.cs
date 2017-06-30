@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-#if false
+#if LOG_NETWORK
 using System.Diagnostics;
 #endif
 using System.Net;
@@ -13,18 +13,16 @@ namespace DeviantartApi
 {
     public static class Requester
     {
-#if false
+#if LOG_NETWORK
         private static int _requestId = 0;
 #endif
 
-        //todo: rewrite this class
-
+        private static Login.Scope[] _scope;
         public static string AccessToken { get; set; }
         public static DateTime AccessTokenExpire { get; set; }
         public static string RefreshToken { get; set; }
         public static string AppSecret { get; set; }
         public static string AppClientId { get; set; }
-        public static Login.Scope[] Scopes { get; set; }
         public static Uri CallbackUrl { get; set; }
         public static bool AutoAccessTokenCheckingDisabled { get; set; }
         private static DateTime? LastTimeAccessTokenChecked { get; set; }
@@ -32,59 +30,44 @@ namespace DeviantartApi
         private static Task DelayRemoverTask { get; set; }
         private static CancellationTokenSource DelayCancellationTokenSource { get; set; } = new CancellationTokenSource();
 
+
         private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
 
-        internal static Action<string> Updated;
+        internal static Action<string> _refreshTokenUpdated;
+
+        public static void SetScope(Login.Scope[] scopes)
+        {
+            _scope = scopes;
+        }
 
         public static void SetTokenUpdatedHandler(Action<string> handler)
         {
-            Updated = handler;
+            _refreshTokenUpdated = handler;
         }
 
         public static Task<T> MakeRequestAsync<T>(
-            string uri,
+            Uri url,
             HttpContent content = null,
-            string majorVersion = "1",
-            string minorVersion = "20160316" /*actual version on 2016-07-13*/)
+            string minorVersion = "20160316", /*actual version on 2016-07-13*/
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            return MakeRequestAsync<T>(uri, CancellationToken.None, content, majorVersion, minorVersion);
-        }
-
-        public static Task<T> MakeRequestAsync<T>(
-            string uri,
-            CancellationToken cancellationToken,
-            HttpContent content = null,
-            string majorVersion = "1",
-            string minorVersion = "20160316" /*actual version on 2016-07-13*/)
-        {
-            return MakeRequestAsync<T>(uri, content, HttpMethod.Get, cancellationToken, majorVersion, minorVersion);
-        }
-
-        public static Task<T> MakeRequestAsync<T>(
-            string uri,
-            HttpContent content,
-            HttpMethod method,
-            string majorVersion = "1",
-            string minorVersion = "20160316" /*actual version on 2016-07-13*/)
-        {
-            return MakeRequestAsync<T>(uri, content, method, CancellationToken.None, majorVersion, minorVersion);
+            return MakeRequestAsync<T>(url, content, HttpMethod.Get, minorVersion, cancellationToken);
         }
 
         public static async Task<T> MakeRequestAsync<T>(
-            string uri,
+            Uri url,
             HttpContent content,
             HttpMethod method,
-            CancellationToken cancellationToken,
-            string majorVersion = "1",
-            string minorVersion = "20160316" /*actual version on 2016-07-13*/)
+            string minorVersion = "20160316", /*actual version on 2016-07-13*/
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-#if false
+#if LOG_NETWORK
             int requestId = Interlocked.Increment(ref _requestId);
             Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: " + (uri.StartsWith("http") ? uri : $"https://www.deviantart.com/api/v{majorVersion}/oauth2/" + uri));
             Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
 #endif
             cancellationToken.ThrowIfCancellationRequested();
-            var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
+            var httpRequestMessage = GetRequestMessage(url, minorVersion, content, method);
 
             var timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
             HttpResponseMessage result;
@@ -115,7 +98,7 @@ namespace DeviantartApi
 
                 if (result.StatusCode != (HttpStatusCode)429)
                 {
-#if false
+#if LOG_NETWORK
                     Debug.WriteLine($"{requestId}. HTTP STATUS: {result.StatusCode}", "Category");
 #endif
                     break;
@@ -123,7 +106,7 @@ namespace DeviantartApi
 
                 cancellationToken.ThrowIfCancellationRequested();
                 DelayStep = DelayStep == 0 ? 1 : DelayStep << 1;
-#if false
+#if LOG_NETWORK
                 Debug.WriteLine($"{requestId}. Delay increased to: {DelayStep * 1000}");
 #endif
                 DelayCancellationTokenSource.Cancel();
@@ -133,41 +116,30 @@ namespace DeviantartApi
                 if (DelayStep == 16)
                     throw new Exception("Too many requests");
                 timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
-                httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, method);
+                httpRequestMessage = GetRequestMessage(url, minorVersion, content, method);
             } while (true);
             cancellationToken.ThrowIfCancellationRequested();
             var reqResponse = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
-#if false
+#if LOG_NETWORK
             Debug.WriteLine($"{requestId}. HTTP REQUEST RESPONSE: {reqResponse}");
 #endif
             var response = Deserialize<T>(reqResponse);
             return response;
         }
 
-        public static Task<T> MakeMultiPartPostRequestAsync<T>(
-            string uri,
-            MultipartFormDataContent content,
-            string majorVersion = "1",
-            string minorVersion = "20160316" /*actual version on 2016-07-13*/)
-        {
-            return
-                MakeMultiPartPostRequestAsync<T>(uri, content, CancellationToken.None, majorVersion, minorVersion);
-        }
-
         public static async Task<T> MakeMultiPartPostRequestAsync<T>(
-            string uri,
+            Uri url,
             MultipartFormDataContent content,
-            CancellationToken cancellationToken,
-            string majorVersion = "1",
-            string minorVersion = "20160316" /*actual version on 2016-07-13*/)
+            string minorVersion = "20160316", /*actual version on 2016-07-13*/
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-#if false
+#if LOG_NETWORK
             int requestId = Interlocked.Increment(ref _requestId);
             Debug.WriteLine($"{requestId}. HTTP REQUEST [POST]: " + (uri.StartsWith("http") ? uri : $"https://www.deviantart.com/api/v{majorVersion}/oauth2/" + uri));
             Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
 #endif
             cancellationToken.ThrowIfCancellationRequested();
-            var httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, HttpMethod.Post);
+            var httpRequestMessage = GetRequestMessage(url, minorVersion, content, HttpMethod.Post);
             httpRequestMessage.Content.Headers.ContentType.MediaType = "multipart/form-data; boundary=deviapi---" + DateTime.Now.Ticks.ToString("x");
             var timeoutSource = new CancellationTokenSource(new TimeSpan(0, 5, 0));
             HttpResponseMessage result;
@@ -196,7 +168,7 @@ namespace DeviantartApi
                 }
                 if (result.StatusCode != (HttpStatusCode)429)
                 {
-#if false
+#if LOG_NETWORK
                     Debug.WriteLine($"{requestId}. HTTP STATUS: {result.StatusCode}");
 #endif
                     break;
@@ -205,25 +177,22 @@ namespace DeviantartApi
                 i = i == 0 ? 1 : i << 1;
                 if (i == 8)
                     throw new Exception("Request timed out");
-                await Task.Delay(i, cancellationToken);
+                await Task.Delay(i, cancellationToken).ConfigureAwait(false);
                 timeoutSource = new CancellationTokenSource(new TimeSpan(0, 5, 0));
-                httpRequestMessage = GetRequestMessage(uri, majorVersion, minorVersion, content, HttpMethod.Post);
+                httpRequestMessage = GetRequestMessage(url, minorVersion, content, HttpMethod.Post);
             } while (true);
             cancellationToken.ThrowIfCancellationRequested();
             var reqResponse = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
-#if false
+#if LOG_NETWORK
             Debug.WriteLine($"{requestId}. HTTP REQUEST RESPONSE: {reqResponse}");
 #endif
             var response = Deserialize<T>(reqResponse);
             return response;
         }
 
-        private static HttpRequestMessage GetRequestMessage(string uri, string majorVersion, string minorVersion,
+        private static HttpRequestMessage GetRequestMessage(Uri url, string minorVersion,
             HttpContent content, HttpMethod method)
         {
-            var httpRequestMessage = new HttpRequestMessage(method,
-                new Uri(new Uri($"https://www.deviantart.com/api/v{majorVersion}/oauth2/"), uri));
-
             //Looks like deviantart can't work with incoming gzip
             /*if (content != null)
             {
@@ -238,7 +207,11 @@ namespace DeviantartApi
                 streamContent.Headers.ContentEncoding.Add("gzip");
                 httpRequestMessage.Content = streamContent;
             }*/
-            httpRequestMessage.Content = content;
+
+            var httpRequestMessage = new HttpRequestMessage(method, url)
+            {
+                Content = content
+            };
 
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpRequestMessage.Headers.Add("dA-minor-version", minorVersion);
@@ -265,13 +238,13 @@ namespace DeviantartApi
             if (RefreshToken != null)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, CallbackUrl, RefreshToken, Updated, Scopes, cancellationToken: cancellationToken).ConfigureAwait(false);
+                loginResult = await Login.SetAccessTokenByRefreshAsync(AppClientId, AppSecret, CallbackUrl, RefreshToken, _refreshTokenUpdated, _scope, cancellationToken: cancellationToken).ConfigureAwait(false);
                 if (loginResult.IsLoginError)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     if (loginResult.LoginErrorShortText == "invalid_request")
                     {
-                        var newLoginResult = await Login.SignInAsync(AppClientId, AppSecret, CallbackUrl, Updated, Scopes, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        var newLoginResult = await Login.SignInAsync(AppClientId, AppSecret, CallbackUrl, _refreshTokenUpdated, _scope, cancellationToken: cancellationToken).ConfigureAwait(false);
                         cancellationToken.ThrowIfCancellationRequested();
                         if (newLoginResult.IsLoginError)
                             throw new Exception(newLoginResult.LoginErrorText);
@@ -308,7 +281,7 @@ namespace DeviantartApi
                     if (DelayStep != 0)
                     {
                         DelayStep >>= 1;
-#if false
+#if LOG_NETWORK
                         Debug.WriteLine($"Delay Decreased to: {DelayStep * 1000}");
 #endif
                     }

@@ -10,6 +10,10 @@ namespace DeviantartApi.Requests
 
     public abstract class Request<T> where T : Objects.BaseObject
     {
+        protected string MajorVersion { get; set; } = "1";
+
+        protected Uri BasePath => new Uri($"https://www.deviantart.com/api/v{MajorVersion}/oauth2/");
+
         public abstract Task<Response<T>> ExecuteAsync(CancellationToken cancellationToken);
 
         public virtual Task<Response<T>> ExecuteAsync()
@@ -17,22 +21,21 @@ namespace DeviantartApi.Requests
             return ExecuteAsync(CancellationToken.None);
         }
 
-        protected Task<Response<T>> ExecuteDefaultGetAsync(string uri)
+        protected Task<Response<T>> ExecuteDefaultGetAsync(string path)
         {
-            return ExecuteDefaultGetAsync(uri, CancellationToken.None);
+            return ExecuteDefaultGetAsync(path, CancellationToken.None);
         }
 
-        protected async Task<Response<T>> ExecuteDefaultGetAsync(string uri, CancellationToken cancellationToken)
+        protected async Task<Response<T>> ExecuteDefaultGetAsync(string path, CancellationToken cancellationToken)
         {
             T result;
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await Requester.CheckTokenAsync(cancellationToken);
+                await Requester.CheckTokenAsync(cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
-                result =
-                    await
-                        Requester.MakeRequestAsync<T>(uri + $"&access_token={Requester.AccessToken}", cancellationToken);
+                var uri = new Uri(BasePath, path + $"&access_token={Requester.AccessToken}");
+                result = await Requester.MakeRequestAsync<T>(uri, cancellationToken: cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -53,24 +56,25 @@ namespace DeviantartApi.Requests
             return new Response<T>(result);
         }
 
-        protected Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values)
+        protected Task<Response<T>> ExecuteDefaultPostAsync(string path, Dictionary<string, string> values)
         {
-            return ExecuteDefaultPostAsync(uri, values, CancellationToken.None);
+            return ExecuteDefaultPostAsync(path, values, CancellationToken.None);
         }
 
-        protected async Task<Response<T>> ExecuteDefaultPostAsync(string uri, Dictionary<string, string> values, CancellationToken cancellationToken)
+        protected async Task<Response<T>> ExecuteDefaultPostAsync(string path, Dictionary<string, string> values, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             T result;
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await Requester.CheckTokenAsync(cancellationToken);
+                await Requester.CheckTokenAsync(cancellationToken).ConfigureAwait(false);
                 if (values == null) values = new Dictionary<string, string>();
                 values.Add("access_token", Requester.AccessToken);
                 HttpContent content = new FormUrlEncodedContent(values);
                 cancellationToken.ThrowIfCancellationRequested();
-                result = await Requester.MakeRequestAsync<T>(uri, content, HttpMethod.Post, cancellationToken);
+                var uri = new Uri(BasePath, path);
+                result = await Requester.MakeRequestAsync<T>(uri, content, method: HttpMethod.Post, cancellationToken: cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
