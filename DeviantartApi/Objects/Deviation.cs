@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DeviantartApi.Objects.SubObjects;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,8 @@ namespace DeviantartApi.Objects
         public string PrintId { get; set; }
 
         [JsonProperty("url")]
-        public string Url { get; set; }
+        [JsonConverter(typeof(Converters.UriConverter))]
+        public Uri Url { get; set; }
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -34,7 +36,7 @@ namespace DeviantartApi.Objects
         public User Author { get; set; }
 
         [JsonProperty("stats")]
-        public StatsClass Stats { get; set; }
+        public Stats Stats { get; set; }
 
         [JsonProperty("published_time")]
         [JsonConverter(typeof(Converters.UnixDateTimeConverter))]
@@ -44,22 +46,22 @@ namespace DeviantartApi.Objects
         public bool AllowComments { get; set; }
 
         [JsonProperty("preview")]
-        public SubObjects.Image Preview { get; set; }
+        public Image Preview { get; set; }
 
         [JsonProperty("content")]
-        public SubObjects.Image Content { get; set; }
+        public Image Content { get; set; }
 
         [JsonProperty("thumbs")]
-        public List<SubObjects.Image> Thumbs { get; set; }
+        public List<Image> Thumbs { get; private set; }
 
         [JsonProperty("videos")]
-        public List<VideoClass> Videos { get; set; }
+        public List<Video> Videos { get; private set; }
 
         [JsonProperty("flash")]
-        public FlashClass Flash { get; set; }
+        public Flash Flash { get; set; }
 
         [JsonProperty("daily_deviation")]
-        public DailyDeviationClass DailyDeviation { get; set; }
+        public DailyDeviation DailyDeviation { get; set; }
 
         [JsonProperty("excerpt")]
         public string Excerpt { get; set; }
@@ -74,92 +76,12 @@ namespace DeviantartApi.Objects
         public int DownloadFilesize { get; set; }
 
         [JsonProperty("challenge")]
-        public Dictionary<string, string> Challenge { get; set; }
+        public Dictionary<string, object> Challenge { get; private set; }
 
         [JsonProperty("challenge_entry")]
-        public ChallengeEntryClass ChallengeEntry { get; set; }
+        public ChallengeEntry ChallengeEntry { get; set; }
 
         [JsonProperty("motion_book")]
-        public MotionBookClass MotionBook { get; set; }
-
-        public class StatsClass
-        {
-            [JsonProperty("comments")]
-            public int Comments { get; set; }
-
-            [JsonProperty("favourites")]
-            public int Favourites { get; set; }
-        }
-
-        public class VideoClass
-        {
-            [JsonProperty("src")]
-            public string Src { get; set; }
-
-            [JsonProperty("quality")]
-            public string Quality { get; set; }
-
-            [JsonProperty("filesize")]
-            public int Filesize { get; set; }
-
-            [JsonProperty("duration")]
-            public int Duration { get; set; }
-        }
-
-        public class FlashClass
-        {
-            [JsonProperty("src")]
-            public string Src { get; set; }
-
-            [JsonProperty("width")]
-            public int Width { get; set; }
-
-            [JsonProperty("height")]
-            public int Height { get; set; }
-        }
-
-        public class DailyDeviationClass
-        {
-            [JsonProperty("body")]
-            public string Body { get; set; }
-
-            [JsonProperty("time")]
-            public string Time { get; set; }
-
-            [JsonProperty("giver")]
-            public User Giver { get; set; }
-
-            [JsonProperty("suggester")]
-            public User Suggester { get; set; }
-        }
-
-        public class ChallengeClass
-        {
-            //example required
-        }
-
-        public class ChallengeEntryClass
-        {
-            [JsonProperty("challengeid")]
-            public string ChallengeId { get; set; }
-
-            [JsonProperty("challenge_title")]
-            public string ChallengeTitle { get; set; }
-
-            [JsonProperty("challenge")]
-            public Deviation Challenge { get; set; }
-
-            [JsonProperty("timed_duration")]
-            public int TimedDuration { get; set; }
-
-            [JsonProperty("submission_time")]
-            public string SubmissionTime { get; set; }
-        }
-
-        public class MotionBookClass
-        {
-            [JsonProperty("embed_url")]
-            public string EmbedUrl { get; set; }
-        }
+        public MotionBook MotionBook { get; set; }
     }
 }
