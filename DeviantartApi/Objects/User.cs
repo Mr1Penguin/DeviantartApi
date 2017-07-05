@@ -8,6 +8,7 @@ namespace DeviantartApi.Objects
     {
         Regular,
         Premium,
+        Banned,
         Unknown
     }
 
@@ -67,6 +68,10 @@ namespace DeviantartApi.Objects
 
                     case "premium":
                         userType = UserType.Premium;
+                        break;
+
+                    case "banned":
+                        userType = UserType.Banned;
                         break;
                 }
 

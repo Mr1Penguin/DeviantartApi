@@ -63,8 +63,8 @@ namespace DeviantartApi
         {
 #if LOG_NETWORK
             int requestId = Interlocked.Increment(ref _requestId);
-            Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: " + (uri.StartsWith("http") ? uri : $"https://www.deviantart.com/api/v{majorVersion}/oauth2/" + uri));
-            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
+            Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: {url}");
+            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync().ConfigureAwait(false) : "null"));
 #endif
             cancellationToken.ThrowIfCancellationRequested();
             var httpRequestMessage = GetRequestMessage(url, minorVersion, content, method);
@@ -135,8 +135,8 @@ namespace DeviantartApi
         {
 #if LOG_NETWORK
             int requestId = Interlocked.Increment(ref _requestId);
-            Debug.WriteLine($"{requestId}. HTTP REQUEST [POST]: " + (uri.StartsWith("http") ? uri : $"https://www.deviantart.com/api/v{majorVersion}/oauth2/" + uri));
-            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync() : "null"));
+            Debug.WriteLine($"{requestId}. HTTP REQUEST [POST]: {url}");
+            Debug.WriteLine($"{requestId}. HTTP BODY: " + (content != null ? await content.ReadAsStringAsync().ConfigureAwait(false) : "null"));
 #endif
             cancellationToken.ThrowIfCancellationRequested();
             var httpRequestMessage = GetRequestMessage(url, minorVersion, content, HttpMethod.Post);

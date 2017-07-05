@@ -12,6 +12,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>DeviantartApi.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_1;LOG_NETWORK</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
