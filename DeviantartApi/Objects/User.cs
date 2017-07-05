@@ -21,7 +21,8 @@ namespace DeviantartApi.Objects
         public string Username { get; set; }
 
         [JsonProperty("usericon")]
-        public string UserIcon { get; set; }
+        [JsonConverter(typeof(Converters.UriConverter))]
+        public Uri UserIconUrl { get; set; }
 
         [JsonProperty("type")]
         [JsonConverter(typeof(UserTypeEnumConverter))]
