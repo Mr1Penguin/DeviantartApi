@@ -8,7 +8,12 @@ namespace DeviantartApi.Objects.Converters
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var val = (string)reader.Value;
+            var val = reader.Value as string;
+            if (val == null)
+            {
+                var a = reader.Value as DateTime?;
+                return a;
+            }
             if (string.IsNullOrWhiteSpace(val)) return null;
             return base.ReadJson(reader, objectType, existingValue, serializer);
         }

@@ -9,7 +9,7 @@ namespace DeviantartApi.Objects.SubObjects.User
         public string Sex { get; set; }
 
         [JsonProperty("age")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         [JsonProperty("joindate")]
         [JsonConverter(typeof(Converters.NullableIsoDateTimeConverter))]
