@@ -117,7 +117,24 @@ namespace DeviantartApi
                 };
             var code = signInResult.Code;
             cancellationToken.ThrowIfCancellationRequested();
-            var tokenHandler = await GetTokenAsync(code, clientId, secret, callbackUrl, cancellationToken).ConfigureAwait(false);
+            TokenHandler tokenHandler;
+            try
+            {
+                tokenHandler = await GetTokenAsync(code, clientId, secret, callbackUrl, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                return new LoginResult
+                {
+                    RefreshToken = null,
+                    IsLoginError = true,
+                    LoginErrorText = e.Message
+                };
+            }
             cancellationToken.ThrowIfCancellationRequested();
             Requester.AccessToken = tokenHandler.AccessToken;
             Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
@@ -183,7 +200,25 @@ namespace DeviantartApi
             cancellationToken.ThrowIfCancellationRequested();
             var uri = new Uri("https://www.deviantart.com/oauth2/token?" + "grant_type=client_credentials&"
                         + $"client_id={clientId}&" + $"client_secret={secret}");
-            var tokenHandler = await Requester.MakeRequestAsync<TokenHandler>(uri, cancellationToken: cancellationToken).ConfigureAwait(false);
+            TokenHandler tokenHandler;
+            try
+            {
+                tokenHandler = await Requester.MakeRequestAsync<TokenHandler>(uri, cancellationToken: cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                return new LoginResult
+                {
+                    RefreshToken = null,
+                    IsLoginError = true,
+                    LoginErrorText = e.Message
+                }; 
+            }
+
             cancellationToken.ThrowIfCancellationRequested();
             if (tokenHandler.Error != null)
             {
