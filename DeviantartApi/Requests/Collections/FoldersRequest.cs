@@ -16,7 +16,7 @@ namespace DeviantartApi.Requests.Collections
         [Parameter("calculate_size")]
         public bool CalculateSize { get; set; }
 
-        [Parameter("mature_content")]
+        [Parameter("ext_preload")]
         public bool ExtPreload { get; set; }
 
         public override Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Profile.CollectionFolder>>> ExecuteAsync(CancellationToken cancellationToken)
