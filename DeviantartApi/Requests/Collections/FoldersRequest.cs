@@ -11,7 +11,7 @@ namespace DeviantartApi.Requests.Collections
         public bool MatureContent { get; set; }
 
         [Parameter("username")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Parameter("calculate_size")]
         public bool CalculateSize { get; set; }
@@ -23,7 +23,7 @@ namespace DeviantartApi.Requests.Collections
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => MatureContent);
-            values.AddParameter(() => UserName);
+            values.AddParameter(() => Username);
             values.AddParameter(() => CalculateSize);
             values.AddParameter(() => ExtPreload);
             if (Offset != null) values.AddParameter(() => Offset);
