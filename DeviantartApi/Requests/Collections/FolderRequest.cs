@@ -20,7 +20,7 @@ namespace DeviantartApi.Requests.Collections
         public bool MatureContent { get; set; }
 
         [Parameter("username")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         private string _folderId;
 
@@ -32,7 +32,7 @@ namespace DeviantartApi.Requests.Collections
         public override Task<Response<Objects.Folder>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
-            values.AddParameter(() => UserName);
+            values.AddParameter(() => Username);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
