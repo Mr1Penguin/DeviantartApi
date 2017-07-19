@@ -20,10 +20,11 @@ namespace DeviantartApi.Requests.Gallery
         [Parameter("mode")]
         public SortMode Mode { get; set; }
 
-        protected override void FillValues(Dictionary<string, string> values)
+        protected override Dictionary<string, string> FillValues()
         {
+            var values = base.FillValues();
             values.AddParameter(() => Mode);
-            base.FillValues(values);
+            return values;
         }
     }
 }

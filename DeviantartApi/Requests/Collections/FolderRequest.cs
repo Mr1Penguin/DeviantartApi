@@ -31,19 +31,20 @@ namespace DeviantartApi.Requests.Collections
             _folderId = folderId;
         }
 
-        protected virtual void FillValues(Dictionary<string, string> values)
+        protected virtual Dictionary<string, string> FillValues()
         {
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => Username);
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
+            return values;
         }
 
         public override Task<Response<Objects.Folder>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var values = new Dictionary<string, string>();
-            FillValues(values);
+            var values = FillValues();
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultGetAsync($"{FolderPath}/{_folderId}?" + values.ToGetParameters(), cancellationToken);
         }
