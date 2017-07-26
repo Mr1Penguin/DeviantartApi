@@ -34,7 +34,11 @@ namespace DeviantartApi.Requests.Collections
         protected virtual Dictionary<string, string> FillValues()
         {
             var values = new Dictionary<string, string>();
-            values.AddParameter(() => Username);
+            if (!string.IsNullOrWhiteSpace(Username))
+            {
+                values.AddParameter(() => Username);
+            }
+
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
             if (Offset != null) values.AddParameter(() => Offset);

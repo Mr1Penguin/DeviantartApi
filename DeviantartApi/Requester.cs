@@ -27,13 +27,16 @@ namespace DeviantartApi
         public static bool AutoAccessTokenCheckingDisabled { get; set; }
         private static DateTime? LastTimeAccessTokenChecked { get; set; }
         private static int DelayStep { get; set; }
-        private static Task DelayRemoverTask { get; set; }
-        private static CancellationTokenSource DelayCancellationTokenSource { get; set; } = new CancellationTokenSource();
 
 
         private static HttpClient _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate });
 
         internal static Action<string> _refreshTokenUpdated;
+
+        static Requester()
+        {
+            DelayRemover();
+        }
 
         public static void SetScope(Login.Scope[] scopes)
         {
@@ -74,7 +77,10 @@ namespace DeviantartApi
             cancellationToken.ThrowIfCancellationRequested();
             do
             {
-                await Task.Delay(new TimeSpan(0, 0, DelayStep), cancellationToken).ConfigureAwait(false);
+#if LOG_NETWORK
+                Debug.WriteLine($"Waiting for {DelayStep} second(s).");
+#endif
+                await Task.Delay(TimeSpan.FromSeconds(DelayStep), cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
@@ -109,10 +115,6 @@ namespace DeviantartApi
 #if LOG_NETWORK
                 Debug.WriteLine($"{requestId}. Delay increased to: {DelayStep * 1000}");
 #endif
-                DelayCancellationTokenSource.Cancel();
-                DelayCancellationTokenSource.Dispose();
-                DelayCancellationTokenSource = new CancellationTokenSource();
-                DelayRemoverTask = DelayRemover();
                 if (DelayStep == 16)
                     throw new Exception("Too many requests");
                 timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
@@ -270,23 +272,22 @@ namespace DeviantartApi
             AppSecret = appSecret;
         }
 
-        private static Task DelayRemover()
+        private static void DelayRemover()
         {
-            return Task.Run(async () =>
+            Task.Run(async () =>
             {
                 while (true)
                 {
-                    await Task.Delay(new TimeSpan(0, 0, 10), DelayCancellationTokenSource.Token).ConfigureAwait(false);
-                    DelayCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
                     if (DelayStep != 0)
                     {
                         DelayStep >>= 1;
 #if LOG_NETWORK
-                        Debug.WriteLine($"Delay Decreased to: {DelayStep * 1000}");
+                        Debug.WriteLine($"Delay Decreased to: {DelayStep} second(s)");
 #endif
                     }
                 }
-            }, DelayCancellationTokenSource.Token);
+            });
         }
     }
 }
