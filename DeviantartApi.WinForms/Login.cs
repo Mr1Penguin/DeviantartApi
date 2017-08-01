@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DeviantartApi
 {
-    using DASync;
-    using System.Text.RegularExpressions;
     using System.Threading;
 
     public static partial class Login

@@ -7,12 +7,18 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace DASync {
-    public partial class DeviantArtAuthForm : Form {
+namespace DeviantartApi {
+    public class DeviantArtAuthForm : Form {
         public string Code { get; private set; }
 
         public DeviantArtAuthForm(string clientId, string callbackUrl, IEnumerable<string> scopes = null) {
-            InitializeComponent();
+            this.Width = 322;
+            this.Height = 573;
+
+            var webBrowser1 = new WebBrowser {
+                Dock = DockStyle.Fill
+            };
+            this.Controls.Add(webBrowser1);
 
             this.Shown += (o, e) => {
                 StringBuilder sb = new StringBuilder();
@@ -20,7 +26,7 @@ namespace DASync {
                 sb.Append($"client_id={clientId}&");
                 sb.Append($"redirect_uri={WebUtility.UrlEncode(callbackUrl)}");
                 if (scopes != null) {
-                    sb.Append($"scope={WebUtility.UrlEncode(string.Join(" ", scopes))}");
+                    sb.Append($"&scope={WebUtility.UrlEncode(string.Join(" ", scopes))}");
                 }
                 webBrowser1.Navigate("https://www.deviantart.com/oauth2/authorize?" + sb);
             };

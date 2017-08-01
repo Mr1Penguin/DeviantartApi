@@ -46,22 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviantArtAuthForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeviantArtAuthForm.Designer.cs">
-      <DependentUpon>DeviantArtAuthForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="DeviantArtAuthForm.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DeviantArtAuthForm.resx">
-      <DependentUpon>DeviantArtAuthForm.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\DeviantartApi\DeviantartApi.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
