@@ -18,7 +18,7 @@ namespace DeviantartApi.Requests.Browse
         public bool MatureContent { get; set; }
 
         /// <summary>
-        /// Default path: "/"
+        /// Category path to fetch from. Default path: "/"
         /// </summary>
         [Parameter("category_path")]
         public string CategoryPath { get; set; } = "/";

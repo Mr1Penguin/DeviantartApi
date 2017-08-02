@@ -75,7 +75,7 @@ namespace DeviantartApi
             if (noFirstLevelEnumAttr != null)
                 strVal = strVal.Substring(1);
             if (typeof(T) != typeof(string))
-                strVal = strVal.ToLower();
+                strVal = strVal?.ToLower();
             var dateTimeFormatAttr = (Attributes.DateTimeFormatAttribute)CustomAttributeExtensions.GetCustomAttribute(memberExpression.Member, typeof(Attributes.DateTimeFormatAttribute));
             if (dateTimeFormatAttr != null)
             {

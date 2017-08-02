@@ -1,11 +1,13 @@
 ﻿using DeviantartApi.Attributes;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
-    using System.Threading;
-
+    /// <summary>
+    /// Browse popular deviations
+    /// </summary>
     public class PopularRequest : BrowseRequest
     {
         public enum TimeRange
@@ -18,10 +20,16 @@ namespace DeviantartApi.Requests.Browse
             tAlltime
         }
 
+        /// <summary>
+        /// The timerange
+        /// </summary>
         [Parameter("timerange")]
         [NoFirstLetterEnum]
         public TimeRange SelectedTimeRange { get; set; } = TimeRange.t24hr;
 
+        /// <summary>
+        /// Search query term
+        /// </summary>
         [Parameter("q")]
         public string Query { get; set; }
 

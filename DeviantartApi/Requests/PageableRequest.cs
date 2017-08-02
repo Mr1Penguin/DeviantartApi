@@ -11,9 +11,15 @@ namespace DeviantartApi.Requests
         [Parameter("cursor")]
         public string Cursor { get; set; }
 
+        /// <summary>
+        /// The pagination offset
+        /// </summary>
         [Parameter("offset")]
         public uint? Offset { get; set; }
 
+        /// <summary>
+        /// The pagination limit
+        /// </summary>
         [Parameter("limit")]
         public uint? Limit { get; set; }
 

@@ -1,21 +1,14 @@
-﻿using DeviantartApi.Attributes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Browse
 {
     /// <summary>
-    /// Browse newest deviations
+    /// Browse whats hot deviations
     /// </summary>
-    public class NewestRequest : BrowseRequest
+    public class HotRequest : BrowseRequest
     {
-        /// <summary>
-        /// Search query term
-        /// </summary>
-        [Parameter("q")]
-        public string Query { get; set; }
-
         public override Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
@@ -24,9 +17,8 @@ namespace DeviantartApi.Requests.Browse
             if (Limit != null) values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
-            values.AddParameter(() => Query);
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultGetAsync("browse/newest?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("browse/hot?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

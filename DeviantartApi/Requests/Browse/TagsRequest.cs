@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DeviantartApi.Requests.Browse.MoreLikeThis
+namespace DeviantartApi.Requests.Browse
 {
     /// <summary>
-    /// Fetch More Like This preview result for a seed deviation 
+    /// Browse a tag
     /// </summary>
-    public class PreviewRequest : Request<Objects.MltPreview>
+    public class TagsRequest : PageableRequest<Objects.Browse>
     {
-        public enum ErrorCode
-        {
-            InvalidSeedRequested = 0
-        }
-
         public enum UserExpand
         {
             Watch
@@ -24,23 +19,25 @@ namespace DeviantartApi.Requests.Browse.MoreLikeThis
         [Expands]
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
-        /// <summary>
-        /// The deviationid to fetch more like
-        /// </summary>
-        [Parameter("seed")]
-        public string Seed { get; set; }
-
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        public override Task<Response<Objects.MltPreview>> ExecuteAsync(CancellationToken cancellationToken)
+        /// <summary>
+        /// The tag to browse
+        /// </summary>
+        [Parameter("tag")]
+        public string Tag { get; set; }
+
+        public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
+            if (Offset != null) values.AddParameter(() => Offset);
+            if (Limit != null) values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
-            values.AddParameter(() => Seed);
             values.AddParameter(() => MatureContent);
+            values.AddParameter(() => Tag);
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultGetAsync("browse/morelikethis/preview?" + values.ToGetParameters(), cancellationToken);
+            return await ExecuteDefaultGetAsync("browse/tags?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }
