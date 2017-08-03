@@ -39,6 +39,11 @@ namespace DeviantartApi.Requests.Browse
         [Parameter("category")]
         public string Category { get; set; } = "/";
 
+        public MoreLikeThisRequest(string seed)
+        {
+            Seed = seed;
+        }
+
         public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();

@@ -28,6 +28,11 @@ namespace DeviantartApi.Requests.Browse
         [Parameter("tag")]
         public string Tag { get; set; }
 
+        public TagsRequest(string tag)
+        {
+            Tag = tag;
+        }
+
         public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();

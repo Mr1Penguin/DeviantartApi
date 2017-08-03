@@ -30,7 +30,7 @@ namespace DeviantartApi.Requests.Collections
         [Parameter("username")]
         public string Username { get; set; }
 
-        private string _folderId;
+        public string FolderId { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FolderRequest"/> class.
@@ -38,7 +38,7 @@ namespace DeviantartApi.Requests.Collections
         /// <param name="folderId">UUID of the folder to list</param>
         public FolderRequest(string folderId)
         {
-            _folderId = folderId;
+            FolderId = folderId;
         }
 
         protected virtual Dictionary<string, string> FillValues()
@@ -60,7 +60,7 @@ namespace DeviantartApi.Requests.Collections
         {
             var values = FillValues();
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultGetAsync($"{FolderPath}/{_folderId}?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"{FolderPath}/{FolderId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

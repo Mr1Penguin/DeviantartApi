@@ -27,6 +27,11 @@ namespace DeviantartApi.Requests.Collections
         [Parameter("folderid")]
         public HashSet<string> FolderIds { get; set; } = new HashSet<string>();
 
+        public FaveRequest(string deviationId)
+        {
+            DeviationId = deviationId;
+        }
+
         public override async Task<Response<Objects.Fave>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();

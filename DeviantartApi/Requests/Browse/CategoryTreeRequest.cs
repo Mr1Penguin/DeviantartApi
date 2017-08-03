@@ -19,6 +19,11 @@ namespace DeviantartApi.Requests.Browse
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
+        public CategoryTreeRequest(string catpath = "/")
+        {
+            Catpath = catpath;
+        }
+
         public override async Task<Response<Objects.CategoryTree>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();

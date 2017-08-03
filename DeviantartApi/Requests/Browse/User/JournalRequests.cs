@@ -26,13 +26,22 @@ namespace DeviantartApi.Requests.Browse.User
         public bool Featured { get; set; }
 
         /// <summary>
-        /// The username of the user to fetch journals for
+        /// The username of the user to fetch journals for.
         /// </summary>
         [Parameter("username")]
         public string Username { get; set; }
 
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JournalsRequest"/> class.
+        /// </summary>
+        /// <param name="username">The username of the user to fetch journals for.</param>
+        public JournalsRequest(string username)
+        {
+            Username = username;
+        }
 
         public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {

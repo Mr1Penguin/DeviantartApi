@@ -44,7 +44,7 @@ namespace DeviantartApi.Requests.Browse.MoreLikeThis
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
         /// <summary>
-        /// The deviationid to fetch more like
+        /// The deviationid to fetch more like.
         /// </summary>
         [Parameter("seed")]
         public string Seed { get; set; }
@@ -54,6 +54,15 @@ namespace DeviantartApi.Requests.Browse.MoreLikeThis
         /// </summary>
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PreviewRequest"/> class.
+        /// </summary>
+        /// <param name="seed">The deviationid to fetch more like.</param>
+        public PreviewRequest(string seed)
+        {
+            Seed = seed;
+        }
 
         /// <summary>
         /// Execute request async.
