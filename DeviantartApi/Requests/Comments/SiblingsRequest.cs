@@ -19,7 +19,7 @@ namespace DeviantartApi.Requests.Comments
 
         public override async Task<Response<Objects.Siblings>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => ExtItem);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);

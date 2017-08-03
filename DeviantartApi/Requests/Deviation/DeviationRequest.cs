@@ -1,11 +1,10 @@
 ﻿using DeviantartApi.Attributes;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
-    using System.Threading;
-
     public class DeviationRequest : Request<Objects.Deviation>
     {
         public enum ErrorCode
@@ -32,11 +31,11 @@ namespace DeviantartApi.Requests.Deviation
         [Expands]
         public HashSet<DeviationExpand> DeviationExpands { get; set; } = new HashSet<DeviationExpand>();
 
-        private string _deviationId;
+        public string DeviationId { get; set; }
 
         public DeviationRequest(string deviationId)
         {
-            _deviationId = deviationId;
+            DeviationId = deviationId;
         }
 
         public override Task<Response<Objects.Deviation>> ExecuteAsync(CancellationToken cancellationToken)
@@ -45,7 +44,7 @@ namespace DeviantartApi.Requests.Deviation
             values.AddHashSetParameter(() => UserExpands);
             values.AddHashSetParameter(() => DeviationExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultGetAsync($"deviation/{_deviationId}?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"deviation/{DeviationId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

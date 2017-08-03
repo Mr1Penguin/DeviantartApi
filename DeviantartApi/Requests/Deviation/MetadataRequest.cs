@@ -1,11 +1,10 @@
 ﻿using DeviantartApi.Attributes;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
-    using System.Threading;
-
     public class MetadataRequest : Request<Objects.DeviationMetadata>
     {
         public enum ErrorCode
@@ -26,7 +25,12 @@ namespace DeviantartApi.Requests.Deviation
         public bool ExtCollection { get; set; }
 
         [Parameter("deviationids")]
-        public HashSet<string> DeviationIds { get; set; } = new HashSet<string>();
+        public HashSet<string> DeviationIds { get; set; }
+
+        public MetadataRequest(IEnumerable<string> deviationIds)
+        {
+            DeviationIds = new HashSet<string>(deviationIds);
+        }
 
         public override Task<Response<Objects.DeviationMetadata>> ExecuteAsync(CancellationToken cancellationToken)
         {

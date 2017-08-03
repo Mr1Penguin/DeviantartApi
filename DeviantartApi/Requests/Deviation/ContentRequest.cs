@@ -1,11 +1,10 @@
 ﻿using DeviantartApi.Attributes;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Deviation
 {
-    using System.Threading;
-
     public class ContentRequest : Request<Objects.Content>
     {
         public enum ErrorCode
@@ -17,7 +16,12 @@ namespace DeviantartApi.Requests.Deviation
         [Parameter("deviationid")]
         public string DeviationId { get; set; }
 
-        public override  Task<Response<Objects.Content>> ExecuteAsync(CancellationToken cancellationToken)
+        public ContentRequest(string deviationId)
+        {
+            DeviationId = deviationId;
+        }
+
+        public override Task<Response<Objects.Content>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => DeviationId);

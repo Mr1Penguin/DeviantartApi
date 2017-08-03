@@ -2,7 +2,7 @@
 
 namespace DeviantartApi.Objects.SubObjects.Deviation
 {
-    public class Image
+    public class Image : BaseObject
     {
         [JsonProperty("src")]
         public string Src { get; set; }
@@ -14,7 +14,7 @@ namespace DeviantartApi.Objects.SubObjects.Deviation
         public int Width { get; set; }
 
         [JsonProperty("transparency")]
-        public bool Transparency { get; set; }
+        public bool? Transparency { get; set; }
 
         [JsonProperty("filesize")]
         public int Filesize { get; set; }
