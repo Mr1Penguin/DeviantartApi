@@ -31,8 +31,7 @@ namespace DeviantartApi
             if (expandsAttr != null)
             {
                 var strVal = string.Join(",", val.Select(x => requestParameter + "." + x.ToString().ToLower()).ToList());
-                string oldExpand;
-                if (dict.TryGetValue("expand", out oldExpand))
+                if (dict.TryGetValue("expand", out var oldExpand))
                 {
                     dict["expand"] = oldExpand + "," + strVal;
                 }

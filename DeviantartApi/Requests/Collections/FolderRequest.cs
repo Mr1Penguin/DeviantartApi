@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace DeviantartApi.Requests.Collections
 {
+    /// <summary>
+    /// Fetch collection folder contents 
+    /// </summary>
     public class FolderRequest : PageableRequest<Objects.Folder>
     {
         protected virtual string FolderPath { get; set; } = "collections";
@@ -21,11 +24,18 @@ namespace DeviantartApi.Requests.Collections
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
+        /// <summary>
+        /// The user who owns the folder, defaults to current user
+        /// </summary>
         [Parameter("username")]
         public string Username { get; set; }
 
         private string _folderId;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FolderRequest"/> class.
+        /// </summary>
+        /// <param name="folderId">UUID of the folder to list</param>
         public FolderRequest(string folderId)
         {
             _folderId = folderId;

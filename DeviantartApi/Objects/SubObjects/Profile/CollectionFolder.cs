@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DeviantartApi.Objects.SubObjects.Profile
 {
-    public class CollectionFolder
+    public class CollectionFolder : BaseObject
     {
         [JsonProperty("folderid")]
         public string FolderId { get; set; }

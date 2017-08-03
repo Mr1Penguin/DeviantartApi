@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+//todo: make required params be arguments of constructor
 namespace DeviantartApi.Requests
 {
-    using System.Linq;
-
     public abstract class Request<T> where T : Objects.BaseObject
     {
         protected string MajorVersion { get; set; } = "1";
