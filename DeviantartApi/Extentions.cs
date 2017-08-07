@@ -64,6 +64,11 @@ namespace DeviantartApi
                 requestParameter = paramAttr.PropertyName;
             }
             var val = value.Compile()();
+            if (val == null)
+            {
+                return;
+            }
+
             var enumToNumAttr = (Attributes.EnumToNumAttribute)CustomAttributeExtensions.GetCustomAttribute(memberExpression.Member, typeof(Attributes.EnumToNumAttribute));
             var noFirstLevelEnumAttr = (Attributes.NoFirstLetterEnumAttribute)CustomAttributeExtensions.GetCustomAttribute(memberExpression.Member, typeof(Attributes.NoFirstLetterEnumAttribute));
             if (!typeof(T).GetTypeInfo().IsEnum && (enumToNumAttr != null || noFirstLevelEnumAttr != null))
