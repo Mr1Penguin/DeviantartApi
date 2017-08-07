@@ -7,6 +7,9 @@ namespace DeviantartApi.Requests.Collections.Folders.Remove
 {
     public class FolderRequest : Request<Objects.BaseObject>
     {
+        //todo: rename Path to Type
+        protected virtual string FolderPath { get; set; } = "collections";
+
         /// <summary>
         /// The UUID of the folder to delete
         /// </summary>
@@ -26,7 +29,7 @@ namespace DeviantartApi.Requests.Collections.Folders.Remove
         {
             var values = new Dictionary<string, string>();
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultPostAsync($"collections/folders/remove/{FolderId}", values, cancellationToken);
+            return ExecuteDefaultPostAsync($"{FolderPath}/folders/remove/{FolderId}", values, cancellationToken);
         }
     }
 }

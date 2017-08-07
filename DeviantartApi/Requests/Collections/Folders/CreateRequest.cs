@@ -13,6 +13,8 @@ namespace DeviantartApi.Requests.Collections.Folders
     /// </remarks>
     public class CreateRequest : Request<Objects.SubObjects.Profile.CollectionFolder>
     {
+        protected virtual string FolderPath { get; set; } = "collections";
+
         [Parameter("folder")]
         public string FolderName { get; set; }
 
@@ -30,7 +32,7 @@ namespace DeviantartApi.Requests.Collections.Folders
             var values = new Dictionary<string, string>();
             values.AddParameter(() => FolderName);
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultPostAsync("collections/folders/create", values, cancellationToken);
+            return ExecuteDefaultPostAsync($"{FolderPath}/folders/create", values, cancellationToken);
         }
     }
 }
