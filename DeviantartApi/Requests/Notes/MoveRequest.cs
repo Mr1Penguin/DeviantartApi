@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes
 {
-    public class MoveRequest : Request<Objects.BaseObject>
+    public class MoveRequest : Request<Objects.PostResponse>
     {
         [Parameter("notesids")]
         public HashSet<string> NotesIds { get; set; } = new HashSet<string>();
@@ -19,7 +19,7 @@ namespace DeviantartApi.Requests.Notes
             FolderId = folderId;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => NotesIds);

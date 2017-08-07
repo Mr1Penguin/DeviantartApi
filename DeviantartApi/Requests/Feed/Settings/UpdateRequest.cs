@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed
 {
-    public class UpdateRequest : Request<Objects.BaseObject>
+    public class UpdateRequest : Request<Objects.PostResponse>
     {
         [Parameter("include[statuses]")]
         public bool? Statuses { get; set; }
@@ -25,7 +25,7 @@ namespace DeviantartApi.Requests.Feed
         [Parameter("include[misc]")]
         public bool? Misc { get; set; }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Statuses);

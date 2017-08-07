@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes.Folders
 {
-    public class CreateRequest : Request<Objects.BaseObject>
+    public class CreateRequest : Request<Objects.NotesFolder>
     {
         [Parameter("title")]
         public string Title { get; set; }
@@ -18,7 +18,7 @@ namespace DeviantartApi.Requests.Notes.Folders
             Title = title;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override async Task<Response<Objects.NotesFolder>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Title);

@@ -2,7 +2,7 @@
 
 namespace DeviantartApi.Objects
 {
-    public class Fave : BaseObject
+    public class Fave : PostResponse
     {
         [JsonProperty("favourites")]
         public int Favourites { get; set; }

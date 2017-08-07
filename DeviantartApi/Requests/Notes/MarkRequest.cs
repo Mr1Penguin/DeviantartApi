@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes
 {
-    public class MarkRequest : Request<Objects.BaseObject>
+    public class MarkRequest : Request<Objects.PostResponse>
     {
         public enum Mark
         {
@@ -28,7 +28,7 @@ namespace DeviantartApi.Requests.Notes
             MarkAs = markAs;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => NotesIds);

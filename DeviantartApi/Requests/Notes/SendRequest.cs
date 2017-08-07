@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Notes
 {
-    public class SendRequest : Request<Objects.BaseObject>
+    public class SendRequest : Request<Objects.ArrayOfResults<Objects.SendNoteResponse>>
     {
         [Parameter("to")]
         public HashSet<string> To { get; set; }
@@ -24,7 +24,7 @@ namespace DeviantartApi.Requests.Notes
             To = new HashSet<string>(to);
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override async Task<Response<Objects.ArrayOfResults<Objects.SendNoteResponse>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => To);

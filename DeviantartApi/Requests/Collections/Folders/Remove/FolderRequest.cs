@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Collections.Folders.Remove
 {
-    public class FolderRequest : Request<Objects.BaseObject>
+    public class FolderRequest : Request<Objects.PostResponse>
     {
         //todo: rename Path to Type
         protected virtual string FolderPath { get; set; } = "collections";
@@ -13,7 +13,6 @@ namespace DeviantartApi.Requests.Collections.Folders.Remove
         /// <summary>
         /// The UUID of the folder to delete
         /// </summary>
-        [Parameter("folderid")]
         public string FolderId { get; set; }
 
         /// <summary>
@@ -25,11 +24,10 @@ namespace DeviantartApi.Requests.Collections.Folders.Remove
             FolderId = folderId;
         }
 
-        public override Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var values = new Dictionary<string, string>();
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultPostAsync($"{FolderPath}/folders/remove/{FolderId}", values, cancellationToken);
+            return ExecuteDefaultGetAsync($"{FolderPath}/folders/remove/{FolderId}?", cancellationToken);
         }
     }
 }
