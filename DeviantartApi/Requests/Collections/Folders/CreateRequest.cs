@@ -13,7 +13,7 @@ namespace DeviantartApi.Requests.Collections.Folders
     /// </remarks>
     public class CreateRequest : Request<Objects.SubObjects.Profile.CollectionFolder>
     {
-        protected virtual string FolderPath { get; set; } = "collections";
+        protected virtual string FolderPath => "collections";
 
         [Parameter("folder")]
         public string FolderName { get; set; }
