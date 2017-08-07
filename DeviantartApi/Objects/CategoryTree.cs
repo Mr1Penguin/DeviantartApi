@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DeviantartApi.Objects.SubObjects.CategoryTree;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DeviantartApi.Objects
