@@ -18,6 +18,9 @@
     <DefineConstants>TRACE;DEBUG;NETSTANDARD1_1;LOG_NETWORK</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Requests\User\ProfileRequest.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 </Project>

@@ -1,12 +1,12 @@
 ﻿using DeviantartApi.Attributes;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace DeviantartApi.Requests.User.Friends
+namespace DeviantartApi.Requests.User.Friends.Watch
 {
-    using System.Threading;
 
-    public class WatchRequest : Request<Objects.BaseObject>
+    public class UsernameRequest : Request<Objects.PostResponse>
     {
         public enum ErrorCode
         {
@@ -15,7 +15,7 @@ namespace DeviantartApi.Requests.User.Friends
             FailedToAddFriend = 2
         }
 
-        private string _username;
+        public string Username { get; set; }
 
         [Parameter("watch[friend]")]
         public bool Friend { get; set; }
@@ -41,14 +41,14 @@ namespace DeviantartApi.Requests.User.Friends
         [Parameter("watch[collections]")]
         public bool Collections { get; set; }
 
-        public WatchRequest(string username)
+        public UsernameRequest(string username)
         {
-            _username = username;
+            Username = username;
         }
 
-        public override Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => Friend);
             values.AddParameter(() => Deviations);
             values.AddParameter(() => Journals);
@@ -58,7 +58,7 @@ namespace DeviantartApi.Requests.User.Friends
             values.AddParameter(() => Activity);
             values.AddParameter(() => Collections);
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultPostAsync($"user/friends/watch/{_username}", values, cancellationToken);
+            return ExecuteDefaultPostAsync($"user/friends/watch/{Username}", values, cancellationToken);
         }
     }
 }

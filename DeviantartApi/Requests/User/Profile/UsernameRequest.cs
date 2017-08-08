@@ -1,12 +1,11 @@
 ﻿using DeviantartApi.Attributes;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace DeviantartApi.Requests.User
+namespace DeviantartApi.Requests.User.Profile
 {
-    using System.Threading;
-
-    public class ProfileRequest : Request<Objects.Profile>
+    public class UsernameRequest : Request<Objects.Profile>
     {
         public enum ErrorCode
         {
@@ -22,7 +21,7 @@ namespace DeviantartApi.Requests.User
             Stats
         }
 
-        private string _username;
+        public string Username { get; set; }
 
         [Parameter("user")]
         [Expands]
@@ -34,19 +33,19 @@ namespace DeviantartApi.Requests.User
         [Parameter("ext_galleries")]
         public bool ExtGalleries { get; set; }
 
-        public ProfileRequest(string username)
+        public UsernameRequest(string username)
         {
-            _username = username;
+            Username = username;
         }
 
-        public override Task<Response<Objects.Profile>> ExecuteAsync(CancellationToken cancellationToken)
+        public override async Task<Response<Objects.Profile>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => ExtCollections);
             values.AddParameter(() => ExtGalleries);
             values.AddHashSetParameter(() => UserExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultGetAsync($"user/profile/{_username}?" + values.ToGetParameters(), cancellationToken);
+            return await ExecuteDefaultGetAsync($"user/profile/{Username}" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

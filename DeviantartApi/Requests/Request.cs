@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-//todo: make required params be arguments of constructor
 namespace DeviantartApi.Requests
 {
     public abstract class Request<T> where T : Objects.BaseObject
