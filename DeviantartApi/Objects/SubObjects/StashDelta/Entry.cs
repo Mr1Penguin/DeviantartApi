@@ -11,7 +11,7 @@ namespace DeviantartApi.Objects.SubObjects.StashDelta
         public int? StackId { get; set; }
 
         [JsonProperty("metadata")]
-        public StashMetadata Metadata { get; set; }
+        public Objects.StashMetadata Metadata { get; set; }
 
         [JsonProperty("position")]
         public int Position { get; set; }

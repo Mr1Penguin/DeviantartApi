@@ -2,7 +2,7 @@
 
 namespace DeviantartApi.Objects
 {
-    public class NotesFolder
+    public class NotesFolder : BaseObject
     {
         [JsonProperty("folder")]
         public string Folder { get; set; }

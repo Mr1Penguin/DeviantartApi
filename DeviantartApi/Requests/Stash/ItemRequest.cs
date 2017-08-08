@@ -30,7 +30,7 @@ namespace DeviantartApi.Requests.Stash
 
         public override async Task<Response<Objects.StashItem>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => ExtSubmission);
             values.AddParameter(() => ExtCamera);
             values.AddParameter(() => ExtStats);
