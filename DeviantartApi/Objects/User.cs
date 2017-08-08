@@ -29,7 +29,7 @@ namespace DeviantartApi.Objects
         public UserType UserType { get; set; }
 
         [JsonProperty("is_watching")]
-        public bool IsWatching { get; set; }
+        public bool? IsWatching { get; set; }
 
         [JsonProperty("details")]
         public Details Details { get; set; }

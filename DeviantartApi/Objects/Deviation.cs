@@ -28,7 +28,7 @@ namespace DeviantartApi.Objects
         public string CategoryPath { get; set; }
 
         [JsonProperty("is_favourited")]
-        public bool IsFavourited { get; set; }
+        public bool? IsFavourited { get; set; }
 
         [JsonProperty("is_deleted")]
         public bool IsDeleted { get; set; }
@@ -41,10 +41,10 @@ namespace DeviantartApi.Objects
 
         [JsonProperty("published_time")]
         [JsonConverter(typeof(Converters.UnixDateTimeConverter))]
-        public DateTime PublishedTime { get; set; }
+        public DateTime? PublishedTime { get; set; }
 
         [JsonProperty("allows_comments")]
-        public bool AllowComments { get; set; }
+        public bool? AllowComments { get; set; }
 
         [JsonProperty("preview")]
         public Image Preview { get; set; }
@@ -68,16 +68,16 @@ namespace DeviantartApi.Objects
         public string Excerpt { get; set; }
 
         [JsonProperty("is_mature")]
-        public bool IsMature { get; set; }
+        public bool? IsMature { get; set; }
 
         [JsonProperty("id_downloadable")]
-        public bool IsDownloadable { get; set; }
+        public bool? IsDownloadable { get; set; }
 
         [JsonProperty("download_filesize")]
-        public int DownloadFilesize { get; set; }
+        public int? DownloadFilesize { get; set; }
 
         [JsonProperty("challenge")]
-        public Dictionary<string, object> Challenge { get; private set; }
+        public Challenge Challenge { get; set; }
 
         [JsonProperty("challenge_entry")]
         public ChallengeEntry ChallengeEntry { get; set; }

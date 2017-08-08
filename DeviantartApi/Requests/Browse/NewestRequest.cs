@@ -20,8 +20,8 @@ namespace DeviantartApi.Requests.Browse
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => CategoryPath);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
             values.AddParameter(() => Query);

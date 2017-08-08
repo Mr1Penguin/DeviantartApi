@@ -24,12 +24,12 @@ namespace DeviantartApi.Requests.Browse
             Catpath = catpath;
         }
 
-        public override async Task<Response<Objects.CategoryTree>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.CategoryTree>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => Catpath);
             values.AddParameter(() => MatureContent);
-            return await ExecuteDefaultGetAsync("browse/categorytree?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("browse/categorytree?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

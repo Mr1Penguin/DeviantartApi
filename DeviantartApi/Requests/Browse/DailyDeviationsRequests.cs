@@ -30,14 +30,14 @@ namespace DeviantartApi.Requests.Browse
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Day);
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("browse/dailydeviations?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("browse/dailydeviations?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

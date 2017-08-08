@@ -23,7 +23,7 @@ namespace DeviantartApi.Requests.Browse.User
         /// Fetch only featured or not
         /// </summary>
         [Parameter("featured")]
-        public bool Featured { get; set; }
+        public bool? Featured { get; set; }
 
         /// <summary>
         /// The username of the user to fetch journals for.

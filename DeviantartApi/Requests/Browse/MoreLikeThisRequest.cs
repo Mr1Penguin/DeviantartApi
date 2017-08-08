@@ -44,17 +44,17 @@ namespace DeviantartApi.Requests.Browse
             Seed = seed;
         }
 
-        public override async Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Browse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => Seed);
             values.AddParameter(() => Category);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("browse/morelikethis?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("browse/morelikethis?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }
