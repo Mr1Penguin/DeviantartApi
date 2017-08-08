@@ -25,7 +25,7 @@ namespace DeviantartApi.Requests.Feed
         [Parameter("include[misc]")]
         public bool? Misc { get; set; }
 
-        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Statuses);
@@ -35,7 +35,7 @@ namespace DeviantartApi.Requests.Feed
             values.AddParameter(() => Collections);
             values.AddParameter(() => Misc);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("feed/settings/update", values, cancellationToken);
+            return ExecuteDefaultPostAsync("feed/settings/update", values, cancellationToken);
         }
     }
 }

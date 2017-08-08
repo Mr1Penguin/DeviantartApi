@@ -17,10 +17,10 @@ namespace DeviantartApi.Requests.User.Friends.Watching
             Username = username;
         }
 
-        public override async Task<Response<Objects.WatchingResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.WatchingResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"user/friends/watching/{Username}?", cancellationToken);
+            return ExecuteDefaultGetAsync($"user/friends/watching/{Username}?", cancellationToken);
         }
     }
 }

@@ -16,14 +16,14 @@ namespace DeviantartApi.Requests.Messages
         [Parameter("stackid")]
         public string StackId { get; set; }
 
-        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => FolderId);
             values.AddParameter(() => MessageId);
             values.AddParameter(() => StackId);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("messages/delete", values, cancellationToken);
+            return ExecuteDefaultPostAsync("messages/delete", values, cancellationToken);
         }
     }
 }

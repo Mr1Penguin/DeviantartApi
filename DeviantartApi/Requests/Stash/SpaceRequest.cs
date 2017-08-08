@@ -6,10 +6,10 @@ namespace DeviantartApi.Requests.Stash
 
     public class SpaceRequest : Request<Objects.Space>
     {
-        public override async Task<Response<Objects.Space>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Space>> ExecuteAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"stash/space?", cancellationToken);
+            return ExecuteDefaultGetAsync($"stash/space?", cancellationToken);
         }
     }
 }

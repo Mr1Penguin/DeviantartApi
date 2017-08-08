@@ -81,13 +81,13 @@ namespace DeviantartApi.Requests.Stash
         public string CatPath { get; set; }
 
         [Parameter("feature")]
-        public bool Feature { get; set; }
+        public bool? Feature { get; set; }
 
         [Parameter("allow_comments")]
-        public bool AllowComments { get; set; }
+        public bool? AllowComments { get; set; }
 
         [Parameter("request_critique")]
-        public bool RequestCritique { get; set; }
+        public bool? RequestCritique { get; set; }
 
         [Parameter("display_resolution")]
         [EnumToNum]
@@ -97,10 +97,10 @@ namespace DeviantartApi.Requests.Stash
         public SharingOption Sharing { get; set; } = SharingOption.Allow;
 
         [Parameter("creative_commons")]
-        public bool LicenseCreativeCommons { get; set; }
+        public bool? LicenseCreativeCommons { get; set; }
 
         [Parameter("comercial")]
-        public bool LicenseComercial { get; set; }
+        public bool? LicenseComercial { get; set; }
 
         [Parameter("modify")]
         public LicenseModifyOption LicenseModify { get; set; } = LicenseModifyOption.No;
@@ -109,15 +109,23 @@ namespace DeviantartApi.Requests.Stash
         public HashSet<string> GalleryIds { get; set; } = new HashSet<string>();
 
         [Parameter("allow_free_download")]
-        public bool AllowFreeDownload { get; set; }
+        public bool? AllowFreeDownload { get; set; }
 
         [Parameter("idd_watermark")]
-        public bool AddWatermark { get; set; }
+        public bool? AddWatermark { get; set; }
 
         [Parameter("itemid")]
         public string ItemId { get; set; }
 
-        public override async Task<Response<Objects.PublishResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public PublishRequest(bool isMature, bool agreeSubmission, bool agreeTos, string itemId)
+        {
+            IsMature = isMature;
+            AgreeSubmission = AgreeSubmission;
+            AgreeTos = agreeTos;
+            ItemId = itemId;
+        }
+
+        public override Task<Response<Objects.PublishResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => IsMature);
@@ -142,7 +150,7 @@ namespace DeviantartApi.Requests.Stash
             values.AddParameter(() => AddWatermark);
             values.AddParameter(() => ItemId);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("stash/publish", values, cancellationToken);
+            return ExecuteDefaultPostAsync("stash/publish", values, cancellationToken);
         }
     }
 }

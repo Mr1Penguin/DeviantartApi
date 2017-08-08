@@ -20,12 +20,12 @@ namespace DeviantartApi.Requests.Stash
             ItemId = itemId;
         }
 
-        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => ItemId);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("stash/delete", values, cancellationToken);
+            return ExecuteDefaultPostAsync("stash/delete", values, cancellationToken);
         }
     }
 }

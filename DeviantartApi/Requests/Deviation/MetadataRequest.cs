@@ -13,16 +13,16 @@ namespace DeviantartApi.Requests.Deviation
         }
 
         [Parameter("ext_submission")]
-        public bool ExtSubmission { get; set; }
+        public bool? ExtSubmission { get; set; }
 
         [Parameter("ext_camera")]
-        public bool ExtCamera { get; set; }
+        public bool? ExtCamera { get; set; }
 
         [Parameter("ext_stats")]
-        public bool ExtStats { get; set; }
+        public bool? ExtStats { get; set; }
 
         [Parameter("ext_collection")]
-        public bool ExtCollection { get; set; }
+        public bool? ExtCollection { get; set; }
 
         [Parameter("deviationids")]
         public HashSet<string> DeviationIds { get; set; }

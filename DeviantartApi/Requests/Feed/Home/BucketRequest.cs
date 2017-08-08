@@ -10,21 +10,21 @@ namespace DeviantartApi.Requests.Feed.Home
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
 
-        private string _bucketid;
+        public string BucketId { get; set; }
 
         public BucketRequest(string bucketid)
         {
-            _bucketid = bucketid;
+            BucketId = bucketid;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => MatureContent);
             if (Offset != null) values.AddParameter(() => Offset);
             if (Limit != null) values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"feed/home/{_bucketid}?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"feed/home/{BucketId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

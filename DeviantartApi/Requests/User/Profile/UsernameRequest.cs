@@ -28,24 +28,24 @@ namespace DeviantartApi.Requests.User.Profile
         public HashSet<UserExpand> UserExpands { get; set; } = new HashSet<UserExpand>();
 
         [Parameter("ext_collections")]
-        public bool ExtCollections { get; set; }
+        public bool? ExtCollections { get; set; }
 
         [Parameter("ext_galleries")]
-        public bool ExtGalleries { get; set; }
+        public bool? ExtGalleries { get; set; }
 
         public UsernameRequest(string username)
         {
             Username = username;
         }
 
-        public override async Task<Response<Objects.Profile>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Profile>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => ExtCollections);
             values.AddParameter(() => ExtGalleries);
             values.AddHashSetParameter(() => UserExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"user/profile/{Username}" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"user/profile/{Username}" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

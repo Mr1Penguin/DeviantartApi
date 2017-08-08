@@ -36,7 +36,7 @@ namespace DeviantartApi.Objects.SubObjects.Watch
         public string BucketId { get; set; }
 
         [JsonProperty("bucket_total")]
-        public int BucketTotal { get; set; }
+        public int? BucketTotal { get; set; }
 
         [JsonProperty("status")]
         public Objects.Status Status { get; set; }
@@ -63,7 +63,7 @@ namespace DeviantartApi.Objects.SubObjects.Watch
         public string Formerly { get; set; }
 
         [JsonProperty("added_count")]
-        public int AddedCount { get; set; }
+        public int? AddedCount { get; set; }
 
         [JsonProperty("poll")]
         public Poll Poll { get; set; }

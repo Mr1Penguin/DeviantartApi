@@ -12,17 +12,18 @@ namespace DeviantartApi.Requests.Stash.Position
 
         public string StackId { get; set; }
 
-        public StackRequest(string stackid)
+        public StackRequest(string stackid, int position)
         {
             StackId = stackid;
+            Position = position;
         }
 
-        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => Position);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("stash/position/{_stackid}", values, cancellationToken);
+            return ExecuteDefaultPostAsync("stash/position/{_stackid}", values, cancellationToken);
         }
     }
 }

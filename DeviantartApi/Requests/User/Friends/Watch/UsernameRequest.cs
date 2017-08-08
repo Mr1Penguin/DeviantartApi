@@ -18,28 +18,28 @@ namespace DeviantartApi.Requests.User.Friends.Watch
         public string Username { get; set; }
 
         [Parameter("watch[friend]")]
-        public bool Friend { get; set; }
+        public bool? Friend { get; set; }
 
         [Parameter("watch[deviations]")]
-        public bool Deviations { get; set; }
+        public bool? Deviations { get; set; }
 
         [Parameter("watch[journals]")]
-        public bool Journals { get; set; }
+        public bool? Journals { get; set; }
 
         [Parameter("watch[forum_threads]")]
-        public bool ForumThreads { get; set; }
+        public bool? ForumThreads { get; set; }
 
         [Parameter("watch[critiques]")]
-        public bool Critiques { get; set; }
+        public bool? Critiques { get; set; }
 
         [Parameter("watch[scraps]")]
-        public bool Scraps { get; set; }
+        public bool? Scraps { get; set; }
 
         [Parameter("watch[activity]")]
-        public bool Activity { get; set; }
+        public bool? Activity { get; set; }
 
         [Parameter("watch[collections]")]
-        public bool Collections { get; set; }
+        public bool? Collections { get; set; }
 
         public UsernameRequest(string username)
         {

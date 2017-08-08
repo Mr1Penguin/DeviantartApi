@@ -30,8 +30,8 @@ namespace DeviantartApi.Requests.User.Watchers
         {
             var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultGetAsync($"user/watchers/{Username}?" + values.ToGetParameters(), cancellationToken);
         }

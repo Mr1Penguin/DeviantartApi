@@ -1,11 +1,9 @@
-﻿using DeviantartApi.Attributes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Comments.Post
 {
-    using System.Threading;
-
     public class DeviationRequest : PostCommentRequest
     {
         public DeviationRequest(string deviationId)

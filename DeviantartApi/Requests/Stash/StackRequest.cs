@@ -17,10 +17,10 @@ namespace DeviantartApi.Requests.Stash
             StackId = stackid;
         }
 
-        public override async Task<Response<Objects.StashMetadata>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.StashMetadata>> ExecuteAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"stash/{StackId}?", cancellationToken);
+            return ExecuteDefaultGetAsync($"stash/{StackId}?", cancellationToken);
         }
     }
 }

@@ -51,8 +51,8 @@ namespace DeviantartApi.Requests.Collections
 
             values.AddHashSetParameter(() => UserExpands);
             values.AddParameter(() => MatureContent);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             return values;
         }
 

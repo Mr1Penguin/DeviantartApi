@@ -26,13 +26,13 @@ namespace DeviantartApi.Requests.Collections
         /// The option to include the content count per each collection folder
         /// </summary>
         [Parameter("calculate_size")]
-        public bool CalculateSize { get; set; }
+        public bool? CalculateSize { get; set; }
 
         /// <summary>
         /// Include first 5 deviations from the folder
         /// </summary>
         [Parameter("ext_preload")]
-        public bool ExtPreload { get; set; }
+        public bool? ExtPreload { get; set; }
 
         public override Task<Response<Objects.ArrayOfResults<Objects.SubObjects.Profile.CollectionFolder>>> ExecuteAsync(CancellationToken cancellationToken)
         {
@@ -41,8 +41,8 @@ namespace DeviantartApi.Requests.Collections
             values.AddParameter(() => Username);
             values.AddParameter(() => CalculateSize);
             values.AddParameter(() => ExtPreload);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultGetAsync("collections/folders?" + values.ToGetParameters(), cancellationToken);
         }

@@ -28,13 +28,13 @@ namespace DeviantartApi.Requests.Notes
             MarkAs = markAs;
         }
 
-        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => NotesIds);
             values.AddParameter(() => MarkAs);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("notes/mark", values, cancellationToken);
+            return ExecuteDefaultPostAsync("notes/mark", values, cancellationToken);
         }
     }
 }

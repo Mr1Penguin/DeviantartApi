@@ -17,10 +17,10 @@ namespace DeviantartApi.Requests.Notes
             NoteId = noteid;
         }
 
-        public override async Task<Response<Objects.Note>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Note>> ExecuteAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"notes/{NoteId}?", cancellationToken);
+            return ExecuteDefaultGetAsync($"notes/{NoteId}?", cancellationToken);
         }
     }
 }

@@ -18,8 +18,8 @@ namespace DeviantartApi.Requests.Comments
             var values = new Dictionary<string, string>();
             values.AddParameter(() => CommentId);
             values.AddParameter(() => MaxDepth);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultGetAsync($"comments/profile/{Argument}?" + values.ToGetParameters(), cancellationToken);
         }

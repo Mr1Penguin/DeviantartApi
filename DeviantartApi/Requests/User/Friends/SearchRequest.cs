@@ -18,13 +18,13 @@ namespace DeviantartApi.Requests.User.Friends
             Query = query;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.User>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.User>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Username);
             values.AddParameter(() => Query);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync("user/friends/search?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync("user/friends/search?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

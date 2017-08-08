@@ -25,13 +25,13 @@ namespace DeviantartApi.Requests.Stash.Update
             StackId = stackid;
         }
 
-        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Title);
             values.AddParameter(() => Description);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync($"stash/update/{StackId}", values, cancellationToken);
+            return ExecuteDefaultPostAsync($"stash/update/{StackId}", values, cancellationToken);
         }
     }
 }

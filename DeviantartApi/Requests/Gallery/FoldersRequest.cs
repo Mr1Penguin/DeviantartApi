@@ -11,10 +11,10 @@ namespace DeviantartApi.Requests.Gallery
         public string Username { get; set; }
 
         [Parameter("calculate_size")]
-        public bool CalculateSize { get; set; }
+        public bool? CalculateSize { get; set; }
 
         [Parameter("ext_preload")]
-        public bool ExtPreload { get; set; }
+        public bool? ExtPreload { get; set; }
 
         [Parameter("mature_content")]
         public bool MatureContent { get; set; }
@@ -26,8 +26,8 @@ namespace DeviantartApi.Requests.Gallery
             values.AddParameter(() => CalculateSize);
             values.AddParameter(() => ExtPreload);
             values.AddParameter(() => MatureContent);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultGetAsync($"gallery/folders?" + values.ToGetParameters(), cancellationToken);
         }

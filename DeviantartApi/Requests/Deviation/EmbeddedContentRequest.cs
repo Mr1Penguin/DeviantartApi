@@ -24,15 +24,15 @@ namespace DeviantartApi.Requests.Deviation
             DeviationId = deviationId;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.Deviation>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => DeviationId);
             values.AddParameter(() => OffsetDeviationId);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"deviation/embeddedcontent?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"deviation/embeddedcontent?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

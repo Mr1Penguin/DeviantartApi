@@ -10,6 +10,6 @@ namespace DeviantartApi.Requests.Comments.Post
         [Parameter("body")]
         public string Body { get; set; }
 
-        protected string Argument;
+        public string Argument;
     }
 }

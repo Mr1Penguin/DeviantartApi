@@ -23,8 +23,8 @@ namespace DeviantartApi.Requests.User
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Username);
             values.AddParameter(() => MatureContent);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultGetAsync("user/statuses/?" + values.ToGetParameters(), cancellationToken);
         }

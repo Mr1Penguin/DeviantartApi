@@ -26,12 +26,12 @@ namespace DeviantartApi.Requests.User.Friends
             Username = username;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Friend>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.Friend>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => UserExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"user/friends/{Username}?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"user/friends/{Username}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

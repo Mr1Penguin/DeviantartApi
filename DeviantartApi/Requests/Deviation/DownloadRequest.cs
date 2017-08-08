@@ -19,10 +19,10 @@ namespace DeviantartApi.Requests.Deviation
             Deviationid = deviationId;
         }
 
-        public override async Task<Response<Objects.SubObjects.Deviation.Image>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.SubObjects.Deviation.Image>> ExecuteAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"deviation/download/{Deviationid}?", cancellationToken);
+            return ExecuteDefaultGetAsync($"deviation/download/{Deviationid}?", cancellationToken);
         }
     }
 }

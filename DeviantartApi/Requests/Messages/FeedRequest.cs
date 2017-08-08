@@ -11,16 +11,16 @@ namespace DeviantartApi.Requests.Messages
         public string FolderId { get; set; }
 
         [Parameter("stack")]
-        public bool Stack { get; set; }
+        public bool? Stack { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Message>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.Message>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => FolderId);
             values.AddParameter(() => Stack);
-            if (Cursor != null) values.AddParameter(() => Cursor);
+            values.AddParameter(() => Cursor);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"messages/feed?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"messages/feed?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

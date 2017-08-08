@@ -14,8 +14,8 @@ namespace DeviantartApi.Requests.Gallery
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Username);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultGetAsync($"gallery/all?" + values.ToGetParameters(), cancellationToken);
         }

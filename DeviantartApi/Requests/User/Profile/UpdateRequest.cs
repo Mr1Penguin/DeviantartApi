@@ -14,7 +14,7 @@ namespace DeviantartApi.Requests.User.Profile
             Professional = 3
         }
 
-        public enum SpecialtyOfArtsit
+        public enum SpecialtyOfArtist
         {
             ArisanCratfts = 1,
             DesignAndInterfaces = 2,
@@ -28,16 +28,15 @@ namespace DeviantartApi.Requests.User.Profile
         }
 
         [Parameter("user_is_artist")]
-        [EnumToNum]
-        public bool UserIsArtist { get; set; }
+        public bool? UserIsArtist { get; set; }
 
         [Parameter("artist_level")]
         [EnumToNum]
-        public LevelOfArtist ArtistLevel { get; set; } = LevelOfArtist.Student;
+        public LevelOfArtist? ArtistLevel { get; set; }
 
         [Parameter("artist_specialty")]
         [EnumToNum]
-        public SpecialtyOfArtsit ArtistSpecialty { get; set; } = SpecialtyOfArtsit.ArisanCratfts;
+        public SpecialtyOfArtist? ArtistSpecialty { get; set; }
 
         [Parameter("real_name")]
         public string RealName { get; set; }
@@ -46,7 +45,7 @@ namespace DeviantartApi.Requests.User.Profile
         public string TagLine { get; set; }
 
         [Parameter("countryid")]
-        public int CountryId { get; set; } // no way for enum be here
+        public int? CountryId { get; set; } // no way for enum be here
 
         [Parameter("website")]
         public string Website { get; set; }
@@ -58,7 +57,7 @@ namespace DeviantartApi.Requests.User.Profile
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => UserIsArtist);
-            if (UserIsArtist)
+            if (UserIsArtist ?? false)
             {
                 values.AddParameter(() => ArtistLevel);
                 values.AddParameter(() => ArtistSpecialty);

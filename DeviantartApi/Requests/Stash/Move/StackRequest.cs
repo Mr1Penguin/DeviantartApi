@@ -1,7 +1,5 @@
 ﻿using DeviantartApi.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,12 +23,12 @@ namespace DeviantartApi.Requests.Stash.Move
             StackId = stackid;
         }
 
-        public override async Task<Response<Objects.MoveStackResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.MoveStackResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => TargetId);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("stash/move/{_stackid}", values, cancellationToken);
+            return ExecuteDefaultPostAsync("stash/move/{_stackid}", values, cancellationToken);
         }
     }
 }

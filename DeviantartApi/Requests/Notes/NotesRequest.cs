@@ -10,14 +10,14 @@ namespace DeviantartApi.Requests.Notes
         [Parameter("folderid")]
         public string FolderId { get; set; }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Note>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.Note>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => FolderId);
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"notes?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"notes?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

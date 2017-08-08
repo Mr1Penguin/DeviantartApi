@@ -10,12 +10,12 @@ namespace DeviantartApi.Requests.Notes
         [Parameter("notesids")]
         public HashSet<string> NotesIds { get; set; } = new HashSet<string>();
 
-        public override async Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.PostResponse>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => NotesIds);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("notes/delete", values, cancellationToken);
+            return ExecuteDefaultPostAsync("notes/delete", values, cancellationToken);
         }
     }
 }

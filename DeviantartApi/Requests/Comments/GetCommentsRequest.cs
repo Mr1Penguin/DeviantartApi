@@ -8,8 +8,8 @@ namespace DeviantartApi.Requests.Comments
         public string CommentId { get; set; }
 
         [Parameter("maxdepth")]
-        public uint MaxDepth { get; set; }
+        public uint? MaxDepth { get; set; }
 
-        protected string Argument { get; set; }
+        public string Argument { get; set; }
     }
 }

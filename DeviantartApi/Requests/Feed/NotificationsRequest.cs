@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Feed
 {
-    public class NotificationsRequest : PageableRequest<Objects.ArrayOfResults<Objects.Notification>>
+    public class NotificationsRequest : PageableRequest<Objects.ArrayOfItems<Objects.Notification>>
     {
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Notification>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfItems<Objects.Notification>>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddParameter(() => Cursor);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"feed/notifications?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"feed/notifications?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

@@ -24,15 +24,15 @@ namespace DeviantartApi.Requests.Notes
             To = new HashSet<string>(to);
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.SendNoteResponse>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.SendNoteResponse>>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            var values = new Dictionary<string, string>();
             values.AddHashSetParameter(() => To);
             values.AddParameter(() => Subject);
             values.AddParameter(() => Body);
             values.AddParameter(() => NoteId);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("notes/send", values, cancellationToken);
+            return ExecuteDefaultPostAsync("notes/send", values, cancellationToken);
         }
     }
 }

@@ -18,13 +18,13 @@ namespace DeviantartApi.Requests.Notes.Folders
             Title = title;
         }
 
-        public override async Task<Response<Objects.NotesFolder>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.NotesFolder>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Title);
             values.AddParameter(() => ParentId);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("notes/folders/create", values, cancellationToken);
+            return ExecuteDefaultPostAsync("notes/folders/create", values, cancellationToken);
         }
     }
 }

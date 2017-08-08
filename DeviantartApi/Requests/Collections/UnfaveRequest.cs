@@ -32,13 +32,13 @@ namespace DeviantartApi.Requests.Collections
             DeviationId = deviationId;
         }
         
-        public override async Task<Response<Objects.Fave>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.Fave>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => DeviationId);
             values.AddHashSetParameter(() => FolderIds);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync("collections/unfave", values, cancellationToken);
+            return ExecuteDefaultPostAsync("collections/unfave", values, cancellationToken);
         }
     }
 }

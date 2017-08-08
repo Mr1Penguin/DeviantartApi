@@ -13,13 +13,13 @@ namespace DeviantartApi.Requests.Messages.Feedback
             StackId = stackid;
         }
 
-        public override async Task<Response<Objects.ArrayOfResults<Objects.Message>>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.ArrayOfResults<Objects.Message>>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
-            if (Offset != null) values.AddParameter(() => Offset);
-            if (Limit != null) values.AddParameter(() => Limit);
+            values.AddParameter(() => Offset);
+            values.AddParameter(() => Limit);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultGetAsync($"messages/feedback/{StackId}?" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"messages/feedback/{StackId}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }

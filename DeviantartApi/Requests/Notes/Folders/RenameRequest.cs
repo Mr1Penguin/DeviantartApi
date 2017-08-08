@@ -18,12 +18,12 @@ namespace DeviantartApi.Requests.Notes.Folders
             Title = title;
         }
 
-        public override async Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
+        public override Task<Response<Objects.BaseObject>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
             values.AddParameter(() => Title);
             cancellationToken.ThrowIfCancellationRequested();
-            return await ExecuteDefaultPostAsync($"notes/folders/rename/{FolderId}", values, cancellationToken);
+            return ExecuteDefaultPostAsync($"notes/folders/rename/{FolderId}", values, cancellationToken);
         }
     }
 }
