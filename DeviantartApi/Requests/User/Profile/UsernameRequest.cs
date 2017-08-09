@@ -45,7 +45,7 @@ namespace DeviantartApi.Requests.User.Profile
             values.AddParameter(() => ExtGalleries);
             values.AddHashSetParameter(() => UserExpands);
             cancellationToken.ThrowIfCancellationRequested();
-            return ExecuteDefaultGetAsync($"user/profile/{Username}" + values.ToGetParameters(), cancellationToken);
+            return ExecuteDefaultGetAsync($"user/profile/{Username}?" + values.ToGetParameters(), cancellationToken);
         }
     }
 }
