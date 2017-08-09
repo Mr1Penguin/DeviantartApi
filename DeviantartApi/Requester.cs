@@ -94,12 +94,13 @@ namespace DeviantartApi
                 }
                 catch (OperationCanceledException)
                 {
-                    if (timeoutSource.Token.IsCancellationRequested)
+                    timeoutSource.Dispose();
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        throw new Exception("Request timed out");
+                        throw;
                     }
 
-                    throw;
+                    throw new TimeoutException("Request timed out");
                 }
 
                 if (result.StatusCode != (HttpStatusCode)429)
@@ -117,9 +118,11 @@ namespace DeviantartApi
 #endif
                 if (DelayStep == 16)
                     throw new Exception("Too many requests");
+                timeoutSource.Dispose();
                 timeoutSource = new CancellationTokenSource(new TimeSpan(0, 0, 30));
                 httpRequestMessage = GetRequestMessage(url, minorVersion, content, method);
             } while (true);
+            timeoutSource.Dispose();
             cancellationToken.ThrowIfCancellationRequested();
             var reqResponse = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
 #if LOG_NETWORK
@@ -161,12 +164,13 @@ namespace DeviantartApi
                 }
                 catch (OperationCanceledException)
                 {
-                    if (timeoutSource.Token.IsCancellationRequested)
+                    timeoutSource.Dispose();
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        throw new Exception("Request timed out");
+                        throw;
                     }
 
-                    throw;
+                    throw new TimeoutException("Request timed out");
                 }
                 if (result.StatusCode != (HttpStatusCode)429)
                 {
@@ -180,9 +184,11 @@ namespace DeviantartApi
                 if (i == 8)
                     throw new Exception("Request timed out");
                 await Task.Delay(i, cancellationToken).ConfigureAwait(false);
+                timeoutSource.Dispose();
                 timeoutSource = new CancellationTokenSource(new TimeSpan(0, 5, 0));
                 httpRequestMessage = GetRequestMessage(url, minorVersion, content, HttpMethod.Post);
             } while (true);
+            timeoutSource.Dispose();
             cancellationToken.ThrowIfCancellationRequested();
             var reqResponse = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
 #if LOG_NETWORK
