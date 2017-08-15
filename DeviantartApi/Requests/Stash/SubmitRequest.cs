@@ -1,8 +1,9 @@
 using DeviantartApi.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DeviantartApi.Requests.Stash
@@ -59,17 +60,47 @@ namespace DeviantartApi.Requests.Stash
             {
                 await Requester.CheckTokenAsync();
                 values.Add("access_token", Requester.AccessToken);
-                MultipartFormDataContent content =
-                    new MultipartFormDataContent("deviapi---" + DateTime.Now.Ticks.ToString("x"));
-                content.Add(new FormUrlEncodedContent(values));
-                content.Add(new StreamContent(new MemoryStream(Data)));
                 cancellationToken.ThrowIfCancellationRequested();
-                result =
-                    await
-                        Requester.MakeMultiPartPostRequestAsync<Objects.SubmitResult>(
-                            "stash/submit",
-                            content,
-                            cancellationToken);
+
+                string boundary = "deviapi---" + DateTime.Now.Ticks.ToString("x");
+
+                var request = WebRequest.CreateHttp("https://www.deviantart.com/api/v1/oauth2/stash/submit");
+                request.ContentType = "multipart/form-data; boundary=" + boundary;
+                request.Method = "POST";
+                request.UserAgent = "DeviantartApi";
+
+                using (var stream = await request.GetRequestStreamAsync())
+                using (var sw = new StreamWriter(stream))
+                {
+                    foreach (var pair in values)
+                    {
+                        if (pair.Value == null) continue;
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine($"Content-Disposition: form-data; name=\"{pair.Key}\"");
+                        sw.WriteLine();
+                        sw.WriteLine(pair.Value);
+                    }
+
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"file\"; filename=\"file\"");
+                    sw.WriteLine();
+                    await sw.FlushAsync();
+
+                    stream.Write(Data, 0, Data.Length);
+                    await stream.FlushAsync();
+
+                    sw.WriteLine();
+                    sw.WriteLine("--" + boundary + "--");
+                    await sw.FlushAsync();
+                }
+
+                using (var response = await request.GetResponseAsync())
+                using (var responseStream = response.GetResponseStream())
+                using (var sr = new StreamReader(responseStream))
+                {
+                    string json = await sr.ReadToEndAsync();
+                    result = JsonConvert.DeserializeObject<Objects.SubmitResult>(json);
+                }
             }
             catch (OperationCanceledException)
             {
