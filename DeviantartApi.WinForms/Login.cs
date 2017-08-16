@@ -10,7 +10,7 @@ using static DeviantartApi.Login;
 
 namespace DeviantartApiLogin.WinForms
 {
-    public static partial class Login
+    public static class Login
     {
         public static Task<LoginResult> SignInAsync(
             string clientId,
