@@ -14,10 +14,10 @@ namespace DeviantartApi.Objects
         public class EntryClass
         {
             [JsonProperty("itemid")]
-            public int ItemId { get; set; }
+            public long ItemId { get; set; }
 
             [JsonProperty("stackid")]
-            public int? StackId { get; set; }
+            public long? StackId { get; set; }
 
             [JsonProperty("metadata")]
             public StashMetadata Metadata { get; set; }

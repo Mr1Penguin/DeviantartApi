@@ -1,4 +1,5 @@
 using DeviantartApi.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,6 +44,8 @@ namespace DeviantartApi.Requests.Stash
         [Parameter("stackid")]
         public int StackId { get; set; }
 
+        private static HttpClient _httpClient = null;
+
         public override async Task<Response<Objects.SubmitResult>> ExecuteAsync(CancellationToken cancellationToken)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
@@ -59,17 +62,54 @@ namespace DeviantartApi.Requests.Stash
             {
                 await Requester.CheckTokenAsync();
                 values.Add("access_token", Requester.AccessToken);
-                MultipartFormDataContent content =
-                    new MultipartFormDataContent("deviapi---" + DateTime.Now.Ticks.ToString("x"));
-                content.Add(new FormUrlEncodedContent(values));
-                content.Add(new StreamContent(new MemoryStream(Data)));
                 cancellationToken.ThrowIfCancellationRequested();
-                result =
-                    await
-                        Requester.MakeMultiPartPostRequestAsync<Objects.SubmitResult>(
-                            "stash/submit",
-                            content,
-                            cancellationToken);
+
+                string boundary = "deviapi---" + DateTime.Now.Ticks.ToString("x");
+
+                if (_httpClient == null)
+                {
+                    _httpClient = new HttpClient();
+                    _httpClient.DefaultRequestHeaders.Add("User-Agent", "DeviantartApi");
+                }
+
+                byte[] body;
+
+                using (var stream = new MemoryStream())
+                using (var sw = new StreamWriter(stream))
+                {
+                    foreach (var pair in values)
+                    {
+                        if (pair.Value == null) continue;
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine($"Content-Disposition: form-data; name=\"{pair.Key}\"");
+                        sw.WriteLine();
+                        sw.WriteLine(pair.Value);
+                        await sw.FlushAsync();
+                    }
+
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"file\"; filename=\"file\"");
+                    sw.WriteLine();
+                    await sw.FlushAsync();
+
+                    await stream.WriteAsync(Data, 0, Data.Length);
+                    await stream.FlushAsync();
+
+                    sw.WriteLine();
+                    sw.WriteLine("--" + boundary + "--");
+                    await sw.FlushAsync();
+
+                    body = stream.ToArray();
+                }
+
+                var content = new ByteArrayContent(body);
+                content.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+                using (var response = await _httpClient.PostAsync("https://www.deviantart.com/api/v1/oauth2/stash/submit", content))
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<Objects.SubmitResult>(json);
+                }
             }
             catch (OperationCanceledException)
             {

@@ -5,6 +5,6 @@ namespace DeviantartApi.Objects
     public class StashItem : StashMetadata
     {
         [JsonProperty("itemid")]
-        new public int ItemId { get; set; }
+        new public long ItemId { get; set; }
     }
 }
