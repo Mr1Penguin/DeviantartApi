@@ -5,14 +5,8 @@ VisualStudioVersion = 15.0.26730.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviantartApi", "DeviantartApi\DeviantartApi.csproj", "{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.NET", "DeviantartApi.NET\DeviantartApi.NET.csproj", "{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinRT", "DeviantartApi.WinRT\DeviantartApi.WinRT.csproj", "{04840FAD-6E38-4B8E-A542-218393F90CF7}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		DeviantartApi.Shared\DeviantartApi.projitems*{04840fad-6e38-4b8e-a542-218393f90cf7}*SharedItemsImports = 4
-		DeviantartApi\DeviantartApi.projitems*{6ebc25a8-2f66-4eba-ba34-290f9a0093fb}*SharedItemsImports = 4
 		DeviantartApi\DeviantartApi.projitems*{9187b96c-686c-4b4c-b4f0-28adc91d41ae}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,38 +36,6 @@ Global
 		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|x64.Build.0 = Release|Any CPU
 		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|x86.ActiveCfg = Release|Any CPU
 		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|x86.Build.0 = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|ARM.Build.0 = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|x64.Build.0 = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|x86.Build.0 = Debug|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|ARM.ActiveCfg = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|ARM.Build.0 = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|x64.ActiveCfg = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|x64.Build.0 = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|x86.ActiveCfg = Release|Any CPU
-		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Release|x86.Build.0 = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|ARM.Build.0 = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|x64.Build.0 = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Debug|x86.Build.0 = Debug|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|ARM.ActiveCfg = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|ARM.Build.0 = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|x64.ActiveCfg = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|x64.Build.0 = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|x86.ActiveCfg = Release|Any CPU
-		{04840FAD-6E38-4B8E-A542-218393F90CF7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -117,7 +117,7 @@ namespace DeviantartApi.Requests.Stash
         [Parameter("itemid")]
         public long ItemId { get; set; }
 
-        public PublishRequest(bool isMature, bool agreeSubmission, bool agreeTos, string itemId)
+        public PublishRequest(bool isMature, bool agreeSubmission, bool agreeTos, long itemId)
         {
             IsMature = isMature;
             AgreeSubmission = AgreeSubmission;
