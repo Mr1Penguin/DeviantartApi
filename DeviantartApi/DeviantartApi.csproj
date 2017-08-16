@@ -1,6 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
+    <PackageId>DeviantartApi</PackageId>
+    <PackageVersion>2.0.0</PackageVersion>
+    <Authors>Igor Sharapov (Mr1Penguin)</Authors>
+    <Description>Library for using Deviantart API from C#</Description>
+    <PackageReleaseNotes>First netstandard release</PackageReleaseNotes>
+    <Copyright>Copyright 2017 (c)</Copyright>
+    <PackageTags>deviantart api</PackageTags>
     <ApplicationIcon />
     <Win32Resource />
     <FileUpgradeFlags>
@@ -17,9 +24,6 @@
     <CodeAnalysisRuleSet>DeviantartApi.ruleset</CodeAnalysisRuleSet>
     <DefineConstants>TRACE;DEBUG;NETSTANDARD1_1;LOG_NETWORK</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Requests\User\ProfileRequest.cs" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>

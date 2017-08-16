@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviantartApi", "DeviantartApi\DeviantartApi.csproj", "{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "DeviantartApi.WinForms\DeviantartApi.WinForms.csproj", "{891FD4C3-111B-4C55-A59E-89DE662A9497}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DeviantartApi\DeviantartApi.projitems*{9187b96c-686c-4b4c-b4f0-28adc91d41ae}*SharedItemsImports = 13
