@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DeviantartApiLogin.UWP</id>
+    <version>2.0.3</version>
+    <title>DeviantartApiLogin.UWP</title>
+    <authors>Igor Sharapov (Mr1Penguin)</authors>
+    <owners>Mr1Penguin</owners>
+    <projectUrl>https://github.com/Mr1Penguin/DeviantartApi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Login process for UWP</description>
+    <releaseNotes>First release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>deviantart api login uwp</tags>
+    <dependencies>
+      <dependency id="DeviantartApi" version="2.0.2"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\ARM\Release\DeviantartApiLogin.UWP.dll" target="runtimes\win10-arm\lib\uap10.0"/>
+    <file src="bin\ARM\Release\DeviantartApiLogin.UWP.pdb" target="runtimes\win10-arm\lib\uap10.0"/>
+    <file src="bin\X86\Release\DeviantartApiLogin.UWP.dll" target="runtimes\win10-x86\lib\uap10.0"/>
+    <file src="bin\X86\Release\DeviantartApiLogin.UWP.pdb" target="runtimes\win10-x86\lib\uap10.0"/>
+    <file src="bin\X64\Release\DeviantartApiLogin.UWP.dll" target="runtimes\win10-x64\lib\uap10.0"/>
+    <file src="bin\X64\Release\DeviantartApiLogin.UWP.pdb" target="runtimes\win10-x64\lib\uap10.0"/>
+
+    <file src="bin\Release\DeviantartApiLogin.UWP.dll" target="ref\uap10.0" />
+    <file src="bin\Release\DeviantartApiLogin.UWP.pri" target="ref\uap10.0" />
+  </files>
+</package>

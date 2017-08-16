@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DeviantartApiLogin.WinForms</id>
+    <version>2.0.3</version>
+    <title>DeviantartApiLogin.WinForms</title>
+    <authors>Igor Sharapov (Mr1Penguin), libertyernie</authors>
+    <owners>Mr1Penguin</owners>
+    <projectUrl>https://github.com/Mr1Penguin/DeviantartApi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Login process for WinForms</description>
+    <releaseNotes>First release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>deviantart api login winforms</tags>
+    <dependencies>
+      <dependency id="DeviantartApi" version="2.0.2"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\DeviantartApiLogin.WinForms.*" target="lib\net452" />
+  </files>
+</package>
