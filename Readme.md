@@ -1,57 +1,18 @@
-# \[VS2015+\] DeviantartApi Library in C# for UWP, Win8.1, WinPhone8.1, .NET 4.5+, ASP.NET Core 1.0
+# DeviantartApi Library in C# (netstandard 1.1) 
 
 Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1/20160316) from .NET.
 
-### Implemented requests
-
-#### Browse\[Full\]
-
-#### Collections\[Full\]
-
-#### Comments\[Full\]
-
-#### Data\[Full\]
-
-#### Deviation\[Full\]
-
-#### Feed\[Full\]
-
-#### Gallery\[Full\]
-
-#### Messages\[Full\]
-
-#### Stash\[Full\]
-
-#### User\[Full\]
-
-#### Util\[Full\]
-
 ### Acquiring
-#### git
-Add library as submodule(or just clone it) to use it in your project
-
-```
-git submodule add https://github.com/Mr1Penguin/DeviantartApi.git
-```
-
-And add shared part and WinRT/.NET part to your project
-
-If you got an error about newtonsoft.json elements just type this in packet manager console for .NET project:
-```
-Update-Package -Reinstall -Project DeviantartApi.NET
-```
-
-
-And/Or for WinRT:
-```
-Update-Package -Reinstall -Project DeviantartApi.WinRT
-```
 
 #### nuget
-[![NuGet](https://img.shields.io/badge/nuget.WINRT-1.1.2-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.WinRT/)
-[![NuGet](https://img.shields.io/badge/nuget.NET-1.1.2-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi.NET/)
+[![NuGet](https://img.shields.io/badge/nuget.Core-2.0.2-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi/)
+
+#### git
+later
 
 ### Usage
+
+If you use platform with implemented login process:
 
 ```cs
 
@@ -62,7 +23,52 @@ void RefreshTokenUpdated(string newRefreshToken)
 }
 ...
 // There is no valid RefreshToken
-// for .NET version you must set Login.CustomSignInAsync with your implementation. This delegate would be called if refresh token became broken. 
+var result = await DeviantartApiLogin.Platform.Login.SignInAsync(ClientId, Secret, CallbackUrl, RefreshTokenUpdated, 
+												   new[]
+												   {
+														DeviantartApi.Login.Scope.Browse,
+														DeviantartApi.Login.Scope.User,
+														DeviantartApi.Login.Scope.Feed
+												   }));
+if(result.IsLoginError) 
+{
+	ShowError(result.LoginErrorText);
+	return;
+}
+
+SaveToken(result.RefreshToken, DateTime.Now.AddMonths(3));
+return;
+...
+// You have valid RefreshToken
+DeviantartApiLogin.Platform.Login.AttachLogin(); //So TokenChecker know what must be called if refreshtoken invalid
+var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(ClientId, Secret, CallbackUrl, RefreshToken, RefreshTokenUpdated, new[]
+												   {
+														DeviantartApi.Login.Scope.Browse,
+														DeviantartApi.Login.Scope.User,
+														DeviantartApi.Login.Scope.Feed
+												   });
+if(result.IsLoginError) 
+{
+	ShowError(result.LoginErrorText);
+	return;
+}
+SaveToken(result.RefreshToken, DateTime.Now.AddMonths(3));
+return;
+
+```
+
+Otherwise:
+
+```cs
+
+void RefreshTokenUpdated(string newRefreshToken)
+{
+	if(SavedToken != newRefreshToken)
+		SaveToken(newRefreshToken, DateTime.Now.AddMonths(3));
+}
+...
+// There is no valid RefreshToken
+DeviantartApi.Login.CustomSignInAsync = MySignInAsync;
 var result = await DeviantartApi.Login.SignInAsync(ClientId, Secret, CallbackUrl, RefreshTokenUpdated, 
 												   new[]
 												   {
@@ -80,7 +86,7 @@ SaveToken(result.RefreshToken, DateTime.Now.AddMonths(3));
 return;
 ...
 // You have valid RefreshToken
-
+DeviantartApi.Login.CustomSignInAsync = MySignInAsync; //So TokenChecker know what must be called if refreshtoken invalid
 var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(ClientId, Secret, CallbackUrl, RefreshToken, RefreshTokenUpdated, new[]
 												   {
 														DeviantartApi.Login.Scope.Browse,
@@ -95,9 +101,12 @@ if(result.IsLoginError)
 SaveToken(result.RefreshToken, DateTime.Now.AddMonths(3));
 return;
 
-...
 
-//someRequests
+```
+
+Requests example
+
+```cs
 
 var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
 if (result.IsError)
