@@ -32,8 +32,13 @@ namespace DeviantartApiLogin.WinForms
             Scope[] scopes = null,
             bool disableAutoAccessTokenChecking = false)
         {
-            DeviantartApi.Login.CustomSignInAsync = LoginAsync;
+            AttachLogin();
             return DeviantartApi.Login.SignInAsync(clientId, secret, callbackUrl, updated, scopes, disableAutoAccessTokenChecking, cancellationToken);
+        }
+
+        public static void AttachLogin()
+        {
+            DeviantartApi.Login.CustomSignInAsync = LoginAsync;
         }
 
         private static Task<SignInResult> LoginAsync(
