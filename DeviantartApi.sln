@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviantartApi", "DeviantartApi\DeviantartApi.shproj", "{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviantartApi", "DeviantartApi\DeviantartApi.csproj", "{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.NET", "DeviantartApi.NET\DeviantartApi.NET.csproj", "{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinRT", "Devi
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		DeviantartApi\DeviantartApi.projitems*{04840fad-6e38-4b8e-a542-218393f90cf7}*SharedItemsImports = 4
+		DeviantartApi.Shared\DeviantartApi.projitems*{04840fad-6e38-4b8e-a542-218393f90cf7}*SharedItemsImports = 4
 		DeviantartApi\DeviantartApi.projitems*{6ebc25a8-2f66-4eba-ba34-290f9a0093fb}*SharedItemsImports = 4
 		DeviantartApi\DeviantartApi.projitems*{9187b96c-686c-4b4c-b4f0-28adc91d41ae}*SharedItemsImports = 13
 	EndGlobalSection
@@ -26,6 +26,22 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|x64.Build.0 = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Debug|x86.Build.0 = Debug|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|ARM.Build.0 = Release|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|x64.ActiveCfg = Release|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|x64.Build.0 = Release|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|x86.ActiveCfg = Release|Any CPU
+		{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}.Release|x86.Build.0 = Release|Any CPU
 		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EBC25A8-2F66-4EBA-BA34-290F9A0093FB}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -61,5 +77,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B14F0CF-E200-4D81-A9F5-0A5F0B4F8C78}
 	EndGlobalSection
 EndGlobal

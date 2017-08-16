@@ -51,10 +51,10 @@ namespace DeviantartApi.Objects
         public Dictionary<string, string> Camera { get; set; }
 
         [JsonProperty("stackid")]
-        public int StackId { get; set; }
+        public long StackId { get; set; }
 
         [JsonProperty("itemid")]
-        public int? ItemId { get; set; }
+        public long? ItemId { get; set; }
 
         [JsonProperty("tags")]
         public List<string> Tags { get; set; }

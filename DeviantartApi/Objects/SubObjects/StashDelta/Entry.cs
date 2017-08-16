@@ -5,10 +5,10 @@ namespace DeviantartApi.Objects.SubObjects.StashDelta
     public class Entry
     {
         [JsonProperty("itemid")]
-        public int ItemId { get; set; }
+        public long ItemId { get; set; }
 
         [JsonProperty("stackid")]
-        public int? StackId { get; set; }
+        public long? StackId { get; set; }
 
         [JsonProperty("metadata")]
         public Objects.StashMetadata Metadata { get; set; }

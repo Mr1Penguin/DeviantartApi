@@ -115,7 +115,7 @@ namespace DeviantartApi.Requests.Stash
         public bool? AddWatermark { get; set; }
 
         [Parameter("itemid")]
-        public string ItemId { get; set; }
+        public long ItemId { get; set; }
 
         public PublishRequest(bool isMature, bool agreeSubmission, bool agreeTos, string itemId)
         {

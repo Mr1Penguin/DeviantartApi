@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DeviantartApi.Requests.Stash
 {
@@ -35,13 +36,15 @@ namespace DeviantartApi.Requests.Stash
         public byte[] Data { get; set; }
 
         [Parameter("itemid")]
-        public int ItemId { get; set; }
+        public int? ItemId { get; set; }
 
         [Parameter("stack")]
         public string Stack { get; set; }
 
         [Parameter("stackid")]
-        public int StackId { get; set; }
+        public int? StackId { get; set; }
+
+        private static HttpClient _httpClient = null;
 
         public override async Task<Response<Objects.SubmitResult>> ExecuteAsync(CancellationToken cancellationToken)
         {
@@ -60,19 +63,53 @@ namespace DeviantartApi.Requests.Stash
             {
                 await Requester.CheckTokenAsync();
                 values.Add("access_token", Requester.AccessToken);
-                var content =
-                    new MultipartFormDataContent("deviapi---" + DateTime.Now.Ticks.ToString("x"))
-                    {
-                        new FormUrlEncodedContent(values),
-                        new StreamContent(new MemoryStream(Data))
-                    };
                 cancellationToken.ThrowIfCancellationRequested();
-                result =
-                    await
-                        Requester.MakeMultiPartPostRequestAsync<Objects.SubmitResult>(
-                            uri,
-                            content,
-                            cancellationToken: cancellationToken);
+
+                string boundary = "deviapi---" + DateTime.Now.Ticks.ToString("x");
+                if (_httpClient == null)
+                {
+                    _httpClient = new HttpClient();
+                    _httpClient.DefaultRequestHeaders.Add("User-Agent", "DeviantartApi");
+                }
+
+                byte[] body;
+
+                using (var stream = new MemoryStream())
+                using (var sw = new StreamWriter(stream))
+                {
+                    foreach (var pair in values)
+                    {
+                        if (pair.Value == null) continue;
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine($"Content-Disposition: form-data; name=\"{pair.Key}\"");
+                        sw.WriteLine();
+                        sw.WriteLine(pair.Value);
+                        await sw.FlushAsync();
+                    }
+
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"file\"; filename=\"file\"");
+                    sw.WriteLine();
+                    await sw.FlushAsync();
+
+                    await stream.WriteAsync(Data, 0, Data.Length);
+                    await stream.FlushAsync();
+
+                    sw.WriteLine();
+                    sw.WriteLine("--" + boundary + "--");
+                    await sw.FlushAsync();
+
+                    body = stream.ToArray();
+                }
+
+                var content = new ByteArrayContent(body);
+                content.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+                using (var response = await _httpClient.PostAsync(uri, content))
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<Objects.SubmitResult>(json);
+                }
             }
             catch (OperationCanceledException)
             {
