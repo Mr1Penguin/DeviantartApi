@@ -157,7 +157,7 @@ namespace DeviantartApi
             };
         }
 
-        private static Task<TokenHandler> GetTokenAsync(
+        public static Task<TokenHandler> GetTokenAsync(
             string code, 
             string clientId, 
             string secret, 
@@ -166,7 +166,7 @@ namespace DeviantartApi
             return GetTokenAsync(code, clientId, secret, callbackUrl, CancellationToken.None);
         }
 
-        private static Task<TokenHandler> GetTokenAsync(
+        public static Task<TokenHandler> GetTokenAsync(
             string code, 
             string clientId, 
             string secret, 
@@ -275,7 +275,7 @@ namespace DeviantartApi
             public string ErrorDescription { get; set; }
         }
 
-        private class TokenHandler
+        public class TokenHandler
         {
             [JsonProperty("access_token")]
             public string AccessToken { get; set; }

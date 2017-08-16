@@ -7,8 +7,8 @@
     <ProjectGuid>{891FD4C3-111B-4C55-A59E-89DE662A9497}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DeviantartApi.WinForms</RootNamespace>
-    <AssemblyName>DeviantartApi.WinForms</AssemblyName>
+    <RootNamespace>DeviantartApiLogin.WinForms</RootNamespace>
+    <AssemblyName>DeviantartApiLogin.WinForms</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,14 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviantArtAuthForm.cs" />
+    <Compile Include="DeviantArtAuthForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="..\DeviantartApi\DeviantartApi.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\DeviantartApi\DeviantartApi.csproj">
+      <Project>{9187b96c-686c-4b4c-b4f0-28adc91d41ae}</Project>
+      <Name>DeviantartApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,90 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
+using DeviantartApi;
+using static DeviantartApi.Login;
 
-namespace DeviantartApi
+namespace DeviantartApiLogin.WinForms
 {
-    using System.Threading;
-
     public static partial class Login
     {
-        public struct SignInResult
-        {
-            public string Code { get; set; }
-
-            public bool IsSignInError { get; set; }
-
-            public string SignInErrorText { get; set; }
-
-            public string SignInErrorShortText { get; set; }
-        }
-        
-        public static async Task<LoginResult> SignInAsync(
+        public static Task<LoginResult> SignInAsync(
             string clientId,
             string secret,
-            string callbackUrl,
-            RefreshTokenUpdated updated,
+            Uri callbackUrl,
+            Action<string> updated,
             Scope[] scopes = null,
             bool disableAutoAccessTokenChecking = false)
         {
-            return
-                await
-                    SignInAsync(
-                        clientId,
-                        secret,
-                        callbackUrl,
-                        updated,
-                        CancellationToken.None,
-                        scopes,
-                        disableAutoAccessTokenChecking);
+            return SignInAsync(clientId, secret, callbackUrl, updated, CancellationToken.None, scopes, disableAutoAccessTokenChecking);
         }
 
-        public static async Task<LoginResult> SignInAsync(
+        public static Task<LoginResult> SignInAsync(
             string clientId,
             string secret,
-            string callbackUrl,
-            RefreshTokenUpdated updated,
+            Uri callbackUrl,
+            Action<string> updated,
             CancellationToken cancellationToken,
             Scope[] scopes = null,
             bool disableAutoAccessTokenChecking = false)
+        {
+            DeviantartApi.Login.CustomSignInAsync = LoginAsync;
+            return DeviantartApi.Login.SignInAsync(clientId, secret, callbackUrl, updated, scopes, disableAutoAccessTokenChecking, cancellationToken);
+        }
+
+        private static Task<SignInResult> LoginAsync(
+            string clientId,
+            string secret,
+            Uri callbackUrl,
+            Action<string> updated,
+            CancellationToken cancellationToken,
+            Scope[] scopes = null)
         {
             string code;
             using (var form = new DeviantArtAuthForm(clientId, callbackUrl, scopes?.Select(x => Regex.Replace(x.ToString(), "(\\B[A-Z])", ".$1").ToLower()))) {
                 form.ShowDialog();
                 if (form.Code == null) {
-                    return new LoginResult {
-                        IsLoginError = true,
-                        LoginErrorShortText = "User canceled",
-                        LoginErrorText = "User canceled"
-                    };
+                    return Task.FromResult(new SignInResult
+                    {
+                        Code = null,
+                        IsSignInError = true,
+                        SignInErrorText = "User canceled"
+                    });
                 } else {
                     code = form.Code;
                 }
             }
-            
-            cancellationToken.ThrowIfCancellationRequested();
-            var tokenHandler = await GetTokenAsync(code, clientId, secret, callbackUrl, cancellationToken);
-            cancellationToken.ThrowIfCancellationRequested();
-            Requester.AccessToken = tokenHandler.AccessToken;
-            Requester.AccessTokenExpire = DateTime.Now.AddSeconds(tokenHandler.ExpiresIn - 100);
-            if (Requester.Updated != updated)
-                Requester.Updated = updated;
-            else
-                Requester.Updated?.Invoke(tokenHandler.RefreshToken);
-            Requester.RefreshToken = tokenHandler.RefreshToken;
-            Requester.AppClientId = clientId;
-            Requester.AppSecret = secret;
-            Requester.Scopes = scopes;
-            Requester.CallbackUrl = callbackUrl;
-            Requester.AutoAccessTokenCheckingDisabled = disableAutoAccessTokenChecking;
-            cancellationToken.ThrowIfCancellationRequested();
-            return new LoginResult
-            {
-                RefreshToken = tokenHandler.RefreshToken,
-                IsLoginError = false,
-                LoginErrorText = null
-            };
+
+            return Task.FromResult(new SignInResult { Code = code });
         }
     }
 }
