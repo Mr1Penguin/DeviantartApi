@@ -28,7 +28,7 @@ namespace DeviantartApi.Requests
         public virtual async Task<Response<T>> GetNextPageAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var result = await ExecuteAsync().ConfigureAwait(false);
+            var result = await ExecuteAsync(cancellationToken).ConfigureAwait(false);
             if (!result.IsError && result.Result.HasMore)
             {
                 cancellationToken.ThrowIfCancellationRequested();
