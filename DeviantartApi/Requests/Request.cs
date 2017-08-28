@@ -78,6 +78,10 @@ namespace DeviantartApi.Requests
                 cancellationToken.ThrowIfCancellationRequested();
                 var uri = new Uri(BasePath, path);
                 result = await Requester.MakeRequestAsync<T>(uri, content, method: HttpMethod.Post, cancellationToken: cancellationToken).ConfigureAwait(false);
+                if (result.Error != null)
+                {
+                    return new Response<T>(true, result.ErrorDescription);
+                }
             }
             catch (OperationCanceledException)
             {
