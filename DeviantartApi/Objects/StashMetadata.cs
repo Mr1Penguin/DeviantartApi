@@ -20,7 +20,7 @@ namespace DeviantartApi.Objects
         public string Description { get; set; }
 
         [JsonProperty("parentid")]
-        public int ParentId { get; set; }
+        public long ParentId { get; set; }
 
         [JsonProperty("thumb")]
         public SubObjects.Deviation.Image Thumb { get; set; }
