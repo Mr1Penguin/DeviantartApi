@@ -12,7 +12,7 @@ namespace DeviantartApi.Objects.SubObjects.Profile
         public string Name { get; set; }
 
         [JsonProperty("size")]
-        public int Size { get; set; }
+        public int? Size { get; set; }
 
         [JsonProperty("deviations")]
         public List<Objects.Deviation> Deviations { get; private set; }
