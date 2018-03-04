@@ -36,13 +36,13 @@ namespace DeviantartApi.Requests.Stash
         public byte[] Data { get; set; }
 
         [Parameter("itemid")]
-        public int? ItemId { get; set; }
+        public long? ItemId { get; set; }
 
         [Parameter("stack")]
         public string Stack { get; set; }
 
         [Parameter("stackid")]
-        public int? StackId { get; set; }
+        public long? StackId { get; set; }
 
         private static HttpClient _httpClient = null;
 
