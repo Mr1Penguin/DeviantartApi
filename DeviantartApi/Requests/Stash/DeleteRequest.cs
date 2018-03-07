@@ -13,9 +13,9 @@ namespace DeviantartApi.Requests.Stash
         }
 
         [Parameter("itemid")]
-        public int ItemId { get; set; }
+        public long ItemId { get; set; }
 
-        public DeleteRequest(int itemId)
+        public DeleteRequest(long itemId)
         {
             ItemId = itemId;
         }
