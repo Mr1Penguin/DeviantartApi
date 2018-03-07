@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFramework>netstandard1.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>DeviantartApi</PackageId>
     <PackageVersion>2.0.5</PackageVersion>
     <Authors>Igor Sharapov (Mr1Penguin)</Authors>
@@ -14,17 +14,8 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>DeviantartApi.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\netstandard1.1\DeviantartApi.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>DeviantartApi.ruleset</CodeAnalysisRuleSet>
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_1;LOG_NETWORK</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
   </ItemGroup>
 </Project>
