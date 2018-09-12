@@ -18,7 +18,7 @@ namespace DeviantartApi.Objects.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var unixTime = (long)reader.Value;
+            var unixTime = reader.Value.GetType() == typeof(string) ? long.Parse((string)reader.Value) : (long)reader.Value;
             var dateTime =
                 new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(unixTime).ToLocalTime();
             return dateTime;
