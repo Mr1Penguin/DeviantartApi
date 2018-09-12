@@ -1,14 +1,14 @@
-# DeviantartApi Library in C# (netstandard 1.1) 
+# DeviantartApi Library in C# (netstandard 2) 
 
 Library for using [Deviantart API](https://www.deviantart.com/developers/http/v1/20160316) from .NET.
 
 ### Acquiring
 
-#### nuget
+#### nuget (outdated)
 [![NuGet](https://img.shields.io/badge/nuget.Core-2.0.2-brightgreen.svg?maxAge=2592000?style=flat-square)](https://www.nuget.org/packages/DeviantartApi/)
 
 #### git
-later
+prefered for now
 
 ### Usage
 
