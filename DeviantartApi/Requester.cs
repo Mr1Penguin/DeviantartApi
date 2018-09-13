@@ -64,6 +64,23 @@ namespace DeviantartApi
             string minorVersion = "20160316", /*actual version on 2016-07-13*/
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            return Deserialize<T>(await MakeRequestRawAsync(url, content, method, minorVersion, cancellationToken));
+        }
+
+        public static Task<string> MakeRequestRawAsync(
+            Uri url,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return MakeRequestRawAsync(url, null, HttpMethod.Get, cancellationToken: cancellationToken);
+        }
+
+        private static async Task<string> MakeRequestRawAsync(
+            Uri url,
+            HttpContent content,
+            HttpMethod method,
+            string minorVersion = "20160316", /*actual version on 2016-07-13*/
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
 #if LOG_NETWORK
             int requestId = Interlocked.Increment(ref _requestId);
             Debug.WriteLine($"{requestId}. HTTP REQUEST [{method}]: {url}");
@@ -128,8 +145,7 @@ namespace DeviantartApi
 #if LOG_NETWORK
             Debug.WriteLine($"{requestId}. HTTP REQUEST RESPONSE: {reqResponse}");
 #endif
-            var response = Deserialize<T>(reqResponse);
-            return response;
+            return reqResponse;
         }
 
         private static HttpRequestMessage GetRequestMessage(Uri url, string minorVersion,
