@@ -22,13 +22,13 @@ namespace DeviantartApi.Requests.User.Statuses
         public override Task<Response<Objects.Status>> ExecuteAsync(CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, string>();
-            if (string.IsNullOrEmpty(Body))
+            if (!string.IsNullOrEmpty(Body))
                 values.AddParameter(() => Body);
-            if (string.IsNullOrWhiteSpace(Id))
+            if (!string.IsNullOrWhiteSpace(Id))
                 values.AddParameter(() => Id);
-            if (string.IsNullOrWhiteSpace(ParentId))
+            if (!string.IsNullOrWhiteSpace(ParentId))
                 values.AddParameter(() => ParentId);
-            if (string.IsNullOrWhiteSpace(StashId))
+            if (!string.IsNullOrWhiteSpace(StashId))
                 values.AddParameter(() => StashId);
             cancellationToken.ThrowIfCancellationRequested();
             return ExecuteDefaultPostAsync("user/statuses/post", values, cancellationToken);
